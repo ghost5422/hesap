@@ -1,1 +1,172 @@
-["trakyali_pitbul","trakyali_pitbul","trakyali_pitbul","trakyali_pitbul"] 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Para Bozucu</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #e6f7ff;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #007acc;
+    }
+
+    .converter {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input, select, button {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    button {
+      background-color: #007acc;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #005f99;
+    }
+
+    #result {
+      margin: 20px 0;
+      font-size: 18px;
+      color: #333;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    thead {
+      background-color: #007acc;
+      color: white;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: center;
+      border: 1px solid #ddd;
+    }
+
+    .clear-button {
+      margin-top: 10px;
+      background-color: #ff4d4d;
+    }
+
+    .clear-button:hover {
+      background-color: #cc0000;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Para Birimi Dönüştürücü</h1>
+    <div class="converter">
+      <label for="amount">Miktar:</label>
+      <input type="number" id="amount" placeholder="Örnek: 50">
+      
+      <label for="currency">Para Birimi:</label>
+      <select id="currency">
+        <option value="euro">Euro (€)</option>
+        <option value="dollar">Dolar ($)</option>
+        <option value="lehva">Lehva (лв)</option>
+      </select>
+      
+      <button onclick="convertCurrency()">Hesapla</button>
+    </div>
+
+    <div id="result"></div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Saat</th>
+          <th>Para Birimi</th>
+          <th>Miktar</th>
+          <th>Türk Lirası Karşılığı</th>
+        </tr>
+      </thead>
+      <tbody id="history"></tbody>
+    </table>
+
+    <button class="clear-button" onclick="clearTable()">Tabloyu Temizle</button>
+  </div>
+  <script>
+    const exchangeRates = {
+      euro: 35.20,  // 1 Euro = 35,20 TL
+      dollar: 33.40, // 1 Dollar = 33,40 TL
+      lehva: 17.00   // 1 Lehva = 17,00 TL
+    };
+
+    function convertCurrency() {
+      const amount = document.getElementById("amount").value;
+      const currency = document.getElementById("currency").value;
+      const rate = exchangeRates[currency];
+      const resultElement = document.getElementById("result");
+      const historyTable = document.getElementById("history");
+
+      // Para birimi sembollerini tanımlıyoruz
+      const symbols = {
+        euro: '€',
+        dollar: '$',
+        lehva: 'лв'
+      };
+
+      if (amount && rate) {
+        const result = (amount * rate).toFixed(2);
+        const now = new Date().toLocaleTimeString();
+
+        resultElement.innerHTML = `
+          <p>${amount} ${symbols[currency]} = ${result} TL</p>
+        `;
+
+        const newRow = `
+          <tr>
+            <td>${now}</td>
+            <td>${currency === 'euro' ? 'Euro (€)' : currency === 'dollar' ? 'Dolar ($)' : 'Lehva (лв)'}</td>
+            <td>${amount} ${symbols[currency]}</td>
+            <td>${result} TL</td>
+          </tr>
+        `;
+        historyTable.insertAdjacentHTML("beforeend", newRow);
+      } else {
+        resultElement.innerHTML = `<p>Lütfen geçerli bir miktar giriniz.</p>`;
+      }
+    }
+
+    function clearTable() {
+      const historyTable = document.getElementById("history");
+      historyTable.innerHTML = ""; // Tablodaki tüm satırları temizler
+    }
+  </script>
+</body>
+</html>
