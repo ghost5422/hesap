@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Para Bozucu</title>
+  <title>DÖVİZ</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -19,21 +19,77 @@
       padding: 20px;
       border-radius: 8px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
     }
 
-    h1 {
-      text-align: center;
+    .credit {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .credit a {
+      text-decoration: none;
       color: #007acc;
+    }
+
+    .credit a:hover {
+      text-decoration: underline;
     }
 
     .converter {
       display: flex;
       flex-direction: column;
       gap: 10px;
+      text-align: left;
     }
 
-    label {
-      font-weight: bold;
+    /* Döviz kurları için alt tablo */
+    .exchange-rates {
+      margin-top: 20px;
+      background: #ffffff;
+      border: 1px solid #000;
+      border-radius: 8px;
+      padding: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 100%;
+    }
+
+    .exchange-rates table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .exchange-rates td, .exchange-rates th {
+      padding: 8px;
+      text-align: left;
+      border: 1px solid #000;
+    }
+
+    .exchange-rates th {
+      background-color: #000;
+      color: yellow;
+    }
+
+    .exchange-rates td span {
+      font-weight: bold; /* Kur değerlerini kalın yaz */
+    }
+
+    .exchange-rates .green-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background-color: green;
+      border-radius: 50%;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 50% {
+        opacity: 1;
+      }
+      50%, 100% {
+        opacity: 0;
+      }
     }
 
     input, select, button {
@@ -89,7 +145,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>Döviz Bozucu</h1>
+    <h1>Para Bozucu</h1>
     <div class="converter">
       <label for="amount">Miktar:</label>
       <input type="number" id="amount" placeholder="Örnek: 50">
@@ -120,11 +176,38 @@
 
     <button class="clear-button" onclick="clearTable()">Tabloyu Temizle</button>
   </div>
+
+  <!-- Döviz Kurları Tablosu -->
+  <div class="exchange-rates">
+    <table>
+      <thead>
+        <tr>
+          <th>Para Birimi</th>
+          <th>Kur</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="green-dot"></span> Euro:</td>
+          <td><span>35.20₺</span></td>
+        </tr>
+        <tr>
+          <td><span class="green-dot"></span> Dolar:</td>
+          <td><span>33.40₺</span></td>
+        </tr>
+        <tr>
+          <td><span class="green-dot"></span> Lehva:</td>
+          <td><span>17.00₺</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
   <script>
     const exchangeRates = {
-      euro: 35.20,  // 1 Euro = 35,20 TL
-      dollar: 33.40, // 1 Dollar = 33,40 TL
-      lehva: 17.00   // 1 Lehva = 17,00 TL
+      euro: 35.20,  
+      dollar: 33.40, 
+      lehva: 17.00   
     };
 
     function convertCurrency() {
@@ -134,7 +217,6 @@
       const resultElement = document.getElementById("result");
       const historyTable = document.getElementById("history");
 
-      // Para birimi sembollerini tanımlıyoruz
       const symbols = {
         euro: '€',
         dollar: '$',
@@ -165,7 +247,7 @@
 
     function clearTable() {
       const historyTable = document.getElementById("history");
-      historyTable.innerHTML = ""; // Tablodaki tüm satırları temizler
+      historyTable.innerHTML = "";
     }
   </script>
 </body>
