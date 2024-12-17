@@ -1,254 +1,187 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DÖVİZ</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #e6f7ff;
-      margin: 0;
-      padding: 20px;
-    }
-
-    .container {
-      max-width: 600px;
-      margin: auto;
-      background: #ffffff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      text-align: center;
-    }
-
-    .credit {
-      margin-top: 10px;
-      font-size: 14px;
-    }
-
-    .credit a {
-      text-decoration: none;
-      color: #007acc;
-    }
-
-    .credit a:hover {
-      text-decoration: underline;
-    }
-
-    .converter {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      text-align: left;
-    }
-
-    /* Döviz kurları için alt tablo */
-    .exchange-rates {
-      margin-top: 20px;
-      background: #ffffff;
-      border: 1px solid #000;
-      border-radius: 8px;
-      padding: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      width: 100%;
-    }
-
-    .exchange-rates table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .exchange-rates td, .exchange-rates th {
-      padding: 8px;
-      text-align: left;
-      border: 1px solid #000;
-    }
-
-    .exchange-rates th {
-      background-color: #000;
-      color: yellow;
-    }
-
-    .exchange-rates td span {
-      font-weight: bold; /* Kur değerlerini kalın yaz */
-    }
-
-    .exchange-rates .green-dot {
-      display: inline-block;
-      width: 10px;
-      height: 10px;
-      background-color: green;
-      border-radius: 50%;
-      animation: blink 1s infinite;
-    }
-
-    @keyframes blink {
-      0%, 50% {
-        opacity: 1;
-      }
-      50%, 100% {
-        opacity: 0;
-      }
-    }
-
-    input, select, button {
-      padding: 10px;
-      font-size: 16px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-    }
-
-    button {
-      background-color: #007acc;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #005f99;
-    }
-
-    #result {
-      margin: 20px 0;
-      font-size: 18px;
-      color: #333;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-
-    thead {
-      background-color: #007acc;
-      color: white;
-    }
-
-    th, td {
-      padding: 10px;
-      text-align: center;
-      border: 1px solid #ddd;
-    }
-
-    .clear-button {
-      margin-top: 10px;
-      background-color: #ff4d4d;
-    }
-
-    .clear-button:hover {
-      background-color: #cc0000;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BerCasino</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #222;
+            color: #fff;
+            text-align: center;
+        }
+        h1 {
+            margin-top: 20px;
+        }
+        h1 span {
+            color: #87CEFA; /* Açık mavi renk */
+        }
+        #slot-container {
+            display: flex;
+            justify-content: center;
+            margin: 30px auto;
+        }
+        .slot {
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            font-size: 30px;
+            border: 2px solid #fff;
+            margin: 5px;
+            background-color: #444;
+            color: #f2f2f2;
+            transition: transform 0.5s ease-out;
+        }
+        .slot.spin {
+            transform: rotateX(720deg);
+        }
+        #controls {
+            margin: 20px 0;
+        }
+        #bet-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        #bet {
+            padding: 10px;
+            font-size: 18px;
+            width: 100px;
+            text-align: center;
+            margin: 0 10px;
+            background-color: #87CEFA;
+            border: 2px solid #fff;
+            color: #222;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #results, #balance {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>💶 ⇄ 💵</h1>
-    <div class="converter">
-      <label for="amount">Miktar:</label>
-      <input type="number" id="amount" placeholder="Örnek: 50">
-      
-      <label for="currency">Para Birimi:</label>
-      <select id="currency">
-        <option value="euro">Euro (€)</option>
-        <option value="dollar">Dolar ($)</option>
-        <option value="lehva">Lehva (лв)</option>
-      </select>
-      
-      <button onclick="convertCurrency()">Hesapla</button>
+    <h1>Ber<span>Casino♣♤ </span></h1>
+    <div id="balance">Bakiyeniz: <span id="money">1000</span> TL</div>
+    <div id="slot-container">
+        <div class="slot" id="slot1">🍒</div>
+        <div class="slot" id="slot2">🍋</div>
+        <div class="slot" id="slot3">🍉</div>
+        <div class="slot" id="slot4">🍎</div>
+        <div class="slot" id="slot5">🍇</div>
+        <div class="slot" id="slot6">🍊</div>
     </div>
+    <div id="controls">
+        <div id="bet-container">
+            <button onclick="changeBetAmount(-0.1)">-</button>
+            <input type="number" id="bet" value="1" min="0.1" step="0.1" placeholder="Bahis Miktarı">
+            <button onclick="changeBetAmount(0.1)">+</button>
+        </div>
+        <button onclick="spin()">Oyna</button>
+    </div>
+    <div id="results">Sonuç: Henüz oynamadınız</div>
 
-    <div id="result"></div>
+    <script>
+        const symbols = ["🍒", "🍋", "🍉", "🍎", "🍇", "🍊"];
+        let balance = 1000;  // Başlangıç bakiyesi
+        let bet = 1;  // Başlangıç bahis miktarı
 
-    <table>
-      <thead>
-        <tr>
-          <th>Saat</th>
-          <th>Para Birimi</th>
-          <th>Miktar</th>
-          <th>Türk Lirası Karşılığı</th>
-        </tr>
-      </thead>
-      <tbody id="history"></tbody>
-    </table>
+        // Ödeme tablosu (meyve: ödeme miktarları)
+        const payoutTable = {
+            "🍒": { 3: 0.50, 4: 2.35, 5: 2.5 }, // Kiraz
+            "🍋": { 3: 0.25, 4: 1, 5: 1.25 },   // Limon
+            "🍉": { 3: 0.75, 4: 1.5, 5: 2.25 }, // Karpuz
+            "🍎": { 3: 0.40, 4: 3.30, 5: 4.5 },  // Elma
+            "🍇": { 3: 5.40, 4: 10, 5: 15 },    // Üzüm
+            "🍊": { 3: 3.10, 4: 5.35 , 5: 10.45 }    // Portakal
+        };
 
-    <button class="clear-button" onclick="clearTable()">Tabloyu Temizle</button>
-  </div>
+        // Bahis miktarını arttırmak veya azaltmak için fonksiyon
+        function changeBetAmount(amount) {
+            bet = parseFloat((bet + amount).toFixed(1));  // Bahis miktarını arttır veya azalt
+            if (bet < 0.1) bet = 0.1;  // Minimum bahis 0.1 TL
+            document.getElementById("bet").value = bet;
+        }
 
-  <!-- Döviz Kurları Tablosu -->
-  <div class="exchange-rates">
-    <table>
-      <thead>
-        <tr>
-          <th>Para Birimi</th>
-          <th>Kur</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><span class="green-dot"></span> Euro:</td>
-          <td><span>35.20₺</span></td>
-        </tr>
-        <tr>
-          <td><span class="green-dot"></span> Dolar:</td>
-          <td><span>33.40₺</span></td>
-        </tr>
-        <tr>
-          <td><span class="green-dot"></span> Lehva:</td>
-          <td><span>17.00₺</span></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+        // Slot döndürme fonksiyonu
+        function spin() {
+            const moneyDisplay = document.getElementById("money");
+            const resultDisplay = document.getElementById("results");
 
-  <script>
-    const exchangeRates = {
-      euro: 35.20,  
-      dollar: 33.40, 
-      lehva: 17.00   
-    };
+            bet = parseFloat(document.getElementById("bet").value); // Bahis miktarını inputtan al
 
-    function convertCurrency() {
-      const amount = document.getElementById("amount").value;
-      const currency = document.getElementById("currency").value;
-      const rate = exchangeRates[currency];
-      const resultElement = document.getElementById("result");
-      const historyTable = document.getElementById("history");
+            if (bet > balance || bet <= 0) {
+                alert("Geçersiz bahis miktarı!");
+                return;
+            }
 
-      const symbols = {
-        euro: '€',
-        dollar: '$',
-        lehva: 'лв'
-      };
+            // Tüm slotlara dönme efekti ekle
+            const slots = [];
+            for (let i = 1; i <= 6; i++) {
+                const slot = document.getElementById(`slot${i}`);
+                slot.classList.add('spin');
+            }
 
-      if (amount && rate) {
-        const result = (amount * rate).toFixed(2);
-        const now = new Date().toLocaleTimeString();
+            setTimeout(() => {
+                // Slotları rastgele seç
+                for (let i = 1; i <= 6; i++) {
+                    const randomSymbol = symbols[Math.floor(Math.random() * symbols.length)];
+                    document.getElementById(`slot${i}`).textContent = randomSymbol;
+                    slots.push(randomSymbol);
+                }
 
-        resultElement.innerHTML = `
-          <p>${amount} ${symbols[currency]} = ${result} TL</p>
-        `;
+                // Dönme efekti ve sonuçlar
+                for (let i = 1; i <= 6; i++) {
+                    const slot = document.getElementById(`slot${i}`);
+                    slot.classList.remove('spin');
+                }
 
-        const newRow = `
-          <tr>
-            <td>${now}</td>
-            <td>${currency === 'euro' ? 'Euro (€)' : currency === 'dollar' ? 'Dolar ($)' : 'Lehva (лв)'}</td>
-            <td>${amount} ${symbols[currency]}</td>
-            <td>${result} TL</td>
-          </tr>
-        `;
-        historyTable.insertAdjacentHTML("beforeend", newRow);
-      } else {
-        resultElement.innerHTML = `<p>Lütfen geçerli bir miktar giriniz.</p>`;
-      }
-    }
+                // Meyve sayımlarını hesapla
+                const symbolCount = {};
+                slots.forEach(symbol => {
+                    symbolCount[symbol] = (symbolCount[symbol] || 0) + 1;
+                });
 
-    function clearTable() {
-      const historyTable = document.getElementById("history");
-      historyTable.innerHTML = "";
-    }
-  </script>
+                // Ödeme hesapla
+                let winAmount = 0;
+                for (const symbol in symbolCount) {
+                    const count = symbolCount[symbol];
+                    if (payoutTable[symbol] && payoutTable[symbol][count]) {
+                        winAmount += bet * payoutTable[symbol][count];  // Bet * Ödeme miktarı
+                    }
+                }
+
+                // Bakiyeyi güncelle
+                if (winAmount > 0) {
+                    balance += winAmount;
+                    resultDisplay.textContent = `Kazandınız! ${winAmount.toFixed(2)} TL`;
+                } else {
+                    balance -= bet;
+                    resultDisplay.textContent = "Kaybettiniz! Tekrar deneyin.";
+                }
+
+                // Ekrandaki bakiyeyi güncelle
+                moneyDisplay.textContent = balance.toFixed(2);
+
+                // Bakiyeniz sıfırsa uyarı göster
+                if (balance <= 0) {
+                    alert("Bakiyeniz bitti! Oyun sona erdi.");
+                }
+            }, 500); // Dönme efekti süresi
+        }
+    </script>
 </body>
 </html>
