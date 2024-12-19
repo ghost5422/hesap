@@ -3,185 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BerCasino</title>
+    <title>Vize ve Final Hesaplama</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #222;
-            color: #fff;
-            text-align: center;
-        }
-        h1 {
-            margin-top: 20px;
-        }
-        h1 span {
-            color: #87CEFA; /* Açık mavi renk */
-        }
-        #slot-container {
+            background-color: #add8e6;
             display: flex;
             justify-content: center;
-            margin: 30px auto;
-        }
-        .slot {
-            width: 80px;
-            height: 80px;
-            line-height: 80px;
-            font-size: 30px;
-            border: 2px solid #fff;
-            margin: 5px;
-            background-color: #444;
-            color: #f2f2f2;
-            transition: transform 0.5s ease-out;
-        }
-        .slot.spin {
-            transform: rotateX(720deg);
-        }
-        #controls {
-            margin: 20px 0;
-        }
-        #bet-container {
-            display: flex;
             align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
+            height: 100vh;
+            margin: 0;
         }
-        #bet {
-            padding: 10px;
-            font-size: 18px;
-            width: 100px;
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
             text-align: center;
-            margin: 0 10px;
-            background-color: #87CEFA;
-            border: 2px solid #fff;
-            color: #222;
         }
+
+        input {
+            padding: 10px;
+            margin: 10px 0;
+            width: 80%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
         button {
-            padding: 15px 30px;
-            font-size: 18px;
-            background-color: #28a745;
-            color: #fff;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
             border: none;
+            border-radius: 4px;
             cursor: pointer;
-            margin-top: 10px;
+            width: 80%;
         }
+
         button:hover {
-            background-color: #218838;
+            background-color: #45a049;
         }
-        #results, #balance {
+
+        .result {
             margin-top: 20px;
-            font-size: 20px;
+        }
+
+        .pass {
+            color: green;
+        }
+
+        .fail {
+            color: red;
+        }
+
+        .info {
+            font-size: 14px;
+            color: #555;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
-    <h1>Ber<span>Casino♣♤ </span></h1>
-    <div id="balance">Bakiyeniz: <span id="money">1000</span> TL</div>
-    <div id="slot-container">
-        <div class="slot" id="slot1">🍒</div>
-        <div class="slot" id="slot2">🍋</div>
-        <div class="slot" id="slot3">🍉</div>
-        <div class="slot" id="slot4">🍎</div>
-        <div class="slot" id="slot5">🍇</div>
-        <div class="slot" id="slot6">🍊</div>
-    </div>
-    <div id="controls">
-        <div id="bet-container">
-            <button onclick="changeBetAmount(-0.1)">-</button>
-            <input type="number" id="bet" value="1" min="0.1" step="0.1" placeholder="Bahis Miktarı">
-            <button onclick="changeBetAmount(0.1)">+</button>
+
+    <div class="container">
+        <h2>Vize ve Final Hesaplama</h2>
+        <label for="vize">Vize Notu:</label>
+        <input type="number" id="vize" placeholder="Vize Puanını Girin" oninput="hesapla()">
+
+        <label for="final">Final Notu:</label>
+        <input type="number" id="final" placeholder="Final Puanını Girin" oninput="hesapla()">
+        
+        <div class="result" id="result"></div>
+
+        <div class="info">
+            <p>Geçme Notu: <strong>35</strong></p>
+            <p>Vize %30, Final %70 etkili olacak şekilde hesaplanacaktır.</p>
         </div>
-        <button onclick="spin()">Oyna</button>
     </div>
-    <div id="results">Sonuç: Henüz oynamadınız</div>
 
     <script>
-        const symbols = ["🍒", "🍋", "🍉", "🍎", "🍇", "🍊"];
-        let balance = 1000;  // Başlangıç bakiyesi
-        let bet = 1;  // Başlangıç bahis miktarı
+        function hesapla() {
+            var vize = parseFloat(document.getElementById('vize').value);
+            var final = parseFloat(document.getElementById('final').value);
 
-        // Ödeme tablosu (meyve: ödeme miktarları)
-        const payoutTable = {
-            "🍒": { 3: 0.50, 4: 2.35, 5: 2.5 }, // Kiraz
-            "🍋": { 3: 0.25, 4: 1, 5: 1.25 },   // Limon
-            "🍉": { 3: 0.75, 4: 1.5, 5: 2.25 }, // Karpuz
-            "🍎": { 3: 0.40, 4: 3.30, 5: 4.5 },  // Elma
-            "🍇": { 3: 5.40, 4: 10, 5: 15 },    // Üzüm
-            "🍊": { 3: 3.10, 4: 5.35 , 5: 10.45 }    // Portakal
-        };
+            // Geçme notu
+            var gecmeNotu = 35;
 
-        // Bahis miktarını arttırmak veya azaltmak için fonksiyon
-        function changeBetAmount(amount) {
-            bet = parseFloat((bet + amount).toFixed(1));  // Bahis miktarını arttır veya azalt
-            if (bet < 0.1) bet = 0.1;  // Minimum bahis 0.1 TL
-            document.getElementById("bet").value = bet;
-        }
+            // Eğer sadece vize girilmişse, finalin ne olması gerektiğini hesapla
+            if (!isNaN(vize) && isNaN(final)) {
+                var gerekliFinal = (gecmeNotu - (vize * 0.30)) / 0.70;
 
-        // Slot döndürme fonksiyonu
-        function spin() {
-            const moneyDisplay = document.getElementById("money");
-            const resultDisplay = document.getElementById("results");
-
-            bet = parseFloat(document.getElementById("bet").value); // Bahis miktarını inputtan al
-
-            if (bet > balance || bet <= 0) {
-                alert("Geçersiz bahis miktarı!");
-                return;
-            }
-
-            // Tüm slotlara dönme efekti ekle
-            const slots = [];
-            for (let i = 1; i <= 6; i++) {
-                const slot = document.getElementById(`slot${i}`);
-                slot.classList.add('spin');
-            }
-
-            setTimeout(() => {
-                // Slotları rastgele seç
-                for (let i = 1; i <= 6; i++) {
-                    const randomSymbol = symbols[Math.floor(Math.random() * symbols.length)];
-                    document.getElementById(`slot${i}`).textContent = randomSymbol;
-                    slots.push(randomSymbol);
-                }
-
-                // Dönme efekti ve sonuçlar
-                for (let i = 1; i <= 6; i++) {
-                    const slot = document.getElementById(`slot${i}`);
-                    slot.classList.remove('spin');
-                }
-
-                // Meyve sayımlarını hesapla
-                const symbolCount = {};
-                slots.forEach(symbol => {
-                    symbolCount[symbol] = (symbolCount[symbol] || 0) + 1;
-                });
-
-                // Ödeme hesapla
-                let winAmount = 0;
-                for (const symbol in symbolCount) {
-                    const count = symbolCount[symbol];
-                    if (payoutTable[symbol] && payoutTable[symbol][count]) {
-                        winAmount += bet * payoutTable[symbol][count];  // Bet * Ödeme miktarı
-                    }
-                }
-
-                // Bakiyeyi güncelle
-                if (winAmount > 0) {
-                    balance += winAmount;
-                    resultDisplay.textContent = `Kazandınız! ${winAmount.toFixed(2)} TL`;
+                // Sonucu ekrana yazdır
+                if (gerekliFinal <= 100) {
+                    document.getElementById('result').textContent = "Final notu: " + gerekliFinal.toFixed(2) + " almanız gerekir.";
                 } else {
-                    balance -= bet;
-                    resultDisplay.textContent = "Kaybettiniz! Tekrar deneyin.";
+                    document.getElementById('result').textContent = "Bu vize notu ile geçmek mümkün değil.";
                 }
+            }
+            // Eğer hem vize hem final girilmişse, geçme durumunu hesapla
+            else if (!isNaN(vize) && !isNaN(final)) {
+                var ortalama = (vize * 0.30) + (final * 0.70);
 
-                // Ekrandaki bakiyeyi güncelle
-                moneyDisplay.textContent = balance.toFixed(2);
+                var resultText = "Ortalama: " + ortalama.toFixed(2);
 
-                // Bakiyeniz sıfırsa uyarı göster
-                if (balance <= 0) {
-                    alert("Bakiyeniz bitti! Oyun sona erdi.");
+                if (ortalama >= gecmeNotu) {
+                    document.getElementById('result').textContent = resultText + " - Geçtiniz!";
+                    document.getElementById('result').className = "pass";
+                } else {
+                    document.getElementById('result').textContent = resultText + " - Kaldınız!";
+                    document.getElementById('result').className = "fail";
                 }
-            }, 500); // Dönme efekti süresi
+            } else {
+                document.getElementById('result').textContent = "";
+            }
         }
     </script>
+
 </body>
 </html>
