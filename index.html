@@ -7,7 +7,10 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #add8e6;
+            background-image: url('https://i.hizliresim.com/gdazfk5.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -16,12 +19,18 @@
         }
 
         .container {
-            background-color: #fff;
+            background-color: #5F9EA0; /* Şeffaflık için rgba */
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             width: 300px;
             text-align: center;
+        }
+
+        /* Başlıkları kalın ve büyük yapalım */
+        h2, label {
+            font-weight: bold;
+            font-size: 20px;
         }
 
         input {
@@ -30,6 +39,7 @@
             width: 80%;
             border: 1px solid #ccc;
             border-radius: 4px;
+            font-size: 16px; /* Not girme alanı yazı boyutunu büyütme */
         }
 
         button {
@@ -48,27 +58,75 @@
 
         .result {
             margin-top: 20px;
+            font-weight: bold;
+            color: gold;
+            font-family: 'Courier New', Courier, monospace; /* Çizgili font (kesik kesik) */
+            text-shadow: 5px 5px 7px rgba(0, 0, 0, 0.9); /* Yazının kenarlarını belirginleştirir */
+            padding: 10px;
+            border-radius: 4px;
         }
 
         .pass {
-            color: green;
+            color: #ADFF2F;
+            font-size: 20px; /* Geçme ve kalma yazılarının font büyüklüğünü artırdık */
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9); /* Gölgeleme efekti daha sert */
+            font-weight: bold;
         }
 
         .fail {
             color: red;
+            font-size: 20px; /* Geçme ve kalma yazılarının font büyüklüğünü artırdık */
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9); /* Gölgeleme efekti daha sert */
+            font-weight: bold;
         }
 
         .info {
-            font-size: 14px;
-            color: #555;
-            margin-top: 10px;
+            font-size: 18px;
+            color: #1c1c1c;
+            margin-top: 14px;
+        }
+
+        /* Tarih için yanıp sönme efekti hızını artırdık */
+        @keyframes yanipSonmeTarih {
+            0% { color: red; }
+            25% { color: yellow; }
+            50% { color: blue; }
+            75% { color: green; }
+            100% { color: red; }
+        }
+
+        .date-warning {
+            font-size: 20px;
+            font-weight: bold;
+            animation: yanipSonmeTarih 1s infinite; /* Yanıp sönme hızını 1 saniye yapıldı */
+            color: red;
+            margin-bottom: 20px;
+        }
+
+        /* Geçme notu için yanıp sönme efekti kaldırıldı ve siyah renkte bırakıldı */
+        .info p strong {
+            color: black;
+            animation: none;
+        }
+
+        /* Vize girildiğinde, final notu boşken çıkan yazıyı sarı yapalım */
+        .result-yellow {
+            color: yellow;
+            font-size: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Yazının kenarlarını belirginleştirir */
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h2>Vize ve Final Hesaplama</h2>
+        <!-- Tarih uyarısı -->
+        <div class="date-warning">
+            18 Ocak Final Sınavı Yaklaşıyor!
+        </div>
+
+        <h2>𝗡𝗢𝗧 𝗛𝗘𝗦𝗔𝗣𝗟𝗔𝗬𝗜𝗖𝗜</h2>
         <label for="vize">Vize Notu:</label>
         <input type="number" id="vize" placeholder="Vize Puanını Girin" oninput="hesapla()">
 
@@ -79,7 +137,7 @@
 
         <div class="info">
             <p>Geçme Notu: <strong>35</strong></p>
-            <p>Vize %30, Final %70 etkili olacak şekilde hesaplanacaktır.</p>
+            <p>Vize <strong>%30</strong>, Final <strong>%70</strong> etkili olacak şekilde hesaplanacaktır.</p>
         </div>
     </div>
 
@@ -98,8 +156,10 @@
                 // Sonucu ekrana yazdır
                 if (gerekliFinal <= 100) {
                     document.getElementById('result').textContent = "Final notu: " + gerekliFinal.toFixed(2) + " almanız gerekir.";
+                    document.getElementById('result').className = "result-yellow"; // Sarı renk ekledik
                 } else {
                     document.getElementById('result').textContent = "Bu vize notu ile geçmek mümkün değil.";
+                    document.getElementById('result').className = "fail";
                 }
             }
             // Eğer hem vize hem final girilmişse, geçme durumunu hesapla
