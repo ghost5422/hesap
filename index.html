@@ -4,182 +4,137 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vize ve Final Hesaplama</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-image: url('https://i.hizliresim.com/gdazfk5.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            font-family: 'Roboto', sans-serif;
+            background-color: #121212;
+            color: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
         }
 
         .container {
-            background-color: #5F9EA0; /* Şeffaflık için rgba */
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 300px;
+            background-color: #1e1e2f;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            width: 400px;
             text-align: center;
         }
 
-        /* Başlıkları kalın ve büyük yapalım */
-        h2, label {
-            font-weight: bold;
-            font-size: 20px;
+        h2 {
+            font-weight: 700;
+            font-size: 24px;
+            color: #ffcc00;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 700;
+            color: #cccccc;
+            margin: 10px 0 5px;
         }
 
         input {
+            width: 100%;
             padding: 10px;
-            margin: 10px 0;
-            width: 80%;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px; /* Not girme alanı yazı boyutunu büyütme */
+            border: 1px solid #444444;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #2a2a3c;
+            color: #ffffff;
+            margin-bottom: 15px;
         }
 
         button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
+            padding: 12px 20px;
+            background-color: #004d80;
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
-            width: 80%;
+            width: 100%;
         }
 
         button:hover {
-            background-color: #45a049;
+            background-color: #003959;
         }
 
         .result {
             margin-top: 20px;
+            font-size: 18px;
             font-weight: bold;
-            color: gold;
-            font-family: 'Courier New', Courier, monospace; /* Çizgili font (kesik kesik) */
-            text-shadow: 5px 5px 7px rgba(0, 0, 0, 0.9); /* Yazının kenarlarını belirginleştirir */
-            padding: 10px;
-            border-radius: 4px;
+            color: #ffffff;
         }
 
         .pass {
-            color: #ADFF2F;
-            font-size: 20px; /* Geçme ve kalma yazılarının font büyüklüğünü artırdık */
-            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9); /* Gölgeleme efekti daha sert */
-            font-weight: bold;
+            color: #4CAF50;
         }
 
         .fail {
-            color: red;
-            font-size: 20px; /* Geçme ve kalma yazılarının font büyüklüğünü artırdık */
-            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9); /* Gölgeleme efekti daha sert */
-            font-weight: bold;
+            color: #D32F2F;
+        }
+
+        .yellow {
+            color: #ffcc00;
         }
 
         .info {
-            font-size: 18px;
-            color: #1c1c1c;
-            margin-top: 14px;
-        }
-
-        /* Tarih için yanıp sönme efekti hızını artırdık */
-        @keyframes yanipSonmeTarih {
-            0% { color: red; }
-            25% { color: yellow; }
-            50% { color: blue; }
-            75% { color: green; }
-            100% { color: red; }
-        }
-
-        .date-warning {
-            font-size: 20px;
-            font-weight: bold;
-            animation: yanipSonmeTarih 1s infinite; /* Yanıp sönme hızını 1 saniye yapıldı */
-            color: red;
-            margin-bottom: 20px;
-        }
-
-        /* Geçme notu için yanıp sönme efekti kaldırıldı ve siyah renkte bırakıldı */
-        .info p strong {
-            color: black;
-            animation: none;
-        }
-
-        /* Vize girildiğinde, final notu boşken çıkan yazıyı sarı yapalım */
-        .result-yellow {
-            color: yellow;
-            font-size: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Yazının kenarlarını belirginleştirir */
-            font-weight: bold;
+            font-size: 14px;
+            color: #cccccc;
+            margin-top: 20px;
+            line-height: 1.5;
         }
     </style>
 </head>
 <body>
-
     <div class="container">
-        <!-- Tarih uyarısı -->
-        <div class="date-warning">
-            
-        </div>
-
-        <h2>𝗡𝗢𝗧 𝗛𝗘𝗦𝗔𝗣𝗟𝗔𝗬𝗜𝗖𝗜</h2>
+        <h2>Not Hesaplayıcı</h2>
         <label for="vize">Vize Notu:</label>
         <input type="number" id="vize" placeholder="Vize Puanını Girin" oninput="hesapla()">
 
         <label for="final">Final Notu:</label>
         <input type="number" id="final" placeholder="Final Puanını Girin" oninput="hesapla()">
-        
+
         <div class="result" id="result"></div>
 
         <div class="info">
-            <p>Geçme Notu: <strong>35</strong></p>
-            <p>Vize <strong>%30</strong>, Final <strong>%70</strong> etkili olacak şekilde hesaplanacaktır.</p>
+            <p><strong>Geçme Notu:</strong> 35</p>
+            <p>Vize %30, Final %70 etkili olacak şekilde hesaplanır.</p>
         </div>
     </div>
 
     <script>
         function hesapla() {
-            var vize = parseFloat(document.getElementById('vize').value);
-            var final = parseFloat(document.getElementById('final').value);
+            const vize = parseFloat(document.getElementById('vize').value);
+            const final = parseFloat(document.getElementById('final').value);
+            const gecmeNotu = 35;
 
-            // Geçme notu
-            var gecmeNotu = 35;
+            const resultDiv = document.getElementById('result');
 
-            // Eğer sadece vize girilmişse, finalin ne olması gerektiğini hesapla
             if (!isNaN(vize) && isNaN(final)) {
-                var gerekliFinal = (gecmeNotu - (vize * 0.30)) / 0.70;
-
-                // Sonucu ekrana yazdır
-                if (gerekliFinal <= 100) {
-                    document.getElementById('result').textContent = "Final notu: " + gerekliFinal.toFixed(2) + " almanız gerekir.";
-                    document.getElementById('result').className = "result-yellow"; // Sarı renk ekledik
-                } else {
-                    document.getElementById('result').textContent = "Bu vize notu ile geçmek mümkün değil.";
-                    document.getElementById('result').className = "fail";
-                }
-            }
-            // Eğer hem vize hem final girilmişse, geçme durumunu hesapla
-            else if (!isNaN(vize) && !isNaN(final)) {
-                var ortalama = (vize * 0.30) + (final * 0.70);
-
-                var resultText = "Ortalama: " + ortalama.toFixed(2);
-
-                if (ortalama >= gecmeNotu) {
-                    document.getElementById('result').textContent = resultText + " - Geçtiniz!";
-                    document.getElementById('result').className = "pass";
-                } else {
-                    document.getElementById('result').textContent = resultText + " - Kaldınız!";
-                    document.getElementById('result').className = "fail";
-                }
+                const gerekliFinal = ((gecmeNotu - (vize * 0.30)) / 0.70).toFixed(2);
+                resultDiv.textContent = gerekliFinal <= 100
+                    ? `Geçmek için finalde en az ${gerekliFinal} almalısınız.`
+                    : "Bu vize notu ile geçmek mümkün değil.";
+                resultDiv.className = gerekliFinal <= 100 ? "result yellow" : "result fail";
+            } else if (!isNaN(vize) && !isNaN(final)) {
+                const ortalama = ((vize * 0.30) + (final * 0.70)).toFixed(2);
+                resultDiv.textContent = ortalama >= gecmeNotu
+                    ? `Ortalama: ${ortalama} - Geçtiniz!`
+                    : `Ortalama: ${ortalama} - Kaldınız!`;
+                resultDiv.className = ortalama >= gecmeNotu ? "result pass" : "result fail";
             } else {
-                document.getElementById('result').textContent = "";
+                resultDiv.textContent = "";
             }
         }
     </script>
-
 </body>
 </html>
