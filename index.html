@@ -1,160 +1,94 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Vize ve Final Hesaplama</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Berkay Sports ᴴᴰ¹ - Canlı Yayın</title>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: 'Roboto', sans-serif;
-      background-color: #fff4f4;
-      color: #4a0000;
+      background-color: #000;
+      height: 100vh;
+      width: 100vw;
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      margin: 0;
+      overflow: hidden;
+      font-family: Arial, Helvetica, sans-serif;
+      position: relative;
     }
 
-    .container {
-      background-color: #ffcccc;
-      padding: 30px 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-      width: 360px;
+    /* LOGO */
+    .logo {
+      position: absolute;
+      top: 150px; /* 🔹 logoyu aşağı çeker */
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
       text-align: center;
     }
 
-    h2 {
-      font-size: 26px;
-      color: #990000;
-      margin-bottom: 25px;
+    .logo img {
+      width: 800px; /* 🔹 logoyu büyütür */
+      height: auto;
+      user-select: none;
     }
 
-    h2 i {
-      margin-right: 8px;
-    }
-
-    label {
-      display: flex;
-      align-items: center;
-      font-weight: 700;
-      color: #660000;
-      margin: 15px 0 5px;
-      font-size: 15px;
-    }
-
-    label i {
-      margin-right: 8px;
-    }
-
-    input {
+    /* PLAYER */
+    .player {
+      position: relative;
       width: 100%;
-      padding: 10px;
-      border: 1px solid #990000;
-      border-radius: 5px;
-      font-size: 16px;
-      background-color: #ffe6e6;
-      color: #330000;
-      margin-bottom: 15px;
+      max-width: 1200px;
+      aspect-ratio: 16 / 16;
+      background: #000;
+      border-radius: 10px;
+      overflow: hidden;
     }
 
-    button {
-      padding: 12px 20px;
-      background-color: #d32f2f;
-      color: white;
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      width: 100%;
-      transition: background-color 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
-    button i {
-      margin-right: 8px;
-    }
-
-    button:hover {
-      background-color: #b71c1c;
-    }
-
-    .result {
-      margin-top: 20px;
-      font-size: 18px;
-      font-weight: bold;
-      color: #4a0000;
-    }
-
-    .pass {
-      color: #008000;
-    }
-
-    .fail {
-      color: #cc0000;
-    }
-
-    .yellow {
-      color: #cc7a00;
-    }
-
-    .info {
-      font-size: 13.5px;
-      color: #660000;
-      margin-top: 20px;
-      line-height: 1.5;
+    /* 🔹 Mobil uyum */
+    @media (max-width: 768px) {
+      .logo {
+        top: 60px;
+      }
+      .logo img {
+        width: 250px;
+      }
+      .player {
+        width: 95%;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2><i class="fas fa-calculator"></i> Not Hesaplayıcı</h2>
 
-    <label for="vize"><i class="fas fa-file-alt"></i> Vize Notu:</label>
-    <input type="number" id="vize" placeholder="Vize Puanını Girin" oninput="hesapla()" />
-
-    <label for="final"><i class="fas fa-file-signature"></i> Final Notu:</label>
-    <input type="number" id="final" placeholder="Final Puanını Girin" oninput="hesapla()" />
-
-    <button onclick="hesapla()"><i class="fas fa-equals"></i> Hesapla</button>
-
-    <div class="result" id="result"></div>
-
-    <div class="info">
-      <p><i class="fas fa-info-circle"></i> <strong>Geçme Notu:</strong> 35</p>
-      <p><i class="fas fa-percentage"></i> Vize %30, Final %70 etkili olacak şekilde hesaplanır.</p>
-    </div>
+  <!-- Logo -->
+  <div class="logo">
+    <img src="https://i.hizliresim.com/lx3xs3h.jpeg" alt="Berkay Sports ᴴᴰ¹ Logo">
   </div>
 
-  <script>
-    function hesapla() {
-      const vize = parseFloat(document.getElementById('vize').value);
-      const final = parseFloat(document.getElementById('final').value);
-      const gecmeNotu = 35;
-      const resultDiv = document.getElementById('result');
+  <!-- Yayın ekranı -->
+  <div class="player">
+    <iframe
+      src="https://cenatv42.com/channel?id=yayinb1"
+      allow="autoplay; fullscreen"
+      referrerpolicy="no-referrer"
+      allowfullscreen>
+    </iframe>
+  </div>
 
-      if (!isNaN(vize) && isNaN(final)) {
-        const gerekliFinal = ((gecmeNotu - (vize * 0.30)) / 0.70).toFixed(2);
-        resultDiv.textContent = gerekliFinal <= 100
-          ? `Geçmek için finalde en az ${gerekliFinal} almalısınız.`
-          : "Bu vize notu ile geçmek mümkün değil.";
-        resultDiv.className = gerekliFinal <= 100 ? "result yellow" : "result fail";
-      } else if (!isNaN(vize) && !isNaN(final)) {
-        const ortalama = ((vize * 0.30) + (final * 0.70)).toFixed(2);
-        resultDiv.textContent = ortalama >= gecmeNotu
-          ? `Ortalama: ${ortalama} - Geçtiniz!`
-          : `Ortalama: ${ortalama} - Kaldınız!`;
-        resultDiv.className = ortalama >= gecmeNotu ? "result pass" : "result fail";
-      } else {
-        resultDiv.textContent = "";
-      }
-    }
-  </script>
 </body>
 </html>
