@@ -26,7 +26,7 @@
     /* LOGO */
     .logo {
       position: absolute;
-      top: 150px; /* 🔹 logoyu aşağı çeker */
+      top: 150px; /* logoyu aşağı çeker */
       left: 50%;
       transform: translateX(-50%);
       z-index: 10;
@@ -34,8 +34,9 @@
     }
 
     .logo img {
-      width: 800px; /* 🔹 logoyu büyütür */
+      width: 800px; /* logoyu büyütür */
       height: auto;
+      /* efekt kaldırıldı */
       user-select: none;
     }
 
@@ -59,7 +60,19 @@
       border: none;
     }
 
-    /* 🔹 Mobil uyum */
+    /* FOOTER */
+    .footer {
+      position: fixed;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      color: #fff;
+      font-size: 14px;
+      font-family: Arial, Helvetica, sans-serif;
+      z-index: 10;
+    }
+
+    /* Mobil uyum */
     @media (max-width: 768px) {
       .logo {
         top: 60px;
@@ -88,6 +101,11 @@
       referrerpolicy="no-referrer"
       allowfullscreen>
     </iframe>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    Berkay Sports © 2025. Tüm hakları saklıdır.
   </div>
 
 </body>
