@@ -1,112 +1,193 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Berkay Sports ᴴᴰ¹ - Canlı Yayın</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Berkay Sports ᴴᴰ - Canlı Yayın</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     body {
       background-color: #000;
-      height: 100vh;
-      width: 100vw;
+      color: #fff;
+      margin: 0;
+      font-family: "Poppins", Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    header {
       display: flex;
       justify-content: center;
       align-items: center;
-      overflow: hidden;
-      font-family: Arial, Helvetica, sans-serif;
-      position: relative;
-    }
-
-    /* LOGO */
-    .logo {
-      position: absolute;
-      top: 150px; /* logoyu aşağı çeker */
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 10;
-      text-align: center;
-    }
-
-    .logo img {
-      width: 800px; /* logoyu büyütür */
-      height: auto;
-      /* efekt kaldırıldı */
-      user-select: none;
-    }
-
-    /* PLAYER */
-    .player {
-      position: relative;
       width: 100%;
-      max-width: 1200px;
-      aspect-ratio: 16 / 16;
-      background: #000;
-      border-radius: 10px;
+      margin: 30px 0;
+    }
+
+    header img {
+      width: 50%;
+      max-width: 800px;
+      height: auto;
+      display: block;
+      border-radius: 0;
+      box-shadow: none;
+      background: transparent;
+    }
+
+    #player {
+      position: relative;
+      width: 90%;
+      max-width: 950px;
+      aspect-ratio: 16 / 9;
+      background-color: #111;
+      border-radius: 15px;
       overflow: hidden;
+      box-shadow: 0 0 35px rgba(0, 255, 100, 0.3);
+      margin-bottom: 50px;
     }
 
     iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
       width: 100%;
       height: 100%;
       border: none;
     }
 
-    /* FOOTER */
-    .footer {
+    /* 🌿 Sosyal Butonlar */
+    .social-buttons {
       position: fixed;
-      bottom: 10px;
-      width: 100%;
-      text-align: center;
-      color: #fff;
-      font-size: 14px;
-      font-family: Arial, Helvetica, sans-serif;
-      z-index: 10;
+      bottom: 25px;
+      right: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      z-index: 1000;
     }
 
-    /* Mobil uyum */
+    .social-buttons a {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 20px rgba(0,255,100,0.3);
+      cursor: pointer;
+    }
+
+    .social-buttons a img {
+      width: 32px;
+      height: 32px;
+      filter: drop-shadow(0 0 3px rgba(0,0,0,0.6));
+    }
+
+    .whatsapp {
+      background: linear-gradient(145deg, #00ff6a, #007a33);
+      border-color: #00ff6a;
+      animation: glow 2.5s infinite ease-in-out;
+    }
+
+    .twitter {
+      background: linear-gradient(145deg, #1DA1F2, #0d8ddb);
+      border-color: #1DA1F2;
+      animation: glow 2.5s infinite ease-in-out;
+    }
+
+    .social-buttons a:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 35px rgba(0,255,100,0.8);
+    }
+
+    @keyframes glow {
+      0% { box-shadow: 0 0 15px rgba(0,255,100,0.3); }
+      50% { box-shadow: 0 0 35px rgba(0,255,100,0.8); }
+      100% { box-shadow: 0 0 15px rgba(0,255,100,0.3); }
+    }
+
+    footer {
+      margin-top: 30px;
+      font-size: 13px;
+      color: #777;
+      text-align: center;
+      padding-bottom: 20px;
+    }
+
     @media (max-width: 768px) {
-      .logo {
-        top: 60px;
+      header img {
+        width: 70%;
+        max-width: 350px;
       }
-      .logo img {
-        width: 250px;
+      .social-buttons a {
+        width: 50px;
+        height: 50px;
       }
-      .player {
-        width: 95%;
+      .social-buttons a img {
+        width: 26px;
+        height: 26px;
       }
     }
   </style>
 </head>
 <body>
+  <header>
+    <img src="https://i.hizliresim.com/lx3xs3h.jpeg" alt="Berkay Sports Logo" />
+  </header>
 
-  <!-- Logo -->
-  <div class="logo">
-    <img src="https://i.hizliresim.com/lx3xs3h.jpeg" alt="Berkay Sports ᴴᴰ¹ Logo">
+  <div id="player"></div>
+
+  <!-- 🌿 Sosyal Butonlar -->
+  <div class="social-buttons">
+    <a class="whatsapp" href="https://wa.me/447442525362" target="_blank" title="WhatsApp ile iletişime Geç">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" />
+    </a>
+    <a class="twitter" href="https://x.com/anonim66627" target="_blank" title="Twitter ile İletişime Geç">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg" alt="Twitter" />
+    </a>
   </div>
 
-  <!-- Yayın ekranı -->
-  <div class="player">
-    <iframe
-      src="https://dengetv67.live/channel?id=yayinb1"
-      allow="autoplay; fullscreen"
-      referrerpolicy="no-referrer"
-      allowfullscreen>
-    </iframe>
-  </div>
+  <footer>© 2025 Berkay Sports – Tüm Hakları Saklıdır.</footer>
 
-  <!-- Footer -->
-  <div class="footer">
-    Berkay Sports © 2025. Tüm hakları saklıdır.
-  </div>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
 
+    const firebaseConfig = {
+      apiKey: "AIzaSyBbw4RJ06sWl5EciDHtB3YaNOu0uK78-Mc",
+      authDomain: "berkaysports-ada49.firebaseapp.com",
+      databaseURL: "https://berkaysports-ada49-default-rtdb.firebaseio.com",
+      projectId: "berkaysports-ada49",
+      storageBucket: "berkaysports-ada49.firebasestorage.app",
+      messagingSenderId: "781158171391",
+      appId: "1:781158171391:web:3c13b6975a6739e4ad42ca",
+      measurementId: "G-DJZWF8ZLEP",
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    const durumRef = ref(db, "siteDurum");
+    const linkRef = ref(db, "yayinLink");
+
+    onValue(durumRef, (snap) => {
+      const durum = snap.val();
+      if (durum === "kapali" && !window.location.href.includes("kapali.html")) {
+        window.location.href = "kapali.html";
+      } else if (durum === "acik" && window.location.href.includes("kapali.html")) {
+        window.location.href = "index.html";
+      }
+    });
+
+    onValue(linkRef, (snap) => {
+      const link = snap.val();
+      if (link) {
+        document.getElementById("player").innerHTML = `
+          <iframe src="${link}" allowfullscreen></iframe>
+        `;
+      }
+    });
+  </script>
 </body>
 </html>
