@@ -1,193 +1,248 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Berkay Sports ᴴᴰ - Canlı Yayın</title>
-  <style>
-    body {
-      background-color: #000;
-      color: #fff;
-      margin: 0;
-      font-family: "Poppins", Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Berkay Sports ᴴᴰ - Canlı Yayın</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  body {
+    margin:0;
+    padding:0;
+    font-family:'Poppins',sans-serif;
+    background:radial-gradient(circle at top,#050505 0%,#000 100%);
+    color:#fff;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    min-height:100vh;
+  }
 
-    header {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      margin: 30px 0;
-    }
+  header img {
+    width:55%;
+    max-width:700px;
+    margin:40px auto 20px;
+    display:block;
+    filter:drop-shadow(0 0 10px rgba(0,255,100,0.4));
+  }
 
-    header img {
-      width: 50%;
-      max-width: 800px;
-      height: auto;
-      display: block;
-      border-radius: 0;
-      box-shadow: none;
-      background: transparent;
-    }
+  .button-row{
+    display:flex;
+    gap:12px;
+    margin-bottom:25px;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
 
-    #player {
-      position: relative;
-      width: 90%;
-      max-width: 950px;
-      aspect-ratio: 16 / 9;
-      background-color: #111;
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: 0 0 35px rgba(0, 255, 100, 0.3);
-      margin-bottom: 50px;
-    }
+  button{
+    padding:12px 24px;
+    font-weight:600;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    transition:all 0.25s ease;
+    box-shadow:0 0 20px rgba(0,255,100,0.3);
+  }
+  #hesapBtn{
+    background:linear-gradient(145deg,#00ff88,#007a3d);
+    color:#000;
+  }
+  #hesapBtn:hover{
+    transform:scale(1.05);
+    box-shadow:0 0 30px rgba(0,255,100,0.6);
+  }
+  #logoutBtn{
+    background:#111;
+    color:#fff;
+    border:1px solid #00ff6a;
+  }
+  #logoutBtn:hover{
+    background:#00ff6a;
+    color:#000;
+    transform:scale(1.05);
+    box-shadow:0 0 25px rgba(0,255,100,0.6);
+  }
 
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
+  /* --- YAYIN EKRANI --- */
+  #player-container{
+    position:relative;
+    width:92%;
+    max-width:960px;
+    aspect-ratio:16/9;
+    background:#111;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 0 45px rgba(0,255,100,0.35);
+    border:2px solid rgba(0,255,100,0.2);
+  }
 
-    /* 🌿 Sosyal Butonlar */
-    .social-buttons {
-      position: fixed;
-      bottom: 25px;
-      right: 25px;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      z-index: 1000;
-    }
+  #player-container::before{
+    content:"";
+    position:absolute;
+    top:0; left:0; right:0; bottom:0;
+    background:radial-gradient(circle at center,rgba(0,255,100,0.05),transparent 70%);
+    pointer-events:none;
+  }
 
-    .social-buttons a {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: 2px solid transparent;
-      transition: all 0.3s ease;
-      box-shadow: 0 0 20px rgba(0,255,100,0.3);
-      cursor: pointer;
-    }
+  #player{
+    width:100%;
+    height:100%;
+  }
+  #player iframe{
+    width:100%;
+    height:100%;
+    border:none;
+  }
 
-    .social-buttons a img {
-      width: 32px;
-      height: 32px;
-      filter: drop-shadow(0 0 3px rgba(0,0,0,0.6));
-    }
+  footer{
+    margin-top:35px;
+    font-size:13px;
+    color:#777;
+    text-align:center;
+    padding-bottom:20px;
+  }
 
-    .whatsapp {
-      background: linear-gradient(145deg, #00ff6a, #007a33);
-      border-color: #00ff6a;
-      animation: glow 2.5s infinite ease-in-out;
-    }
-
-    .twitter {
-      background: linear-gradient(145deg, #1DA1F2, #0d8ddb);
-      border-color: #1DA1F2;
-      animation: glow 2.5s infinite ease-in-out;
-    }
-
-    .social-buttons a:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 35px rgba(0,255,100,0.8);
-    }
-
-    @keyframes glow {
-      0% { box-shadow: 0 0 15px rgba(0,255,100,0.3); }
-      50% { box-shadow: 0 0 35px rgba(0,255,100,0.8); }
-      100% { box-shadow: 0 0 15px rgba(0,255,100,0.3); }
-    }
-
-    footer {
-      margin-top: 30px;
-      font-size: 13px;
-      color: #777;
-      text-align: center;
-      padding-bottom: 20px;
-    }
-
-    @media (max-width: 768px) {
-      header img {
-        width: 70%;
-        max-width: 350px;
-      }
-      .social-buttons a {
-        width: 50px;
-        height: 50px;
-      }
-      .social-buttons a img {
-        width: 26px;
-        height: 26px;
-      }
-    }
-  </style>
+  /* --- ÇIKIŞ POPUP --- */
+  #logoutPopup{
+    display:none;
+    position:fixed;
+    top:0;left:0;width:100%;height:100%;
+    background:rgba(0,0,0,0.7);
+    z-index:999;
+  }
+  #logoutPopup .popup-content{
+    position:absolute;
+    top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    background:#111;
+    border:2px solid #00ff6a;
+    border-radius:12px;
+    padding:30px 25px;
+    text-align:center;
+    width:90%;
+    max-width:400px;
+  }
+  #logoutPopup .popup-content p{margin-bottom:20px;}
+  .popup-buttons{display:flex;justify-content:center;gap:15px;}
+  .popup-buttons button{
+    padding:10px 20px;
+    font-weight:600;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    transition:0.3s;
+  }
+  #confirmLogout{background:#ff4040;color:#fff;}
+  #confirmLogout:hover{box-shadow:0 0 20px rgba(255,64,64,0.6);}
+  #cancelLogout{background:#00ff6a;color:#000;}
+  #cancelLogout:hover{box-shadow:0 0 20px rgba(0,255,100,0.6);}
+</style>
 </head>
 <body>
-  <header>
-    <img src="https://i.hizliresim.com/lx3xs3h.jpeg" alt="Berkay Sports Logo" />
-  </header>
 
+<header>
+  <img src="https://i.hizliresim.com/lx3xs3h.jpeg" alt="Berkay Sports Logo">
+</header>
+
+<div class="button-row">
+  <button id="hesapBtn"><i class="fa-solid fa-list"></i> Hesaplara Ulaş</button>
+  <button id="logoutBtn">Çıkış Yap</button>
+</div>
+
+<div id="player-container">
   <div id="player"></div>
+</div>
 
-  <!-- 🌿 Sosyal Butonlar -->
-  <div class="social-buttons">
-    <a class="whatsapp" href="https://wa.me/447442525362" target="_blank" title="WhatsApp ile iletişime Geç">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" />
-    </a>
-    <a class="twitter" href="https://x.com/anonim66627" target="_blank" title="Twitter ile İletişime Geç">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg" alt="Twitter" />
-    </a>
+<!-- Çıkış Pop-up -->
+<div id="logoutPopup">
+  <div class="popup-content">
+    <p>Çıkış yapmak istediğinizden emin misiniz?</p>
+    <div class="popup-buttons">
+      <button id="confirmLogout">Evet</button>
+      <button id="cancelLogout">Hayır</button>
+    </div>
   </div>
+</div>
 
-  <footer>© 2025 Berkay Sports – Tüm Hakları Saklıdır.</footer>
+<footer>© 2025 Berkay Sports – Tüm Hakları Saklıdır.</footer>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+  import { getDatabase, ref, onValue, get, update, onDisconnect } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyBbw4RJ06sWl5EciDHtB3YaNOu0uK78-Mc",
-      authDomain: "berkaysports-ada49.firebaseapp.com",
-      databaseURL: "https://berkaysports-ada49-default-rtdb.firebaseio.com",
-      projectId: "berkaysports-ada49",
-      storageBucket: "berkaysports-ada49.firebasestorage.app",
-      messagingSenderId: "781158171391",
-      appId: "1:781158171391:web:3c13b6975a6739e4ad42ca",
-      measurementId: "G-DJZWF8ZLEP",
+  const firebaseConfig = {
+    apiKey: "AIzaSyBbw4RJ06sWl5EciDHtB3YaNOu0uK78-Mc",
+    authDomain: "berkaysports-ada49.firebaseapp.com",
+    databaseURL: "https://berkaysports-ada49-default-rtdb.firebaseio.com",
+    projectId: "berkaysports-ada49",
+    storageBucket: "berkaysports-ada49.firebasestorage.app",
+    messagingSenderId: "781158171391",
+    appId: "1:781158171391:web:3c13b6975a6739e4ad42ca",
+    measurementId: "G-DJZWF8ZLEP",
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  const playerDiv = document.getElementById("player");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const hesapBtn = document.getElementById("hesapBtn");
+  const logoutPopup = document.getElementById("logoutPopup");
+  const confirmBtn = document.getElementById("confirmLogout");
+  const cancelBtn = document.getElementById("cancelLogout");
+
+  // 🔐 Giriş kontrolü
+  const currentUser = localStorage.getItem("berkaySportsUser");
+  if(!currentUser){
+    window.location.href = "login.html";
+  } else {
+    const userData = JSON.parse(currentUser);
+    const userRef = ref(db, "kullanicilar/" + userData.username);
+
+    const checkUser = async () => {
+      const snap = await get(userRef);
+      if(!snap.exists() || snap.val().ban){
+        localStorage.removeItem("berkaySportsUser");
+        window.location.href = "giris.html";
+      } else if(snap.val().online){
+        alert("Bu hesap başka bir cihazda aktif!");
+        localStorage.removeItem("berkaySportsUser");
+        window.location.href = "giris.html";
+      } else {
+        update(userRef, { online:true, sonGiris: new Date().toISOString() });
+        onDisconnect(userRef).update({ online:false });
+      }
     };
+    checkUser();
+  }
 
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
+  // 🎥 Firebase'den canlı yayın linki çek
+  const linkRef = ref(db,"yayinLink");
+  onValue(linkRef,(snap)=>{
+    const link = snap.val();
+    if(link){
+      playerDiv.innerHTML = `<iframe src="${link}" allowfullscreen></iframe>`;
+    } else {
+      playerDiv.innerHTML = `<p style="text-align:center;color:#999;margin-top:40%;">Yayın linki bulunamadı.</p>`;
+    }
+  });
 
-    const durumRef = ref(db, "siteDurum");
-    const linkRef = ref(db, "yayinLink");
+  // 🔘 Butonlar
+  hesapBtn.addEventListener("click",()=> window.location.href="hesap.html");
+  logoutBtn.addEventListener("click",()=> logoutPopup.style.display="block");
+  cancelBtn.addEventListener("click",()=> logoutPopup.style.display="none");
+  confirmBtn.addEventListener("click",()=>{
+    const currentUserData = JSON.parse(localStorage.getItem("berkaySportsUser"));
+    if(currentUserData){
+      const userRef = ref(db,"kullanicilar/"+currentUserData.username);
+      update(userRef, { online:false });
+    }
+    localStorage.removeItem("berkaySportsUser");
+    window.location.href="giris.html";
+  });
+</script>
 
-    onValue(durumRef, (snap) => {
-      const durum = snap.val();
-      if (durum === "kapali" && !window.location.href.includes("kapali.html")) {
-        window.location.href = "kapali.html";
-      } else if (durum === "acik" && window.location.href.includes("kapali.html")) {
-        window.location.href = "index.html";
-      }
-    });
-
-    onValue(linkRef, (snap) => {
-      const link = snap.val();
-      if (link) {
-        document.getElementById("player").innerHTML = `
-          <iframe src="${link}" allowfullscreen></iframe>
-        `;
-      }
-    });
-  </script>
+<!-- Font Awesome icon pack -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
 </body>
 </html>
