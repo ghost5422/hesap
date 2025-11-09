@@ -207,7 +207,7 @@
       } else if(snap.val().online){
         alert("Bu hesap başka bir cihazda aktif!");
         localStorage.removeItem("berkaySportsUser");
-        window.location.href = "giris.html";
+        window.location.href = "login.html";
       } else {
         update(userRef, { online:true, sonGiris: new Date().toISOString() });
         onDisconnect(userRef).update({ online:false });
