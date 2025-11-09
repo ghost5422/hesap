@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Hesap Listesi - Berkay Sports (Güncel)</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d0d0d;
+    --card:#111;
+    --muted:#aaa;
+    --accent:#00ff6a;
+    --panel:#171717;
+  }
+  body{margin:0;font-family:Poppins,Arial,sans-serif;background:linear-gradient(180deg,#050505,var(--bg));color:#fff}
+  .wrap{max-width:1100px;margin:24px auto;padding:16px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+  h1{margin:0;font-size:20px;color:var(--accent);display:flex;align-items:center;gap:10px}
+  .controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .search{background:var(--card);border:1px solid #222;padding:8px 10px;border-radius:8px;color:#fff;outline:none}
+  .filter-row{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+  .plat-btn{background:transparent;border:1px solid #222;padding:8px 10px;border-radius:8px;color:#fff;cursor:pointer}
+  .plat-btn.active{border-color:var(--accent);box-shadow:0 4px 18px rgba(0,255,106,0.06);color:var(--accent)}
+  .toggle-act{background:#222;border:1px solid #222;padding:8px 10px;border-radius:8px;color:#fff;cursor:pointer}
+  .list{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;margin-top:8px}
+  .card{background:var(--panel);padding:14px;border-radius:10px;border:1px solid #1e1e1e;box-shadow:0 6px 22px rgba(0,0,0,0.6)}
+  .card h3{margin:0 0 6px 0;font-size:16px}
+  .meta{font-size:13px;color:var(--muted);margin-bottom:8px;display:flex;gap:8px;flex-wrap:wrap}
+  .note{font-size:13px;color:#ccc;line-height:1.3;margin-bottom:8px}
+  .cred{font-size:13px;color:#fff;background:#111;padding:8px;border-radius:8px;margin-bottom:8px;border:1px solid #222;display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .cred .left{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .cred .label{font-size:12px;color:var(--muted);display:block}
+  .status{display:inline-block;padding:6px 8px;border-radius:999px;font-weight:700;font-size:12px}
+  .s-aktif{background:var(--accent);color:#000}
+  .s-pasif{background:#ff6b6b;color:#fff}
+  .empty{color:var(--muted);text-align:center;padding:30px;border-radius:10px}
+  .card-actions{display:flex;gap:8px;flex-wrap:wrap}
+  .btn{background:transparent;border:1px solid #222;padding:6px 8px;border-radius:8px;color:#fff;cursor:pointer;font-size:13px}
+  .btn.ghost{background:transparent}
+  footer{margin-top:22px;text-align:center;color:var(--muted);font-size:13px}
+  @media(max-width:520px){ .controls{width:100%;flex-direction:column;align-items:stretch} .search{width:100%} }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1><i class="fa-solid fa-list"></i> Hesap Listesi</h1>
+      <div class="controls">
+        <input id="searchInput" class="search" placeholder="Ara: başlık, not, e-posta..." />
+        <button id="activeOnly" class="toggle-act">Sadece Aktifleri Göster</button>
+      </div>
+    </header>
+
+    <div class="filter-row" id="filterRow"></div>
+    <div id="list" class="list"></div>
+    <div id="empty" class="empty" style="display:none">Henüz gösterilecek hesap yok.</div>
+
+    <footer>© 2025 Berkay Sports — Yasal ve etik kullanım için tasarlanmıştır.</footer>
+  </div>
+
+<script type="module">
+  // 🚨 GÜVENLİK KONTROLÜ — login yapılmadan erişim engellenir
+  const userData = JSON.parse(localStorage.getItem("berkaySportsUser") || "null");
+  if(!userData || !userData.username){
+    alert("❌ Bu sayfaya erişim yetkiniz yok. Lütfen giriş yapın.");
+    window.location.href = "login.html"; // login sayfasına yönlendir
+  }
+
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBbw4RJ06sWl5EciDHtB3YaNOu0uK78-Mc",
+    authDomain: "berkaysports-ada49.firebaseapp.com",
+    databaseURL: "https://berkaysports-ada49-default-rtdb.firebaseio.com",
+    projectId: "berkaysports-ada49",
+    storageBucket: "berkaysports-ada49.firebasestorage.app",
+    messagingSenderId: "781158171391",
+    appId: "1:781158171391:web:3c13b6975a6739e4ad42ca",
+    measurementId: "G-DJZWF8ZLEP"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const hesapRef = ref(db, "hesapMeta");
+
+  const listEl = document.getElementById('list');
+  const emptyEl = document.getElementById('empty');
+  const filterRow = document.getElementById('filterRow');
+  const searchInput = document.getElementById('searchInput');
+  const activeOnlyBtn = document.getElementById('activeOnly');
+
+  const PLATFORMLAR = ["Netflix","Exxen","Disney","Gain","HBO MAX"];
+  let currentPlatform = "Tümü";
+  let cachedData = {};
+  let showActiveOnly = false;
+
+  function renderPlatformButtons(){
+    filterRow.innerHTML = "";
+    const allBtn = document.createElement('button');
+    allBtn.className = 'plat-btn' + (currentPlatform==="Tümü" ? ' active' : '');
+    allBtn.textContent = "Tümü";
+    allBtn.onclick = ()=>{ currentPlatform="Tümü"; renderPlatformButtons(); renderList(cachedData); };
+    filterRow.appendChild(allBtn);
+    PLATFORMLAR.forEach(p=>{
+      const b = document.createElement('button');
+      b.className = 'plat-btn' + (currentPlatform===p ? ' active' : '');
+      b.textContent = p;
+      b.onclick = ()=>{ currentPlatform=p; renderPlatformButtons(); renderList(cachedData); };
+      filterRow.appendChild(b);
+    });
+  }
+
+  renderPlatformButtons();
+
+  activeOnlyBtn.onclick = ()=>{
+    showActiveOnly = !showActiveOnly;
+    activeOnlyBtn.textContent = showActiveOnly ? "Sadece Aktifleri: Açık" : "Sadece Aktifleri Göster";
+    renderList(cachedData);
+  };
+  searchInput.addEventListener('input', ()=> renderList(cachedData));
+
+  function formatDate(ms){ return ms ? new Date(ms).toLocaleString() : '-'; }
+
+  function extractPassword(item){
+    if(!item) return null;
+    const keys = ['password','pw','sifre','pass','parola'];
+    for(const k of keys){ if(item[k]) return String(item[k]); }
+    return null;
+  }
+
+  function renderList(dataObj){
+    listEl.innerHTML = "";
+    const q = (searchInput.value || "").toLowerCase().trim();
+    const keys = Object.keys(dataObj||{}).sort((a,b)=>(dataObj[b].createdAt||0)-(dataObj[a].createdAt||0));
+    let shown=0;
+    keys.forEach(k=>{
+      const item = dataObj[k];
+      if(!item) return;
+      if(currentPlatform!=="Tümü" && item.platform!==currentPlatform) return;
+      if(showActiveOnly && item.status!=="aktif") return;
+      const emailVal = item.email || item.e_posta || item.mail || "";
+      if(q){
+        const text=((item.title||"")+" "+(item.note||"")+" "+emailVal+" "+(extractPassword(item)||"")).toLowerCase();
+        if(!text.includes(q)) return;
+      }
+
+      const card=document.createElement('div');
+      card.className='card';
+      card.innerHTML=`
+        <h3>${item.title||"(Başlıksız)"}</h3>
+        <div class="meta">${item.platform||'Platform yok'} • ${formatDate(item.createdAt)}</div>
+        ${item.note?`<div class="note">${item.note}</div>`:""}
+        <div class="cred"><div class="left"><span class="label">E-posta</span><strong>${emailVal||"Yok"}</strong></div></div>
+        <div class="cred"><div class="left"><span class="label">Şifre</span><strong>${extractPassword(item)||"Yok"}</strong></div></div>
+        <div class="status ${item.status==='aktif'?'s-aktif':'s-pasif'}">${item.status==='aktif'?'AKTİF':'PASİF'}</div>`;
+      listEl.appendChild(card);
+      shown++;
+    });
+    emptyEl.style.display=shown?'none':'block';
+  }
+
+  onValue(hesapRef,snap=>{cachedData=snap.val()||{};renderList(cachedData);});
+</script>
+</body>
+</html>
