@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Berkay Sports - Giriş</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+  body {
+    margin:0;
+    padding:0;
+    background:#000;
+    font-family:'Poppins',sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    color:#fff;
+  }
+
+  .login-container{
+    background:#111;
+    border:2px solid #00ff6a;
+    border-radius:15px;
+    padding:40px 40px;
+    width:360px;
+    text-align:center;
+    box-shadow:0 0 35px rgba(0,255,100,0.4);
+  }
+
+  h2{
+    color:#00ff6a;
+    text-shadow:0 0 10px #00ff6a;
+    margin-bottom:30px;
+  }
+
+  .input-group{
+    display:flex;
+    align-items:center;
+    background:#222;
+    border-radius:10px;
+    border:2px solid #00ff6a;
+    margin-bottom:20px;
+    padding-left:10px;
+    overflow:hidden;
+  }
+
+  .input-group img{
+    width:28px;
+    height:28px;
+    margin-right:10px;
+    opacity:0.8;
+  }
+
+  .input-group input{
+    flex:1;
+    border:none;
+    outline:none;
+    background:transparent;
+    color:#fff;
+    font-size:16px;
+    padding:12px 10px;
+  }
+
+  button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:linear-gradient(145deg,#00ff6a,#007a33);
+    color:#000;
+    font-weight:600;
+    cursor:pointer;
+    font-size:16px;
+    box-shadow:0 0 20px rgba(0,255,100,0.5);
+    transition:all 0.3s ease;
+    margin-bottom:15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+  }
+
+  button:hover{
+    transform:scale(1.05);
+    box-shadow:0 0 35px rgba(0,255,100,0.8);
+  }
+
+  .message{
+    margin-bottom:15px;
+    font-weight:600;
+    display:none;
+    text-align:center;
+  }
+
+  .whatsapp-btn, .buy-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    margin-top:10px;
+    padding:10px;
+    border-radius:8px;
+    text-decoration:none;
+    font-weight:600;
+    transition:all 0.3s ease;
+  }
+
+  .whatsapp-btn{
+    background:linear-gradient(145deg,#25D366,#128C7E);
+    color:#fff;
+  }
+  .whatsapp-btn:hover{
+    transform:scale(1.05);
+    box-shadow:0 0 20px rgba(37,211,102,0.6);
+  }
+
+  .buy-btn{
+    background:linear-gradient(145deg,#00ff6a,#007a33);
+    color:#000;
+    margin-top:10px;
+  }
+  .buy-btn:hover{
+    transform:scale(1.05);
+    box-shadow:0 0 20px rgba(0,255,100,0.6);
+  }
+
+  .material-icons {
+    font-size: 20px;
+  }
+
+  /* Popup stili */
+  #popup{
+    position:fixed;
+    top:0; left:0; right:0; bottom:0;
+    background: rgba(0,0,0,0.7);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+    display:none;
+  }
+
+  #popup .popup-content{
+    background:#111;
+    padding:25px 30px;
+    border-radius:12px;
+    text-align:center;
+    border:2px solid #00ff6a;
+    max-width: 300px;
+    color:#fff;
+  }
+
+  #popup .popup-content button{
+    margin-top:15px;
+    width:100%;
+    padding:10px;
+    border:none;
+    border-radius:8px;
+    background:#00ff6a;
+    color:#000;
+    font-weight:600;
+    cursor:pointer;
+  }
+
+  @media(max-width:400px){
+    .login-container{width:90%; padding:30px 20px;}
+    .input-group img{width:24px;height:24px;}
+    .material-icons{font-size:18px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="login-container">
+  <h2>🔒 Giriş Yap</h2>
+
+  <div class="message" id="message"></div>
+
+  <div class="input-group">
+    <img src="https://img.icons8.com/ios-glyphs/30/ffffff/user--v1.png"/>
+    <input type="text" id="username" placeholder="Kullanıcı Adı">
+  </div>
+
+  <div class="input-group">
+    <img src="https://img.icons8.com/ios-glyphs/30/ffffff/lock--v1.png"/>
+    <input type="password" id="password" placeholder="Şifre">
+  </div>
+
+  <button id="loginBtn">
+    <span class="material-icons">login</span> Giriş Yap
+  </button>
+
+  <a href="ödeme.html" class="buy-btn">
+    <span class="material-icons">credit_card</span> Satın Al
+  </a>
+
+  <a href="https://wa.me/447442525362" target="_blank" class="whatsapp-btn">
+    <span class="material-icons">chat</span> Admin ile iletişime geç
+  </a>
+</div>
+
+<!-- Popup -->
+<div id="popup">
+  <div class="popup-content">
+    <div id="popup-message"></div>
+    <button id="popup-close">Tamam</button>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+import { getDatabase, ref, get, update, onDisconnect } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBbw4RJ06sWl5EciDHtB3YaNOu0uK78-Mc",
+  authDomain: "berkaysports-ada49.firebaseapp.com",
+  databaseURL: "https://berkaysports-ada49-default-rtdb.firebaseio.com",
+  projectId: "berkaysports-ada49",
+  storageBucket: "berkaysports-ada49.firebasestorage.app",
+  messagingSenderId: "781158171391",
+  appId: "1:781158171391:web:3c13b6975a6739e4ad42ca",
+  measurementId: "G-DJZWF8ZLEP",
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+const loginBtn = document.getElementById("loginBtn");
+const messageEl = document.getElementById("message");
+const popup = document.getElementById("popup");
+const popupMessage = document.getElementById("popup-message");
+const popupClose = document.getElementById("popup-close");
+
+// Device ID oluştur
+function generateDeviceId() {
+  let id = localStorage.getItem("deviceId");
+  if(!id){
+    id = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      const r = Math.random()*16|0, v = c=='x'?r:(r&0x3|0x8);
+      return v.toString(16);
+    });
+    localStorage.setItem("deviceId", id);
+  }
+  return id;
+}
+
+const deviceId = generateDeviceId();
+
+// Popup göster
+function showPopup(msg, callback=null){
+  popupMessage.textContent = msg;
+  popup.style.display="flex";
+  popupClose.onclick = ()=>{
+    popup.style.display="none";
+    if(callback) callback();
+  };
+}
+
+loginBtn.addEventListener("click", async ()=>{
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
+
+  if(!username || !password){
+    showPopup("Lütfen tüm alanları doldurun!");
+    return;
+  }
+
+  const userRef = ref(db,"kullanicilar/"+username);
+  const snapshot = await get(userRef);
+
+  if(!snapshot.exists()){
+    showPopup("Hesabınız bulunamadı. Admin ile iletişime geçin.");
+    return;
+  }
+
+  const userData = snapshot.val();
+
+  if(userData.ban){
+    showPopup("Hesabınız banlanmış!", ()=>window.location.reload());
+    return;
+  }
+
+  if(userData.sifre !== password){
+    showPopup("Şifre yanlış!");
+    return;
+  }
+
+  if(userData.online && userData.currentDeviceId && userData.currentDeviceId !== deviceId){
+    showPopup("Bu hesap başka cihazda aktif!");
+    return;
+  }
+
+  // Giriş başarılı
+  localStorage.setItem("berkaySportsUser", JSON.stringify({username}));
+  messageEl.style.display="block";
+  messageEl.style.color="#00ff6a";
+  messageEl.innerHTML='✅ <span style="vertical-align:middle;">Giriş Başarılı, yönlendiriliyorsunuz...</span>';
+
+  update(userRef,{
+    online:true,
+    currentDeviceId: deviceId,
+    sonGiris: new Date().toISOString()
+  });
+
+  onDisconnect(userRef).update({online:false, currentDeviceId:null});
+
+  setTimeout(()=>window.location.href="index.html",1000);
+});
+</script>
+</body>
+</html>
