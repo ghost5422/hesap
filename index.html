@@ -203,7 +203,7 @@
       const snap = await get(userRef);
       if(!snap.exists() || snap.val().ban){
         localStorage.removeItem("berkaySportsUser");
-        window.location.href = "giris.html";
+        window.location.href = "login.html";
       } else if(snap.val().online){
         alert("Bu hesap başka bir cihazda aktif!");
         localStorage.removeItem("berkaySportsUser");
