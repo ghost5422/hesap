@@ -29,10 +29,23 @@
     box-shadow:0 0 35px rgba(0,255,100,0.4);
   }
 
+  .logo {
+  width: 300px;
+  margin-bottom: 40px;
+  margin-top: 100px; /* Yukarıdan boşluk eklemek için */
+}
+
+  h1 {
+    font-size:20px;
+    color:#00ff6a;
+    text-shadow:0 0 10px #00ff6a;
+    margin-bottom:25px;
+  }
+
   h2{
     color:#00ff6a;
     text-shadow:0 0 10px #00ff6a;
-    margin-bottom:30px;
+    margin-bottom:25px;
   }
 
   .input-group{
@@ -127,10 +140,10 @@
   }
 
   .material-icons {
-    font-size: 20px;
+    font-size: 22px;
   }
 
-  /* Popup stili */
+  /* Popup */
   #popup{
     position:fixed;
     top:0; left:0; right:0; bottom:0;
@@ -150,6 +163,13 @@
     border:2px solid #00ff6a;
     max-width: 300px;
     color:#fff;
+    box-shadow:0 0 25px rgba(0,255,100,0.5);
+  }
+
+  #popup .popup-content i{
+    font-size:40px;
+    color:#00ff6a;
+    margin-bottom:10px;
   }
 
   #popup .popup-content button{
@@ -174,7 +194,11 @@
 <body>
 
 <div class="login-container">
-  <h2>🔒 Giriş Yap</h2>
+  <!-- Logo ve Başlık -->
+  <img src="https://i.hizliresim.com/jfr3abq.png" class="logo" alt="logo">
+  <h1>Berkay Sports Premium</h1>
+
+  <h2><span class="material-icons">login</span> Giriş Yap</h2>
 
   <div class="message" id="message"></div>
 
@@ -204,6 +228,7 @@
 <!-- Popup -->
 <div id="popup">
   <div class="popup-content">
+    <i class="material-icons">check_circle</i>
     <div id="popup-message"></div>
     <button id="popup-close">Tamam</button>
   </div>
@@ -233,7 +258,7 @@ const popup = document.getElementById("popup");
 const popupMessage = document.getElementById("popup-message");
 const popupClose = document.getElementById("popup-close");
 
-// Device ID oluştur
+// Device ID
 function generateDeviceId() {
   let id = localStorage.getItem("deviceId");
   if(!id){
@@ -248,7 +273,6 @@ function generateDeviceId() {
 
 const deviceId = generateDeviceId();
 
-// Popup göster
 function showPopup(msg, callback=null){
   popupMessage.textContent = msg;
   popup.style.display="flex";
@@ -292,7 +316,6 @@ loginBtn.addEventListener("click", async ()=>{
     return;
   }
 
-  // Giriş başarılı
   localStorage.setItem("berkaySportsUser", JSON.stringify({username}));
   messageEl.style.display="block";
   messageEl.style.color="#00ff6a";
@@ -306,7 +329,7 @@ loginBtn.addEventListener("click", async ()=>{
 
   onDisconnect(userRef).update({online:false, currentDeviceId:null});
 
-  setTimeout(()=>window.location.href="index.html",1000);
+  showPopup("Giriş başarılı! 🎉", ()=>window.location.href="index.html");
 });
 </script>
 </body>
