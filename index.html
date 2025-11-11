@@ -64,7 +64,6 @@
     box-shadow:0 0 25px rgba(0,255,100,0.6);
   }
 
-  /* --- KANAL BUTONLARI --- */
   .kanal-row {
     display:flex;
     gap:10px;
@@ -91,7 +90,6 @@
     border:1px solid #00ff6a;
   }
 
-  /* --- YAYIN EKRANI --- */
   #player-container{
     position:relative;
     width:92%;
@@ -114,7 +112,6 @@
     border:none;
   }
 
-  /* --- HESAP BUTONU & AÇIKLAMA --- */
   .hesaplar-alani{
     margin-top:25px;
     text-align:center;
@@ -154,14 +151,15 @@
     padding-bottom:20px;
   }
 
-  #logoutPopup{
+  /* Çıkış & Premium Popup */
+  #logoutPopup, #premiumPopup {
     display:none;
     position:fixed;
     top:0;left:0;width:100%;height:100%;
     background:rgba(0,0,0,0.7);
     z-index:999;
   }
-  #logoutPopup .popup-content{
+  .popup-content{
     position:absolute;
     top:50%;left:50%;
     transform:translate(-50%,-50%);
@@ -172,8 +170,16 @@
     text-align:center;
     width:90%;
     max-width:400px;
+    box-shadow:0 0 30px rgba(0,255,100,0.4);
   }
-  #logoutPopup .popup-content p{margin-bottom:20px;}
+  .popup-content h3{
+    color:#00ff6a;
+    margin-bottom:10px;
+  }
+  .popup-content p{
+    color:#ccc;
+    margin-bottom:20px;
+  }
   .popup-buttons{display:flex;justify-content:center;gap:15px;}
   .popup-buttons button{
     padding:10px 20px;
@@ -185,8 +191,8 @@
   }
   #confirmLogout{background:#ff4040;color:#fff;}
   #confirmLogout:hover{box-shadow:0 0 20px rgba(255,64,64,0.6);}
-  #cancelLogout{background:#00ff6a;color:#000;}
-  #cancelLogout:hover{box-shadow:0 0 20px rgba(0,255,100,0.6);}
+  #cancelLogout,#closePremium{background:#00ff6a;color:#000;}
+  #cancelLogout:hover,#closePremium:hover{box-shadow:0 0 20px rgba(0,255,100,0.6);}
 </style>
 </head>
 <body>
@@ -199,25 +205,23 @@
   <button id="logoutBtn">Çıkış Yap</button>
 </div>
 
-<!-- KANAL SEÇİMİ -->
 <div class="kanal-row">
-  <button class="kanal-btn active" id="kanal1Btn">Bein Sport 1 </button>
-  <button class="kanal-btn" id="kanal2Btn">Tabi Spor/ Trt 1</button>
+  <button class="kanal-btn active" id="kanal1Btn">Bein Sport 1</button>
+  <button class="kanal-btn" id="kanal2Btn">Tabi Spor / TRT 1</button>
 </div>
 
-<div id="player-container">
-  <div id="player"></div>
-</div>
+<div id="player-container"><div id="player"></div></div>
 
 <div class="hesaplar-alani">
   <button id="hesapBtn"><i class="fa-solid fa-list"></i> Hesaplara Ulaş</button>
   <div class="aciklama">
     ⚠️ <b>Crack hesaplara buradan ulaşın.</b><br>
     Bu hesaplar paylaşım amaçlıdır, süreleri yoktur.<br>
-    <b>LÜTFEN! Kendi adınıza profil açmayın</b> ve <b>şifreleri değiştirmeyin!</b>
+    <b>LÜTFEN!</b> Şifreleri değiştirmeyin!
   </div>
 </div>
 
+<!-- Çıkış Popup -->
 <div id="logoutPopup">
   <div class="popup-content">
     <p>Çıkış yapmak istediğinizden emin misiniz?</p>
@@ -228,109 +232,157 @@
   </div>
 </div>
 
+<!-- Premium Popup -->
+<div id="premiumPopup">
+  <div class="popup-content">
+    <h3><i class="fa-solid fa-lock"></i> Premium Gerekli</h3>
+    <p>Bu alana erişmek için Premium üyelik gereklidir!</p>
+    <button id="closePremium">Tamam</button>
+  </div>
+</div>
+
 <footer>© 2025 Berkay Sports – Tüm Hakları Saklıdır.</footer>
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-  import { getDatabase, ref, onValue, get, update, onDisconnect } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+import { getDatabase, ref, onValue, get, update, onDisconnect } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyBbw4RJ06sWl5EciDHtB3YaNOu0uK78-Mc",
-    authDomain: "berkaysports-ada49.firebaseapp.com",
-    databaseURL: "https://berkaysports-ada49-default-rtdb.firebaseio.com",
-    projectId: "berkaysports-ada49",
-    storageBucket: "berkaysports-ada49.firebasestorage.app",
-    messagingSenderId: "781158171391",
-    appId: "1:781158171391:web:3c13b6975a6739e4ad42ca",
-    measurementId: "G-DJZWF8ZLEP",
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyBbw4RJ06sWl5EciDHtB3YaNOu0uK78-Mc",
+  authDomain: "berkaysports-ada49.firebaseapp.com",
+  databaseURL: "https://berkaysports-ada49-default-rtdb.firebaseio.com",
+  projectId: "berkaysports-ada49",
+  storageBucket: "berkaysports-ada49.firebasestorage.app",
+  messagingSenderId: "781158171391",
+  appId: "1:781158171391:web:3c13b6975a6739e4ad42ca",
+  measurementId: "G-DJZWF8ZLEP",
+};
 
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
-  const playerDiv = document.getElementById("player");
-  const kanal1Btn = document.getElementById("kanal1Btn");
-  const kanal2Btn = document.getElementById("kanal2Btn");
-
-  let currentChannel = 1;
-
-  const kanal1Ref = ref(db, "yayinLink1");
-  const kanal2Ref = ref(db, "yayinLink2");
-
-  let kanal1Link = "";
-  let kanal2Link = "";
-
-  onValue(kanal1Ref, snap => kanal1Link = snap.val() || "");
-  onValue(kanal2Ref, snap => kanal2Link = snap.val() || "");
-
-  function oynat(link) {
-    if(link) {
-      playerDiv.innerHTML = `<iframe src="${link}" allowfullscreen></iframe>`;
-    } else {
-      playerDiv.innerHTML = `<p style="text-align:center;color:#999;margin-top:40%;">Yayın linki bulunamadı.</p>`;
-    }
+// Device ID
+function generateDeviceId() {
+  let id = localStorage.getItem("deviceId");
+  if(!id){
+    id = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      const r = Math.random()*16|0, v = c=='x'?r:(r&0x3|0x8);
+      return v.toString(16);
+    });
+    localStorage.setItem("deviceId", id);
   }
+  return id;
+}
+const deviceId = generateDeviceId();
+const currentUserData = localStorage.getItem("berkaySportsUser");
 
-  // varsayılan Kanal 1
-  onValue(kanal1Ref, snap => oynat(snap.val()));
+if(!currentUserData){
+  window.location.href = "login.html";
+}
+const user = JSON.parse(currentUserData);
+const userRef = ref(db, "kullanicilar/" + user.username);
+const siteDurumuRef = ref(db, "siteDurumu");
 
-  kanal1Btn.addEventListener("click", () => {
-    currentChannel = 1;
-    oynat(kanal1Link);
-    kanal1Btn.classList.add("active");
-    kanal2Btn.classList.remove("active");
-  });
+// --- Tek cihaz ve premium kontrol ---
+async function kontrolEt() {
+  const snap = await get(userRef);
+  const data = snap.val();
 
-  kanal2Btn.addEventListener("click", () => {
-    currentChannel = 2;
-    oynat(kanal2Link);
-    kanal2Btn.classList.add("active");
-    kanal1Btn.classList.remove("active");
-  });
-
-  // diğer mevcut kodlar (çıkış, hesap, giriş kontrolü) aynı şekilde devam ediyor
-  const logoutBtn = document.getElementById("logoutBtn");
-  const hesapBtn = document.getElementById("hesapBtn");
-  const logoutPopup = document.getElementById("logoutPopup");
-  const confirmBtn = document.getElementById("confirmLogout");
-  const cancelBtn = document.getElementById("cancelLogout");
-
-  const currentUser = localStorage.getItem("berkaySportsUser");
-  if(!currentUser){
-    window.location.href = "login.html";
-  } else {
-    const userData = JSON.parse(currentUser);
-    const userRef = ref(db, "kullanicilar/" + userData.username);
-
-    const checkUser = async () => {
-      const snap = await get(userRef);
-      if(!snap.exists() || snap.val().ban){
-        localStorage.removeItem("berkaySportsUser");
-        window.location.href = "login.html";
-      } else if(snap.val().online){
-        alert("Bu hesap başka bir cihazda aktif!");
-        localStorage.removeItem("berkaySportsUser");
-        window.location.href = "login.html";
-      } else {
-        update(userRef, { online:true, sonGiris: new Date().toISOString() });
-        onDisconnect(userRef).update({ online:false });
-      }
-    };
-    checkUser();
-  }
-
-  hesapBtn.addEventListener("click",()=> window.location.href="hesap.html");
-  logoutBtn.addEventListener("click",()=> logoutPopup.style.display="block");
-  cancelBtn.addEventListener("click",()=> logoutPopup.style.display="none");
-  confirmBtn.addEventListener("click",()=>{
-    const currentUserData = JSON.parse(localStorage.getItem("berkaySportsUser"));
-    if(currentUserData){
-      const userRef = ref(db,"kullanicilar/"+currentUserData.username);
-      update(userRef, { online:false });
-    }
+  if(!data){
     localStorage.removeItem("berkaySportsUser");
-    window.location.href="login.html";
-  });
+    window.location.href = "login.html";
+    return;
+  }
+
+  if(data.ban){
+    alert("Hesabınız banlanmış!");
+    localStorage.removeItem("berkaySportsUser");
+    window.location.href = "login.html";
+    return;
+  }
+
+  if(data.online && data.currentDeviceId && data.currentDeviceId !== deviceId){
+    alert("Bu hesap başka bir cihazda aktif!");
+    localStorage.removeItem("berkaySportsUser");
+    window.location.href = "login.html";
+    return;
+  }
+
+  update(userRef, { online:true, currentDeviceId: deviceId, sonGiris:new Date().toISOString() });
+  onDisconnect(userRef).update({ online:false, currentDeviceId:null });
+}
+
+// --- Yayın Linkleri ---
+const playerDiv = document.getElementById("player");
+const kanal1Btn = document.getElementById("kanal1Btn");
+const kanal2Btn = document.getElementById("kanal2Btn");
+let kanal1Link="", kanal2Link="";
+
+onValue(ref(db,"yayinLink1"), snap => {
+  kanal1Link = snap.val() || "";
+  if(currentChannel===1) oynat(kanal1Link);
+});
+onValue(ref(db,"yayinLink2"), snap => {
+  kanal2Link = snap.val() || "";
+  if(currentChannel===2) oynat(kanal2Link);
+});
+
+let currentChannel = 1;
+function oynat(link){
+  if(link){
+    playerDiv.innerHTML=`<iframe src="${link}" allowfullscreen></iframe>`;
+  } else {
+    playerDiv.innerHTML=`<p style="text-align:center;color:#999;margin-top:40%;">Yayın linki bulunamadı.</p>`;
+  }
+}
+
+kanal1Btn.addEventListener("click", ()=>{
+  currentChannel=1;
+  oynat(kanal1Link);
+  kanal1Btn.classList.add("active");
+  kanal2Btn.classList.remove("active");
+});
+kanal2Btn.addEventListener("click", ()=>{
+  currentChannel=2;
+  oynat(kanal2Link);
+  kanal2Btn.classList.add("active");
+  kanal1Btn.classList.remove("active");
+});
+
+// --- Hesap ve Premium ---
+const hesapBtn = document.getElementById("hesapBtn");
+const premiumPopup = document.getElementById("premiumPopup");
+
+onValue(siteDurumuRef, snap=>{
+  const durum = snap.val() || "premium";
+
+  if(durum==="premium"){
+    kontrolEt();
+  }
+
+  hesapBtn.onclick = ()=>{
+    if(durum==="ucretsiz"){
+      premiumPopup.style.display="block";
+    } else {
+      window.location.href="hesap.html";
+    }
+  };
+});
+
+// --- Çıkış ---
+const logoutBtn = document.getElementById("logoutBtn");
+const logoutPopup = document.getElementById("logoutPopup");
+const confirmBtn = document.getElementById("confirmLogout");
+const cancelBtn = document.getElementById("cancelLogout");
+logoutBtn.onclick = ()=> logoutPopup.style.display="block";
+cancelBtn.onclick = ()=> logoutPopup.style.display="none";
+confirmBtn.onclick = ()=>{
+  update(userRef, { online:false, currentDeviceId:null });
+  localStorage.removeItem("berkaySportsUser");
+  window.location.href="login.html";
+};
+
+document.getElementById("closePremium").onclick = ()=> premiumPopup.style.display="none";
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
