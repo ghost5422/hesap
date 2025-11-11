@@ -23,7 +23,8 @@
     max-width:700px;
     margin:40px auto 20px;
     display:block;
-    filter:drop-shadow(0 0 10px rgba(0,255,100,0.4));
+    background:none;
+    filter:none;
   }
 
   .button-row{
@@ -63,6 +64,33 @@
     box-shadow:0 0 25px rgba(0,255,100,0.6);
   }
 
+  /* --- KANAL BUTONLARI --- */
+  .kanal-row {
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    margin-bottom:15px;
+  }
+
+  .kanal-btn {
+    background:#00ff6a;
+    color:#000;
+    padding:10px 22px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:600;
+    transition:0.3s;
+  }
+  .kanal-btn:hover {
+    background:#00cc55;
+  }
+  .kanal-btn.active {
+    background:#111;
+    color:#00ff6a;
+    border:1px solid #00ff6a;
+  }
+
   /* --- YAYIN EKRANI --- */
   #player-container{
     position:relative;
@@ -72,16 +100,8 @@
     background:#111;
     border-radius:20px;
     overflow:hidden;
-    box-shadow:0 0 45px rgba(0,255,100,0.35);
     border:2px solid rgba(0,255,100,0.2);
-  }
-
-  #player-container::before{
-    content:"";
-    position:absolute;
-    top:0; left:0; right:0; bottom:0;
-    background:radial-gradient(circle at center,rgba(0,255,100,0.05),transparent 70%);
-    pointer-events:none;
+    box-shadow:none;
   }
 
   #player{
@@ -94,6 +114,38 @@
     border:none;
   }
 
+  /* --- HESAP BUTONU & AÇIKLAMA --- */
+  .hesaplar-alani{
+    margin-top:25px;
+    text-align:center;
+  }
+
+  .hesaplar-alani button{
+    font-size:18px;
+    padding:15px 30px;
+    border-radius:12px;
+  }
+
+  .aciklama{
+    margin-top:15px;
+    font-size:14px;
+    color:#00ff88;
+    max-width:600px;
+    text-align:center;
+    line-height:1.6;
+    background:rgba(0,255,100,0.05);
+    border:1px solid rgba(0,255,100,0.3);
+    border-radius:10px;
+    padding:12px 16px;
+    box-shadow:0 0 15px rgba(0,255,100,0.3);
+    animation:glow 2.2s infinite alternate;
+  }
+
+  @keyframes glow {
+    from { box-shadow:0 0 10px rgba(0,255,100,0.2); }
+    to { box-shadow:0 0 25px rgba(0,255,100,0.5); }
+  }
+
   footer{
     margin-top:35px;
     font-size:13px;
@@ -102,7 +154,6 @@
     padding-bottom:20px;
   }
 
-  /* --- ÇIKIŞ POPUP --- */
   #logoutPopup{
     display:none;
     position:fixed;
@@ -141,19 +192,32 @@
 <body>
 
 <header>
-  <img src="https://i.hizliresim.com/lx3xs3h.jpeg" alt="Berkay Sports Logo">
+  <img src="https://i.hizliresim.com/jfr3abq.png" alt="Berkay Sports Logo">
 </header>
 
 <div class="button-row">
-  <button id="hesapBtn"><i class="fa-solid fa-list"></i> Hesaplara Ulaş</button>
   <button id="logoutBtn">Çıkış Yap</button>
+</div>
+
+<!-- KANAL SEÇİMİ -->
+<div class="kanal-row">
+  <button class="kanal-btn active" id="kanal1Btn">Bein Sport 1 </button>
+  <button class="kanal-btn" id="kanal2Btn">Tabi Spor/ Trt 1</button>
 </div>
 
 <div id="player-container">
   <div id="player"></div>
 </div>
 
-<!-- Çıkış Pop-up -->
+<div class="hesaplar-alani">
+  <button id="hesapBtn"><i class="fa-solid fa-list"></i> Hesaplara Ulaş</button>
+  <div class="aciklama">
+    ⚠️ <b>Crack hesaplara buradan ulaşın.</b><br>
+    Bu hesaplar paylaşım amaçlıdır, süreleri yoktur.<br>
+    <b>LÜTFEN! Kendi adınıza profil açmayın</b> ve <b>şifreleri değiştirmeyin!</b>
+  </div>
+</div>
+
 <div id="logoutPopup">
   <div class="popup-content">
     <p>Çıkış yapmak istediğinizden emin misiniz?</p>
@@ -185,13 +249,52 @@
   const db = getDatabase(app);
 
   const playerDiv = document.getElementById("player");
+  const kanal1Btn = document.getElementById("kanal1Btn");
+  const kanal2Btn = document.getElementById("kanal2Btn");
+
+  let currentChannel = 1;
+
+  const kanal1Ref = ref(db, "yayinLink1");
+  const kanal2Ref = ref(db, "yayinLink2");
+
+  let kanal1Link = "";
+  let kanal2Link = "";
+
+  onValue(kanal1Ref, snap => kanal1Link = snap.val() || "");
+  onValue(kanal2Ref, snap => kanal2Link = snap.val() || "");
+
+  function oynat(link) {
+    if(link) {
+      playerDiv.innerHTML = `<iframe src="${link}" allowfullscreen></iframe>`;
+    } else {
+      playerDiv.innerHTML = `<p style="text-align:center;color:#999;margin-top:40%;">Yayın linki bulunamadı.</p>`;
+    }
+  }
+
+  // varsayılan Kanal 1
+  onValue(kanal1Ref, snap => oynat(snap.val()));
+
+  kanal1Btn.addEventListener("click", () => {
+    currentChannel = 1;
+    oynat(kanal1Link);
+    kanal1Btn.classList.add("active");
+    kanal2Btn.classList.remove("active");
+  });
+
+  kanal2Btn.addEventListener("click", () => {
+    currentChannel = 2;
+    oynat(kanal2Link);
+    kanal2Btn.classList.add("active");
+    kanal1Btn.classList.remove("active");
+  });
+
+  // diğer mevcut kodlar (çıkış, hesap, giriş kontrolü) aynı şekilde devam ediyor
   const logoutBtn = document.getElementById("logoutBtn");
   const hesapBtn = document.getElementById("hesapBtn");
   const logoutPopup = document.getElementById("logoutPopup");
   const confirmBtn = document.getElementById("confirmLogout");
   const cancelBtn = document.getElementById("cancelLogout");
 
-  // 🔐 Giriş kontrolü
   const currentUser = localStorage.getItem("berkaySportsUser");
   if(!currentUser){
     window.location.href = "login.html";
@@ -216,18 +319,6 @@
     checkUser();
   }
 
-  // 🎥 Firebase'den canlı yayın linki çek
-  const linkRef = ref(db,"yayinLink");
-  onValue(linkRef,(snap)=>{
-    const link = snap.val();
-    if(link){
-      playerDiv.innerHTML = `<iframe src="${link}" allowfullscreen></iframe>`;
-    } else {
-      playerDiv.innerHTML = `<p style="text-align:center;color:#999;margin-top:40%;">Yayın linki bulunamadı.</p>`;
-    }
-  });
-
-  // 🔘 Butonlar
   hesapBtn.addEventListener("click",()=> window.location.href="hesap.html");
   logoutBtn.addEventListener("click",()=> logoutPopup.style.display="block");
   cancelBtn.addEventListener("click",()=> logoutPopup.style.display="none");
@@ -242,7 +333,6 @@
   });
 </script>
 
-<!-- Font Awesome icon pack -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
 </body>
 </html>
