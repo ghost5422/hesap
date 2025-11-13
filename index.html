@@ -26,16 +26,17 @@
   .aciklama{margin-top:15px; font-size:14px; color:#00ff88; max-width:600px; text-align:center; line-height:1.6; background:rgba(0,255,100,0.05); border:1px solid rgba(0,255,100,0.3); border-radius:10px; padding:12px 16px; box-shadow:0 0 15px rgba(0,255,100,0.3); animation:glow 2.2s infinite alternate;}
   @keyframes glow {from {box-shadow:0 0 10px rgba(0,255,100,0.2);} to {box-shadow:0 0 25px rgba(0,255,100,0.5);}}
   footer{margin-top:35px; font-size:13px; color:#777; text-align:center; padding-bottom:20px;}
-  #logoutPopup, #premiumPopup{display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:999;}
+  #logoutPopup, #premiumPopup, #devicePopup{display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:9999;}
   .popup-content{position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:#111; border:2px solid #00ff6a; border-radius:12px; padding:30px 25px; text-align:center; width:90%; max-width:400px; box-shadow:0 0 30px rgba(0,255,100,0.4);}
-  .popup-content h3{color:#00ff6a; margin-bottom:10px;}
+  #devicePopup .popup-content{border-color:#ff4040; box-shadow:0 0 25px rgba(255,64,64,0.5);}
+  #devicePopup h3{color:#ff4040;}
   .popup-content p{color:#ccc; margin-bottom:20px;}
   .popup-buttons{display:flex; justify-content:center; gap:15px;}
   .popup-buttons button{padding:10px 20px; font-weight:600; border:none; border-radius:8px; cursor:pointer; transition:0.3s;}
   #confirmLogout{background:#ff4040;color:#fff;}
   #confirmLogout:hover{box-shadow:0 0 20px rgba(255,64,64,0.6);}
-  #cancelLogout,#closePremium{background:#00ff6a;color:#000;}
-  #cancelLogout:hover,#closePremium:hover{box-shadow:0 0 20px rgba(0,255,100,0.6);}
+  #cancelLogout,#closePremium,#closeDevicePopup{background:#00ff6a;color:#000;}
+  #cancelLogout:hover,#closePremium:hover,#closeDevicePopup:hover{box-shadow:0 0 20px rgba(0,255,100,0.6);}
 </style>
 </head>
 <body>
@@ -64,6 +65,7 @@
   </div>
 </div>
 
+<!-- Popuplar -->
 <div id="logoutPopup">
   <div class="popup-content">
     <p>Çıkış yapmak istediğinizden emin misiniz?</p>
@@ -82,13 +84,20 @@
   </div>
 </div>
 
+<div id="devicePopup">
+  <div class="popup-content">
+    <h3><i class="fa-solid fa-triangle-exclamation"></i> Oturum Kapatıldı!</h3>
+    <p>Bu hesap başka bir cihazda aktif hale geldi.<br>Oturumunuz sonlandırıldı.</p>
+    <button id="closeDevicePopup">Tamam</button>
+  </div>
+</div>
+
 <footer>© 2025 Berkay Sports – Tüm Hakları Saklıdır.</footer>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 import { getDatabase, ref, onValue, get, update, onDisconnect } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
 
-// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyBbw4RJ06sWl5EciDHtB3YaNOu0uK78-Mc",
   authDomain: "berkaysports-ada49.firebaseapp.com",
@@ -110,125 +119,113 @@ if(!deviceId){
   localStorage.setItem("deviceId", deviceId);
 }
 
-// Kullanıcı kontrol (premium için)
+// Kullanıcı
 const currentUserData = localStorage.getItem("berkaySportsUser");
 const user = currentUserData ? JSON.parse(currentUserData) : null;
 const userRef = user ? ref(db,"kullanicilar/"+user.username) : null;
-
-// Site durumu referansı
 const siteDurumuRef = ref(db,"siteDurumu");
 
-// Tek cihaz ve ban kontrolü (premium mod)
-async function kontrolEt(){
+// 🔒 Tek cihaz koruması + popup
+async function kontrolEtGercekZamanli(){
   if(!userRef) return;
   const snap = await get(userRef);
   const data = snap.val();
+
   if(!data){
     localStorage.removeItem("berkaySportsUser");
     window.location.href="login.html";
     return;
   }
+
   if(data.ban){
     alert("Hesabınız banlanmış!");
     localStorage.removeItem("berkaySportsUser");
     window.location.href="login.html";
     return;
   }
-  if(data.online && data.currentDeviceId && data.currentDeviceId!==deviceId){
-    alert("Bu hesap başka bir cihazda aktif!");
-    localStorage.removeItem("berkaySportsUser");
-    window.location.href="login.html";
-    return;
-  }
-  update(userRef, {online:true, currentDeviceId:deviceId, sonGiris:new Date().toISOString()});
-  onDisconnect(userRef).update({online:false, currentDeviceId:null});
+
+  await update(userRef, {online:true, currentDeviceId:deviceId, sonGiris:new Date().toISOString()});
+  onDisconnect(userRef).update({online:false,currentDeviceId:null});
+
+  onValue(userRef, (s)=>{
+    const u = s.val();
+    if(u && u.currentDeviceId && u.currentDeviceId!==deviceId){
+      // Popup göster
+      const popup=document.getElementById("devicePopup");
+      popup.style.display="flex";
+      document.getElementById("closeDevicePopup").onclick=()=>{
+        popup.style.display="none";
+        localStorage.removeItem("berkaySportsUser");
+        window.location.href="login.html";
+      };
+    }
+  });
 }
 
-// Yayın linkleri
+// 🔴 Yayın linkleri
 let kanal1Link="", kanal2Link="", currentChannel=1;
-const playerDiv = document.getElementById("player");
-const kanal1Btn = document.getElementById("kanal1Btn");
-const kanal2Btn = document.getElementById("kanal2Btn");
+const playerDiv=document.getElementById("player");
+const kanal1Btn=document.getElementById("kanal1Btn");
+const kanal2Btn=document.getElementById("kanal2Btn");
 
 onValue(ref(db,"yayinLink1"), snap=>{
-  kanal1Link = snap.val() || "";
+  kanal1Link=snap.val()||"";
   if(currentChannel===1) oynat(kanal1Link);
 });
 onValue(ref(db,"yayinLink2"), snap=>{
-  kanal2Link = snap.val() || "";
+  kanal2Link=snap.val()||"";
   if(currentChannel===2) oynat(kanal2Link);
 });
 
 function oynat(link){
   if(link){
-    playerDiv.innerHTML=`<iframe src="${link}" allowfullscreen allow="autoplay; encrypted-media" frameborder="0"></iframe>`;
-  } else {
+    playerDiv.innerHTML=`<iframe src="${link}" allowfullscreen allow="autoplay; encrypted-media"></iframe>`;
+  }else{
     playerDiv.innerHTML=`<p style="text-align:center;color:#999;margin-top:40%;">Yayın linki bulunamadı.</p>`;
   }
 }
 
-function baslatYayin(){
-  if(currentChannel===1) oynat(kanal1Link);
-  else oynat(kanal2Link);
-}
+// 🔁 Kanal geçişleri
+kanal1Btn.onclick=()=>{currentChannel=1;oynat(kanal1Link);kanal1Btn.classList.add("active");kanal2Btn.classList.remove("active");};
+kanal2Btn.onclick=()=>{currentChannel=2;oynat(kanal2Link);kanal2Btn.classList.add("active");kanal1Btn.classList.remove("active");};
 
-// Kanal butonları
-kanal1Btn.addEventListener("click", ()=>{
-  currentChannel=1; oynat(kanal1Link);
-  kanal1Btn.classList.add("active"); kanal2Btn.classList.remove("active");
-});
-kanal2Btn.addEventListener("click", ()=>{
-  currentChannel=2; oynat(kanal2Link);
-  kanal2Btn.classList.add("active"); kanal1Btn.classList.remove("active");
-});
+// 🔐 Site durumu (Free / Premium)
+const hesapBtn=document.getElementById("hesapBtn");
+const premiumPopup=document.getElementById("premiumPopup");
 
-// Premium ve hesap butonu
-const hesapBtn = document.getElementById("hesapBtn");
-const premiumPopup = document.getElementById("premiumPopup");
+onValue(siteDurumuRef, async (snap)=>{
+  const durum=snap.val()||"premium";
 
-// Site durumu kontrolü
-onValue(siteDurumuRef, async snap=>{
-  const durum = snap.val() || "premium"; // "premium" veya "ucretsiz"
-
-  if(durum === "ucretsiz"){
-    // Free mod: herkes index görebilir, kullanıcı kontrolü yok
-    baslatYayin();
-  } else {
-    // Premium mod: login zorunlu
-    if(!currentUserData){
-      window.location.href="login.html";
-      return;
-    }
-    await kontrolEt();
-    baslatYayin();
+  if(durum==="ucretsiz"){
+    // Free mod
+    oynat(currentChannel===1?kanal1Link:kanal2Link);
+  }else{
+    // Premium mod
+    if(!currentUserData){window.location.href="login.html";return;}
+    await kontrolEtGercekZamanli();
+    oynat(currentChannel===1?kanal1Link:kanal2Link);
   }
 
-  // Hesap butonu kontrolü
-  hesapBtn.onclick = ()=>{
+  hesapBtn.onclick=()=>{
     if(durum==="premium"){
-      // Premium modda hesaplara erişim
       window.location.href="hesap.html";
-    } else {
-      // Free modda popup göster
+    }else{
       premiumPopup.style.display="flex";
     }
-  }
+  };
 });
 
-// Çıkış işlemleri
-const logoutBtn = document.getElementById("logoutBtn");
-const logoutPopup = document.getElementById("logoutPopup");
-const confirmBtn = document.getElementById("confirmLogout");
-const cancelBtn = document.getElementById("cancelLogout");
-
-logoutBtn.onclick = ()=> logoutPopup.style.display="flex";
-cancelBtn.onclick = ()=> logoutPopup.style.display="none";
-confirmBtn.onclick = ()=>{
+// 🔚 Çıkış işlemleri
+const logoutBtn=document.getElementById("logoutBtn");
+const logoutPopup=document.getElementById("logoutPopup");
+document.getElementById("cancelLogout").onclick=()=>logoutPopup.style.display="none";
+logoutBtn.onclick=()=>logoutPopup.style.display="flex";
+document.getElementById("confirmLogout").onclick=()=>{
   if(userRef) update(userRef,{online:false,currentDeviceId:null});
   localStorage.removeItem("berkaySportsUser");
   window.location.href="login.html";
 };
-document.getElementById("closePremium").onclick = ()=> premiumPopup.style.display="none";
+document.getElementById("closePremium").onclick=()=>premiumPopup.style.display="none";
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
