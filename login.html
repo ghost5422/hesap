@@ -27,7 +27,7 @@
     text-align:center;
     box-shadow:0 0 35px rgba(0,255,100,0.4);
   }
-  .logo {width:300px;margin-bottom:40px;margin-top:100px;}
+  .logo {width:300px;margin-bottom:40px;margin-top:20px;}
   h1,h2{color:#00ff6a;text-shadow:0 0 10px #00ff6a;}
   h1{font-size:20px;margin-bottom:25px;}
   h2{margin-bottom:25px;}
@@ -47,15 +47,68 @@
   }
   button:hover{transform:scale(1.05);box-shadow:0 0 35px rgba(0,255,100,0.8);}
   .message{margin-bottom:15px;font-weight:600;display:none;text-align:center;}
-  .whatsapp-btn,.buy-btn{
-    display:flex;align-items:center;justify-content:center;gap:8px;
-    margin-top:10px;padding:10px;border-radius:8px;text-decoration:none;font-weight:600;transition:all .3s ease;
+
+  .social-btns{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    margin-top:10px;
   }
-  .whatsapp-btn{background:linear-gradient(145deg,#25D366,#128C7E);color:#fff;}
-  .whatsapp-btn:hover{transform:scale(1.05);box-shadow:0 0 20px rgba(37,211,102,0.6);}
-  .buy-btn{background:linear-gradient(145deg,#00ff6a,#007a33);color:#000;margin-top:10px;}
-  .buy-btn:hover{transform:scale(1.05);box-shadow:0 0 20px rgba(0,255,100,0.6);}
-  .material-icons{font-size:22px;}
+  .social-btns a{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:10px;
+    border-radius:8px;
+    text-decoration:none;
+    font-weight:600;
+    transition:all .3s ease;
+  }
+  .social-btns a img{
+    width:20px;
+    height:20px;
+  }
+  .whatsapp-btn{
+    background:linear-gradient(145deg,#25D366,#128C7E);
+    color:#fff;
+  }
+  .whatsapp-btn:hover{
+    transform:scale(1.05);
+    box-shadow:0 0 20px rgba(37,211,102,0.6);
+  }
+  .instagram-btn{
+    background:linear-gradient(145deg,#C13584,#E1306C);
+    color:#fff;
+  }
+  .instagram-btn:hover{
+    transform:scale(1.05);
+    box-shadow:0 0 20px rgba(193,53,132,0.6);
+  }
+
+  .buy-btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  margin-top:10px;
+  padding:10px;
+  border-radius:8px;
+  text-decoration:none;
+  font-weight:600;
+  background:linear-gradient(145deg,#00ff6a,#007a33);
+  color:#000;
+  transition:all .3s ease;
+}
+.buy-btn img{
+  width:20px;
+  height:20px;
+}
+.buy-btn:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 20px rgba(0,255,100,0.6);
+}
+
   #popup{
     position:fixed;top:0;left:0;right:0;bottom:0;
     background:rgba(0,0,0,0.7);
@@ -66,12 +119,16 @@
     border:2px solid #00ff6a;max-width:300px;color:#fff;
     box-shadow:0 0 25px rgba(0,255,100,0.5);
   }
-  #popup .popup-content i{font-size:40px;color:#00ff6a;margin-bottom:10px;}
+  #popup .popup-content img{width:50px;height:50px;margin-bottom:10px;}
   #popup .popup-content button{
     margin-top:15px;width:100%;padding:10px;border:none;border-radius:8px;
     background:#00ff6a;color:#000;font-weight:600;cursor:pointer;
   }
-  @media(max-width:400px){.login-container{width:90%;padding:30px 20px;}.input-group img{width:24px;height:24px;}.material-icons{font-size:18px;}}
+
+  @media(max-width:400px){
+    .login-container{width:90%;padding:30px 20px;}
+    .input-group img{width:24px;height:24px;}
+  }
 </style>
 </head>
 <body>
@@ -79,7 +136,7 @@
 <div class="login-container">
   <img src="https://i.hizliresim.com/jfr3abq.png" class="logo" alt="logo">
   <h1>Berkay Sports Premium</h1>
-  <h2><span class="material-icons">login</span> Giriş Yap</h2>
+  <h2>Giriş Yap</h2>
 
   <div class="message" id="message"></div>
 
@@ -94,16 +151,26 @@
   </div>
 
   <button id="loginBtn">
-    <span class="material-icons">login</span> Giriş Yap
+    Giriş Yap
   </button>
 
-  <a href="ödeme.html" class="buy-btn"><span class="material-icons">credit_card</span> Satın Al</a>
-  <a href="https://wa.me/447442525362" target="_blank" class="whatsapp-btn"><span class="material-icons">chat</span> Admin ile iletişime geç</a>
+  <a href="ödeme.html" class="buy-btn">
+  <span class="material-icons">credit_card</span> Satın Al
+</a>
+
+  <div class="social-btns">
+    <a href="https://wa.me/447442525362" target="_blank" class="whatsapp-btn">
+      <img src="https://img.icons8.com/ios-filled/24/ffffff/whatsapp.png"/> WhatsApp
+    </a>
+    <a href="https://instagram.com/trakyali__pitbul" target="_blank" class="instagram-btn">
+      <img src="https://img.icons8.com/ios-filled/24/ffffff/instagram-new.png"/> Instagram
+    </a>
+  </div>
 </div>
 
 <div id="popup">
   <div class="popup-content">
-    <i class="material-icons">check_circle</i>
+    <img src="https://img.icons8.com/ios-filled/50/00ff6a/ok--v1.png" alt="ikon">
     <div id="popup-message"></div>
     <button id="popup-close">Tamam</button>
   </div>
@@ -133,21 +200,16 @@ const popupMessage = document.getElementById("popup-message");
 const popupClose = document.getElementById("popup-close");
 const messageEl = document.getElementById("message");
 
-// 🔐 Benzersiz cihaz ID'si
 function generateDeviceId() {
   let id = localStorage.getItem("deviceId");
   if (!id) {
-    id = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-      const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
-      return v.toString(16);
-    });
+    id = crypto.randomUUID();
     localStorage.setItem("deviceId", id);
   }
   return id;
 }
 const deviceId = generateDeviceId();
 
-// 📢 Popup fonksiyonu
 function showPopup(msg, callback = null) {
   popupMessage.textContent = msg;
   popup.style.display = "flex";
@@ -157,7 +219,6 @@ function showPopup(msg, callback = null) {
   };
 }
 
-// 🚀 Giriş işlemi
 loginBtn.addEventListener("click", async () => {
   const username = document.getElementById("username").value.trim();
   const password = document.getElementById("password").value.trim();
@@ -187,13 +248,11 @@ loginBtn.addEventListener("click", async () => {
     return;
   }
 
-  // ⚠️ Başka cihazda aktif kontrolü
   if (user.online && user.aktifCihaz && user.aktifCihaz !== deviceId) {
     showPopup("🚫 Bu hesap şu anda başka bir cihazda aktif!");
     return;
   }
 
-  // ✅ Giriş başarılı
   await update(userRef, {
     online: true,
     aktifCihaz: deviceId,
