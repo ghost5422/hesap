@@ -112,7 +112,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// Device ID
+// Cihaz kimliği
 let deviceId = localStorage.getItem("deviceId");
 if(!deviceId){
   deviceId = crypto.randomUUID();
@@ -122,41 +122,59 @@ if(!deviceId){
 // Kullanıcı
 const currentUserData = localStorage.getItem("berkaySportsUser");
 const user = currentUserData ? JSON.parse(currentUserData) : null;
-const userRef = user ? ref(db,"kullanicilar/"+user.username) : null;
-const siteDurumuRef = ref(db,"siteDurumu");
+const userRef = user ? ref(db, "kullanicilar/" + user.username) : null;
+const siteDurumuRef = ref(db, "siteDurumu");
 
-// 🔒 Tek cihaz koruması + popup
+// 🔒 Tek cihaz + çift taraflı koruma
 async function kontrolEtGercekZamanli(){
   if(!userRef) return;
+
   const snap = await get(userRef);
   const data = snap.val();
 
   if(!data){
     localStorage.removeItem("berkaySportsUser");
-    window.location.href="login.html";
+    window.location.href = "login.html";
     return;
   }
 
   if(data.ban){
     alert("Hesabınız banlanmış!");
     localStorage.removeItem("berkaySportsUser");
-    window.location.href="login.html";
+    window.location.href = "login.html";
     return;
   }
 
-  await update(userRef, {online:true, currentDeviceId:deviceId, sonGiris:new Date().toISOString()});
-  onDisconnect(userRef).update({online:false,currentDeviceId:null});
+  // Eğer başka bir cihaz aktifse, iki taraf da atılsın
+  if(data.online && data.currentDeviceId && data.currentDeviceId !== deviceId){
+    await update(userRef, { forceLogout: true });
+    return;
+  }
 
+  // Giriş yapan cihazı kaydet
+  await update(userRef, {
+    online: true,
+    currentDeviceId: deviceId,
+    sonGiris: new Date().toISOString(),
+    forceLogout: false
+  });
+
+  onDisconnect(userRef).update({ online: false, currentDeviceId: null });
+
+  // Gerçek zamanlı izleme (logout tetikleme)
   onValue(userRef, (s)=>{
     const u = s.val();
-    if(u && u.currentDeviceId && u.currentDeviceId!==deviceId){
-      // Popup göster
-      const popup=document.getElementById("devicePopup");
-      popup.style.display="flex";
-      document.getElementById("closeDevicePopup").onclick=()=>{
-        popup.style.display="none";
+    if(!u) return;
+
+    // Eğer başka cihazdan giriş yapılırsa
+    if(u.forceLogout === true || (u.currentDeviceId && u.currentDeviceId !== deviceId)){
+      const popup = document.getElementById("devicePopup");
+      popup.style.display = "flex";
+      document.getElementById("closeDevicePopup").onclick = async ()=>{
+        popup.style.display = "none";
+        await update(userRef, { online: false, currentDeviceId: null, forceLogout: false });
         localStorage.removeItem("berkaySportsUser");
-        window.location.href="login.html";
+        window.location.href = "login.html";
       };
     }
   });
@@ -197,10 +215,8 @@ onValue(siteDurumuRef, async (snap)=>{
   const durum=snap.val()||"premium";
 
   if(durum==="ucretsiz"){
-    // Free mod
     oynat(currentChannel===1?kanal1Link:kanal2Link);
   }else{
-    // Premium mod
     if(!currentUserData){window.location.href="login.html";return;}
     await kontrolEtGercekZamanli();
     oynat(currentChannel===1?kanal1Link:kanal2Link);
@@ -220,8 +236,8 @@ const logoutBtn=document.getElementById("logoutBtn");
 const logoutPopup=document.getElementById("logoutPopup");
 document.getElementById("cancelLogout").onclick=()=>logoutPopup.style.display="none";
 logoutBtn.onclick=()=>logoutPopup.style.display="flex";
-document.getElementById("confirmLogout").onclick=()=>{
-  if(userRef) update(userRef,{online:false,currentDeviceId:null});
+document.getElementById("confirmLogout").onclick=async ()=>{
+  if(userRef) await update(userRef,{online:false,currentDeviceId:null,forceLogout:false});
   localStorage.removeItem("berkaySportsUser");
   window.location.href="login.html";
 };
