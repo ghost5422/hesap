@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Berkay Sports – Bakımda</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Poppins',sans-serif;
+  background:radial-gradient(circle at top,#0a0a1a 0%,#000 70%);
+  color:#fff;
+}
+
+.container{
+  text-align:center;
+  padding:40px 30px;
+  background:rgba(10,10,30,0.6);
+  border-radius:20px;
+  border:2px solid rgba(255,215,0,0.4);
+  box-shadow:0 0 40px rgba(255,215,0,0.25);
+  max-width:420px;
+  width:90%;
+}
+
+/* LOGO */
+.logo{
+  width:80%;
+  max-width:280px;
+  margin-bottom:25px;
+}
+
+/* DÖNEN HALKA */
+.loader{
+  width:90px;
+  height:90px;
+  margin:25px auto;
+  border-radius:50%;
+  border:6px solid rgba(255,215,0,0.2);
+  border-top:6px solid #ffd700;
+  border-right:6px solid #0b1c3d;
+  animation:spin 1.2s linear infinite;
+}
+
+@keyframes spin{
+  from{transform:rotate(0deg);}
+  to{transform:rotate(360deg);}
+}
+
+/* METİN */
+h1{
+  font-size:22px;
+  font-weight:700;
+  color:#ffd700;
+  margin-bottom:10px;
+}
+
+p{
+  font-size:14px;
+  line-height:1.6;
+  color:#cfcfcf;
+}
+
+footer{
+  margin-top:25px;
+  font-size:12px;
+  color:#777;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- LOGO -->
+  <img src="https://i.hizliresim.com/jfr3abq.png" alt="Berkay Sports Logo" class="logo">
+
+  <!-- DÖNEN ANİMASYON -->
+  <div class="loader"></div>
+
+  <h1>Bakımdayız</h1>
+  <p>
+    Sizlere daha iyi bir hizmet verebilmek için<br>
+    sistemimiz <b>geçici olarak bakımda</b>.<br>
+    Lütfen daha sonra tekrar deneyiniz.
+  </p>
+
+  <footer>
+    © 2025 Berkay Sports
+  </footer>
+
+</div>
+
+</body>
+</html>
