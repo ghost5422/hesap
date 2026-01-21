@@ -2,106 +2,304 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Berkay Sports – Bakımda</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<title>Berkay TV | Canlı Yayın</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <style>
-*{
-  box-sizing:border-box;
-}
+/* --- MEVCUT CSS (Değişiklik Yok) --- */
+:root { --bg-body: #0b0b0b; --bg-card: #151515; --bg-hover: #1f1f1f; --primary: #1db954; --gold: #FFD700; --whatsapp-green: #25D366; --text-main: #ffffff; --text-muted: #aaaaaa; --header-height: 70px; }
+* { box-sizing: border-box; outline: none; margin: 0; padding: 0; }
+body { font-family: 'Poppins', sans-serif; background: var(--bg-body); color: var(--text-main); padding-bottom: 50px; }
+header { height: var(--header-height); background: rgba(11, 11, 11, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; padding: 0 5%; position: sticky; top: 0; z-index: 100; }
+.brand { font-size: 20px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.brand span { color: var(--primary); font-size: 28px; }
+.header-actions { display: flex; align-items: center; gap: 10px; }
+.btn-header { background: #222; color: #fff; border: 1px solid #333; padding: 8px 14px; border-radius: 20px; cursor: pointer; font-size: 13px; transition: 0.3s; display: flex; align-items: center; gap:6px; }
+.btn-header:hover { background: #333; border-color: #555; }
+.btn-premium-header { background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); color: #000; font-weight: 800; border: none; box-shadow: 0 0 15px rgba(255, 215, 0, 0.4); animation: glow 2s infinite alternate; }
+.btn-premium-header:hover { transform: scale(1.05); filter: brightness(1.1); }
+@keyframes glow { from { box-shadow: 0 0 10px rgba(255,215,0,0.2); } to { box-shadow: 0 0 20px rgba(255,215,0,0.6); } }
+.player-container { width: 100%; max-width: 1100px; margin: 20px auto; padding: 0 15px; }
+.video-wrapper { position: relative; width: 100%; padding-top: 56.25%; background: #000; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.5); border: 1px solid #222; }
+video, iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+#webPlayer { display: none; background: #000; }
+#videoPlayer { object-fit: cover; }
+.now-playing { margin-top: 15px; font-size: 18px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+.live-badge { background: red; color: white; font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: bold; animation: pulse 2s infinite; }
+@keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+.filters { max-width: 1100px; margin: 30px auto 20px; padding: 0 15px; display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; }
+.filters::-webkit-scrollbar { display: none; }
+.filter-btn { background: var(--bg-card); border: 1px solid #333; color: var(--text-muted); padding: 10px 20px; border-radius: 30px; font-size: 14px; white-space: nowrap; cursor: pointer; transition: 0.3s; text-transform: capitalize; }
+.filter-btn:hover, .filter-btn.active { background: var(--primary); color: #000; border-color: var(--primary); font-weight: 600; }
+.channel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; max-width: 1100px; margin: 0 auto; padding: 0 15px; }
+.channel-card { background: var(--bg-card); border: 1px solid #222; border-radius: 12px; padding: 15px; cursor: pointer; transition: all 0.2s ease; display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; overflow: hidden; }
+.channel-card:hover { transform: translateY(-5px); background: var(--bg-hover); border-color: var(--primary); }
+.ch-icon { width: 60px; height: 60px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; color: var(--primary); overflow: hidden; }
+.ch-logo { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.ch-name { font-weight: 500; font-size: 14px; color: #fff; }
+.ch-type { font-size: 11px; color: var(--text-muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+.loader { text-align: center; padding: 50px; color: #555; grid-column: 1 / -1; }
+.modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 999; align-items: flex-start; overflow-y: auto; padding: 40px 0; }
+.modal-content { background: #151515; padding: 30px; border-radius: 24px; width: 90%; max-width: 400px; border: 1px solid #333; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.6); margin: 0 auto; }
+.modal-content.large { max-width: 900px; } 
+.modal-header { font-size: 20px; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+.modal-close { position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.1); border-radius:50%; width:30px; height:30px; display:flex; align-items:center; justify-content:center; border: none; color: #fff; cursor: pointer; font-size: 20px; transition:0.2s; z-index: 10; }
+.modal-close:hover { background: #c62828; }
+.info-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px; border-bottom: 1px solid #222; padding-bottom: 12px; }
+.info-label { color: #888; }
+.info-val { font-weight: 600; color: #fff; }
+.info-val.premium { color: #ffb142; }
+.password-change { margin-top: 20px; background: #111; padding: 15px; border-radius: 12px; border: 1px solid #222; }
+.modal-input { width: 100%; padding: 12px; background: #222; border: 1px solid #333; color: #fff; border-radius: 8px; margin-bottom: 10px; }
+.modal-btn { width: 100%; padding: 12px; background: var(--primary); border: none; border-radius: 8px; font-weight: 600; cursor: pointer; color: #000; transition:0.2s; }
+.modal-btn:hover { opacity:0.9; }
+.pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 30px; }
+.pricing-card { background: #1a1a1a; border: 1px solid #333; border-radius: 20px; padding: 25px; text-align: center; position: relative; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); display: flex; flex-direction: column; overflow: hidden; }
+.pricing-card:hover { transform: translateY(-10px); border-color: var(--gold); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+.btn-buy-whatsapp { background: linear-gradient(90deg, #25D366 0%, #128C7E 100%); color: #fff; border: none; padding: 14px; width: 100%; border-radius: 12px; font-weight: 700; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3); margin-top: auto; text-decoration: none; }
+.btn-buy-whatsapp:hover { transform: scale(1.02); box-shadow: 0 8px 20px rgba(37, 211, 102, 0.5); background: linear-gradient(90deg, #1ebe57 0%, #0e6b5e 100%); }
+.btn-buy-whatsapp:active { transform: scale(0.98); }
+.btn-buy-whatsapp i { font-size: 20px; }
+.swal-gold-btn { background: linear-gradient(45deg, #FFD700, #FFA500) !important; color: #000 !important; font-weight: bold !important; border-radius: 20px !important; padding: 12px 30px !important; box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4) !important; border: none !important; }
+.plan-name { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 5px; }
+.plan-price { font-size: 28px; font-weight: 800; color: var(--gold); margin-bottom: 15px; text-shadow: 0 0 10px rgba(255,215,0,0.2); }
+.plan-features { list-style: none; margin: 0 0 20px 0; padding: 0; text-align: left; font-size: 13px; color: #ccc; flex-grow: 1; }
+.plan-features li { margin-bottom: 10px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #2a2a2a; padding-bottom: 8px; }
+.plan-features li:last-child { border-bottom: none; }
+.plan-features li i { color: var(--gold); font-size: 14px; }
+@media (max-width: 768px) { .channel-grid { grid-template-columns: repeat(2, 1fr); } .pricing-grid { grid-template-columns: 1fr; } }
 
-body{
-  margin:0;
-  height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-family:'Poppins',sans-serif;
-  background:radial-gradient(circle at top,#0a0a1a 0%,#000 70%);
-  color:#fff;
+/* --- BAKIM MODU EKRANI (YENİ) --- */
+#maintenanceOverlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: #0b0b0b; z-index: 99999;
+    display: none; /* JS ile block yapılacak */
+    flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; color: #fff; padding: 20px;
 }
-
-.container{
-  text-align:center;
-  padding:40px 30px;
-  background:rgba(10,10,30,0.6);
-  border-radius:20px;
-  border:2px solid rgba(255,215,0,0.4);
-  box-shadow:0 0 40px rgba(255,215,0,0.25);
-  max-width:420px;
-  width:90%;
-}
-
-/* LOGO */
-.logo{
-  width:80%;
-  max-width:280px;
-  margin-bottom:25px;
-}
-
-/* DÖNEN HALKA */
-.loader{
-  width:90px;
-  height:90px;
-  margin:25px auto;
-  border-radius:50%;
-  border:6px solid rgba(255,215,0,0.2);
-  border-top:6px solid #ffd700;
-  border-right:6px solid #0b1c3d;
-  animation:spin 1.2s linear infinite;
-}
-
-@keyframes spin{
-  from{transform:rotate(0deg);}
-  to{transform:rotate(360deg);}
-}
-
-/* METİN */
-h1{
-  font-size:22px;
-  font-weight:700;
-  color:#ffd700;
-  margin-bottom:10px;
-}
-
-p{
-  font-size:14px;
-  line-height:1.6;
-  color:#cfcfcf;
-}
-
-footer{
-  margin-top:25px;
-  font-size:12px;
-  color:#777;
-}
+#maintenanceOverlay i { font-size: 60px; color: #c62828; margin-bottom: 20px; animation: pulse 2s infinite; }
+#maintenanceOverlay h1 { font-size: 32px; font-weight: 800; margin-bottom: 10px; }
+#maintenanceOverlay p { font-size: 16px; color: #888; max-width: 500px; }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-
-  <!-- LOGO -->
-  <img src="https://i.hizliresim.com/jfr3abq.png" alt="Berkay Sports Logo" class="logo">
-
-  <!-- DÖNEN ANİMASYON -->
-  <div class="loader"></div>
-
-  <h1>Bakımdayız</h1>
-  <p>
-    Sizlere daha iyi bir hizmet verebilmek için<br>
-    sistemimiz <b>geçici olarak bakımda</b>.<br>
-    Lütfen daha sonra tekrar deneyiniz.
-  </p>
-
-  <footer>
-    © 2025 Berkay Sports
-  </footer>
-
+<div id="maintenanceOverlay">
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    <h1>Sistem Bakımda</h1>
+    <p>Daha iyi bir deneyim sunmak için şu anda bir güncelleme yapıyoruz. Lütfen kısa bir süre sonra tekrar deneyin.</p>
 </div>
+
+<div id="accountModal" class="modal-overlay">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeAccountModal()">&times;</button>
+    <div class="modal-header"><span class="material-icons-round" style="color:var(--primary)">account_circle</span> Hesap Bilgileri</div>
+    <div class="info-row"><span class="info-label">Kullanıcı Adı:</span><span class="info-val" id="accUsername">...</span></div>
+    <div class="info-row"><span class="info-label">Üyelik Durumu:</span><span class="info-val" id="accStatus">...</span></div>
+    <div class="info-row"><span class="info-label">Kalan Süre:</span><span class="info-val" id="accTime">...</span></div>
+    <div class="password-change">
+      <h4>Şifre Değiştir</h4>
+      <input type="text" id="newPassInput" class="modal-input" placeholder="Yeni şifrenizi girin">
+      <button class="modal-btn" onclick="updatePassword()">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<div id="pricingModal" class="modal-overlay">
+    <div class="modal-content large">
+        <button class="modal-close" onclick="closePricingModal()">&times;</button>
+        <div class="modal-header" style="justify-content:center; flex-direction:column; gap:5px; text-align:center;">
+            <div style="font-size:40px; color:var(--gold); margin-bottom:10px;"><i class="fa-solid fa-crown"></i></div>
+            <span style="font-size:26px; font-weight:800; color:#fff;">Premium'a Geç</span>
+            <span style="font-size:15px; font-weight:400; color:#888; max-width:400px;">Tüm Kanalları 7/24 Kesintisiz izle!</span>
+        </div>
+        <div id="pricingGrid" class="pricing-grid">
+            <div class="loader">Paketler Yükleniyor...</div>
+        </div>
+    </div>
+</div>
+
+<header>
+  <div class="brand"><span class="material-icons-round">play_circle</span> Berkay TV</div>
+  <div class="header-actions">
+    <button class="btn-header btn-premium-header" onclick="openPricingModal()"><i class="fa-solid fa-crown"></i> Premium Al</button>
+    <button class="btn-header" onclick="openAccountModal()"><span class="material-icons-round">person</span> <span id="headerUser">Hesabım</span></button>
+    <button class="btn-header logout" onclick="logout()"><span class="material-icons-round">logout</span></button>
+  </div>
+</header>
+
+<div class="player-container">
+  <div class="video-wrapper">
+    <video id="videoPlayer" controls playsinline poster="https://via.placeholder.com/1280x720/000000/1db954?text=Berkay+TV"></video>
+    <iframe id="webPlayer" allowfullscreen allow="encrypted-media"></iframe>
+  </div>
+  <div class="now-playing">
+    <span class="live-badge">CANLI</span>
+    <span id="currentChannelName">Bir Kanal Seçin</span>
+  </div>
+</div>
+
+<div class="filters">
+  <button class="filter-btn active" onclick="filterChannels('all', this)">Tümü</button>
+  <button class="filter-btn" onclick="filterChannels('spor', this)">Spor</button>
+  <button class="filter-btn" onclick="filterChannels('ulusal', this)">Ulusal</button>
+  <button class="filter-btn" onclick="filterChannels('çocu', this)">Çocuk</button>
+  <button class="filter-btn" onclick="filterChannels('haber', this)">Haber</button>
+</div>
+
+<div id="channelGrid" class="channel-grid">
+  <div class="loader">Kanallar yükleniyor...</div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+
+const app = initializeApp({ apiKey:"AIzaSyBbw4RJ06sWl5EciDHtB3YaNOu0uK78-Mc", databaseURL:"https://berkaysports-ada49-default-rtdb.firebaseio.com" });
+const db = getDatabase(app);
+const channelsRef = ref(db, "channels");
+const settingsRef = ref(db, "settings");
+const packagesRef = ref(db, "packages");
+
+let allChannels = [];
+let hls = null;
+let globalUserId = null;
+let currentUserRole = "free"; 
+let isGlobalFreeMode = false; 
+
+const grid = document.getElementById("channelGrid");
+const videoPlayer = document.getElementById("videoPlayer");
+const webPlayer = document.getElementById("webPlayer");
+const currentNameLabel = document.getElementById("currentChannelName");
+const headerUserLabel = document.getElementById("headerUser");
+const accUserEl = document.getElementById("accUsername");
+const accStatusEl = document.getElementById("accStatus");
+const accTimeEl = document.getElementById("accTime");
+const accountModal = document.getElementById("accountModal");
+const pricingModal = document.getElementById("pricingModal");
+const pricingGrid = document.getElementById("pricingGrid");
+const maintenanceOverlay = document.getElementById("maintenanceOverlay");
+
+// --- GÜVENLİK VE GİRİŞ KONTROLÜ ---
+const currentUserId = localStorage.getItem('berkay_tv_userid');
+if (!currentUserId) { window.location.href = "login.html"; } 
+else {
+    globalUserId = currentUserId;
+    const userRef = ref(db, "users/" + currentUserId);
+    onValue(userRef, (snapshot) => {
+        const user = snapshot.val();
+        if(!user) { forceLogout("Hesabınız silindi!"); return; }
+        if(user.role === 'banned') { forceLogout("Erişiminiz Yönetici Tarafından Engellendi!"); return; }
+        
+        // --- PREMIUM MULTI-LOGIN (KICK) ---
+        if (user.role === 'premium') {
+            const myDeviceId = localStorage.getItem("berkay_tv_device_id");
+            if (user.deviceId && user.deviceId !== myDeviceId) {
+                forceLogout("Hesabınıza başka bir cihazdan giriş yapıldığı için oturumunuz sonlandırıldı.");
+                return;
+            }
+        }
+        
+        currentUserRole = user.role || "free";
+        headerUserLabel.innerText = user.username;
+        accUserEl.innerText = user.username;
+        if (user.role === 'premium') {
+            accStatusEl.innerHTML = '<span class="info-val premium">PREMIUM ÜYE</span>';
+            if(user.premiumUntil) {
+                const daysLeft = Math.ceil((user.premiumUntil - Date.now()) / (1000 * 60 * 60 * 24));
+                accTimeEl.innerText = daysLeft > 0 ? `${daysLeft} Gün Kaldı` : "Süre Doldu";
+            } else { accTimeEl.innerText = "Süresiz"; }
+        } else { accStatusEl.innerText = "Standart (Free)"; accTimeEl.innerText = "-"; }
+    });
+}
+
+// --- GLOBAL AYARLAR (Free Mod & Bakım Modu) ---
+onValue(settingsRef, (snap) => { 
+    const data = snap.val() || {};
+    
+    // 1. Free Mode
+    isGlobalFreeMode = data.freeMode === true;
+    
+    // 2. Bakım Modu Kontrolü
+    if (data.maintenanceMode === true) {
+        // Eğer Bakım Modu AÇIKSA:
+        maintenanceOverlay.style.display = 'flex'; // Ekranı kapat
+        if(videoPlayer) videoPlayer.pause(); // Oynatıcıyı durdur
+        if(webPlayer) webPlayer.src = "";
+    } else {
+        // KAPALIYSA:
+        maintenanceOverlay.style.display = 'none'; // Ekranı aç
+    }
+});
+
+// --- PAKETLERİ ÇEK ---
+onValue(packagesRef, (snap) => {
+    pricingGrid.innerHTML = "";
+    const data = snap.val();
+    if(!data) { pricingGrid.innerHTML = '<div style="color:#888; grid-column:1/-1; text-align:center;">Şu an aktif paket bulunmuyor.</div>'; return; }
+    for(const id in data) {
+        const p = data[id];
+        const featuresHtml = p.features ? p.features.split(',').map(f => `<li><i class="fa-solid fa-check"></i> ${f.trim()}</li>`).join('') : '';
+        pricingGrid.innerHTML += `
+            <div class="pricing-card">
+                <div class="plan-name">${p.name}</div>
+                <div class="plan-price">${p.price}</div>
+                <ul class="plan-features">${featuresHtml}</ul>
+                <button class="btn-buy-whatsapp" onclick="buyPackage('${p.name}', '${p.price}')">
+                    <i class="fa-brands fa-whatsapp"></i> Hemen Satın Al
+                </button>
+            </div>
+        `;
+    }
+});
+
+window.openAccountModal = () => { accountModal.style.display = 'flex'; }
+window.closeAccountModal = () => { accountModal.style.display = 'none'; }
+window.openPricingModal = () => { pricingModal.style.display = 'flex'; }
+window.closePricingModal = () => { pricingModal.style.display = 'none'; }
+window.onclick = (event) => { if (event.target == accountModal) closeAccountModal(); if (event.target == pricingModal) closePricingModal(); }
+
+window.updatePassword = () => { const newPass = document.getElementById("newPassInput").value.trim(); if(newPass.length < 4) { Swal.fire({icon:'warning', title:'Hata', text:'Şifre kısa!', background:'#222', color:'#fff'}); return; } update(ref(db, "users/" + globalUserId), { password: newPass }).then(() => { Swal.fire({icon:'success', title:'Başarılı', text:'Şifre güncellendi.', background:'#222', color:'#fff', timer:1500, showConfirmButton:false}); document.getElementById("newPassInput").value = ""; }); }
+window.forceLogout = (msg) => { webPlayer.src = ""; Swal.fire({title:'Çıkış', text:msg, icon:'error', confirmButtonText:'Tamam', background:'#000', color:'#fff'}).then(()=> { localStorage.removeItem('berkay_tv_userid'); window.location.href = "login.html"; }); }
+window.logout = () => { 
+    if(currentUserRole === 'premium') { update(ref(db, "users/" + globalUserId), { deviceId: null }).then(() => { localStorage.removeItem('berkay_tv_userid'); window.location.href = "login.html"; }); } 
+    else { localStorage.removeItem('berkay_tv_userid'); window.location.href = "login.html"; }
+}
+
+window.buyPackage = (planName, planPrice) => {
+    let username = document.getElementById("accUsername") ? document.getElementById("accUsername").innerText : "Misafir";
+    const message = `Merhaba, ${planName} (${planPrice}) paketi satın almak istiyorum. Kullanıcı Adım: ${username}`;
+    window.location.href = `https://wa.me/447442525362?text=${encodeURIComponent(message)}`;
+}
+
+onValue(channelsRef, (snapshot) => { grid.innerHTML = ""; allChannels = []; const data = snapshot.val(); if (!data) { grid.innerHTML = '<div class="loader">Henüz kanal eklenmemiş.</div>'; return; } for (const id in data) { let ch = data[id]; ch.id = id; ch.type = ch.type ? ch.type.toLowerCase() : 'genel'; allChannels.push(ch); } renderChannels(allChannels); });
+window.renderChannels = (channels) => { grid.innerHTML = ""; if(channels.length === 0) { grid.innerHTML = '<div class="loader">Bu kategoride kanal bulunamadı.</div>'; return; } channels.forEach(ch => { let displayIcon; if (ch.logo && ch.logo !== "") { displayIcon = `<img src="${ch.logo}" class="ch-logo" alt="${ch.name}">`; } else { let iconName = "tv"; if(ch.type.includes("spor")) iconName = "sports_soccer"; else if(ch.type.includes("sinema")) iconName = "movie_filter"; else if(ch.type.includes("belge")) iconName = "public"; else if(ch.type.includes("ulusal")) iconName = "flag"; else if(ch.type.includes("haber")) iconName = "article"; else if(ch.type.includes("çocu")) iconName = "child_care"; displayIcon = `<span class="material-icons-round" style="font-size:24px">${iconName}</span>`; } const card = document.createElement("div"); card.className = "channel-card"; card.onclick = () => playStream(ch.link, ch.name, ch.type); card.innerHTML = `<div class="ch-icon">${displayIcon}</div><div class="ch-name">${ch.name}</div><div class="ch-type">${ch.type}</div>`; grid.appendChild(card); }); }
+window.filterChannels = (type, btn) => { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); if (type === 'all') renderChannels(allChannels); else renderChannels(allChannels.filter(ch => ch.type.includes(type.toLowerCase()))); }
+
+window.playStream = (url, name, type) => {
+  if (isGlobalFreeMode === false) {
+      if (currentUserRole !== 'premium') {
+          if (type.includes('spor')) {
+              Swal.fire({
+                  icon: 'info',
+                  html: `<div style="text-align:center; padding:10px;"><i class="fa-solid fa-crown" style="font-size:50px; color:#FFD700; margin-bottom:15px; filter:drop-shadow(0 0 10px gold);"></i><h2 style="color:#fff; margin-bottom:10px;">Premium Gerekiyor</h2><p style="color:#aaa; font-size:14px; margin-bottom:20px;">Bu içerik sadece VIP üyelerimiz içindir. Kesintisiz spor keyfi için hemen paketinizi seçin.</p></div>`,
+                  background: '#151515', showCloseButton: true, showCancelButton: false, focusConfirm: false, confirmButtonText: '<i class="fa-solid fa-star"></i> Paketleri İncele', customClass: { confirmButton: 'swal-gold-btn' }
+              }).then((result) => { if (result.isConfirmed) { openPricingModal(); } });
+              return;
+          }
+      }
+  }
+  currentNameLabel.innerText = name; window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (hls) { hls.destroy(); hls = null; } videoPlayer.pause(); videoPlayer.src = ""; webPlayer.src = "";
+  if (url.includes('.m3u8')) { videoPlayer.style.display = "block"; webPlayer.style.display = "none"; if (Hls.isSupported()) { hls = new Hls(); hls.loadSource(url); hls.attachMedia(videoPlayer); hls.on(Hls.Events.MANIFEST_PARSED, () => videoPlayer.play().catch(()=>{})); } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) { videoPlayer.src = url; videoPlayer.play(); } } else { videoPlayer.style.display = "none"; webPlayer.style.display = "block"; webPlayer.src = url; }
+}
+</script>
 
 </body>
 </html>
