@@ -2,106 +2,182 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
+<title>Berkay TV | Giriş Yap</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Berkay Sports – Bakımda</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <style>
-*{
-  box-sizing:border-box;
-}
-
-body{
-  margin:0;
-  height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-family:'Poppins',sans-serif;
-  background:radial-gradient(circle at top,#0a0a1a 0%,#000 70%);
-  color:#fff;
-}
-
-.container{
-  text-align:center;
-  padding:40px 30px;
-  background:rgba(10,10,30,0.6);
-  border-radius:20px;
-  border:2px solid rgba(255,215,0,0.4);
-  box-shadow:0 0 40px rgba(255,215,0,0.25);
-  max-width:420px;
-  width:90%;
-}
-
-/* LOGO */
-.logo{
-  width:80%;
-  max-width:280px;
-  margin-bottom:25px;
-}
-
-/* DÖNEN HALKA */
-.loader{
-  width:90px;
-  height:90px;
-  margin:25px auto;
-  border-radius:50%;
-  border:6px solid rgba(255,215,0,0.2);
-  border-top:6px solid #ffd700;
-  border-right:6px solid #0b1c3d;
-  animation:spin 1.2s linear infinite;
-}
-
-@keyframes spin{
-  from{transform:rotate(0deg);}
-  to{transform:rotate(360deg);}
-}
-
-/* METİN */
-h1{
-  font-size:22px;
-  font-weight:700;
-  color:#ffd700;
-  margin-bottom:10px;
-}
-
-p{
-  font-size:14px;
-  line-height:1.6;
-  color:#cfcfcf;
-}
-
-footer{
-  margin-top:25px;
-  font-size:12px;
-  color:#777;
-}
+/* --- TASARIM AYNEN KORUNDU --- */
+:root { --primary: #1db954; --primary-hover: #1ed760; --card-bg: rgba(24,24,24,0.85); --text-color: #fff; --text-muted: #b3b3b3; --input-bg: #2a2a2a; }
+*{box-sizing:border-box;outline:none;}
+body{margin:0;height:100vh;font-family:'Poppins',sans-serif;background:linear-gradient(-45deg,#000,#1a1a1a,#0f2027,#203a43);background-size:400% 400%;animation:gradientBG 15s ease infinite;display:flex;align-items:center;justify-content:center;color:var(--text-color);overflow:hidden;}
+@keyframes gradientBG{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+.container{width:100%;max-width:400px;background:var(--card-bg);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:40px 30px;box-shadow:0 25px 50px -12px rgba(0,0,0,0.5);}
+.logo{text-align:center;margin-bottom:10px;}
+.logo img{max-width:300px;height:auto;display:block;margin:0 auto;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.5));}
+.tabs{display:flex;background:#000;padding:5px;border-radius:12px;margin-bottom:25px;}
+.tabs button{flex:1;padding:10px;background:transparent;border:none;color:var(--text-muted);font-size:14px;font-weight:500;cursor:pointer;border-radius:8px;transition:all 0.3s ease;}
+.tabs button.active{background:var(--input-bg);color:#fff;box-shadow:0 2px 10px rgba(0,0,0,0.3);}
+.form-wrapper{position:relative;overflow:hidden;min-height:250px;}
+.form{display:none;animation:fadeIn 0.4s ease forwards;}
+.form.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.input-group{position:relative;margin-bottom:15px;}
+.input-group i{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:14px;}
+.input-group input{width:100%;padding:14px 14px 14px 45px;border-radius:12px;border:1px solid transparent;background:var(--input-bg);color:#fff;font-size:14px;transition:all 0.3s;}
+.input-group input:focus{background:#333;border-color:var(--primary);box-shadow:0 0 0 4px rgba(29,185,84,0.1);}
+.input-group input:focus+i{color:var(--primary);}
+.action-btn{width:100%;padding:14px;border:none;border-radius:30px;background:var(--primary);color:#000;font-weight:700;font-size:15px;cursor:pointer;margin-top:10px;transition:0.2s;display:flex;justify-content:center;align-items:center;gap:10px;}
+.action-btn:hover{background:var(--primary-hover);transform:scale(1.02);}
+.spinner{width:18px;height:18px;border:3px solid rgba(0,0,0,0.3);border-radius:50%;border-top-color:#000;animation:spin 1s ease-in-out infinite;display:none;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.info{margin-top:15px;font-size:12px;color:#888;text-align:center;}
+.info b{color:var(--primary);}
 </style>
 </head>
-
 <body>
 
 <div class="container">
+  <div class="logo">
+     <h2 style="color:#fff; margin:0;"><i class="fa-solid fa-play-circle" style="color:#1db954"></i> Berkay TV</h2>
+  </div>
 
-  <!-- LOGO -->
-  <img src="https://i.hizliresim.com/jfr3abq.png" alt="Berkay Sports Logo" class="logo">
+  <div class="tabs">
+    <button class="active" onclick="showTab('login')">Giriş Yap</button>
+    <button onclick="showTab('register')">Kayıt Ol</button>
+  </div>
 
-  <!-- DÖNEN ANİMASYON -->
-  <div class="loader"></div>
+  <div class="form-wrapper">
+    <div id="login" class="form active">
+      <div class="input-group"><input id="l_user" placeholder="Kullanıcı adı"><i class="fa-solid fa-user"></i></div>
+      <div class="input-group"><input id="l_pass" type="password" placeholder="Şifre"><i class="fa-solid fa-lock"></i></div>
+      <button id="btn_login" class="action-btn" onclick="login()"><span>Giriş Yap</span><div class="spinner"></div></button>
+    </div>
 
-  <h1>Bakımdayız</h1>
-  <p>
-    Sizlere daha iyi bir hizmet verebilmek için<br>
-    sistemimiz <b>geçici olarak bakımda</b>.<br>
-    Lütfen daha sonra tekrar deneyiniz.
-  </p>
-
-  <footer>
-    © 2025 Berkay Sports
-  </footer>
-
+    <div id="register" class="form">
+      <div class="input-group"><input id="r_user" placeholder="Kullanıcı adı"><i class="fa-solid fa-user-plus"></i></div>
+      <div class="input-group"><input id="r_pass" type="password" placeholder="Şifre"><i class="fa-solid fa-lock"></i></div>
+      <div class="input-group"><input id="r_pass2" type="password" placeholder="Şifre Tekrar"><i class="fa-solid fa-check-double"></i></div>
+      <button id="btn_register" class="action-btn" onclick="register()"><span>Kayıt Ol</span><div class="spinner"></div></button>
+      <div class="info"><i class="fa-solid fa-gift"></i> Yeni üyelikler <b>FREE</b> paket ile başlar.</div>
+    </div>
+  </div>
 </div>
 
+<script>
+function showTab(t){document.querySelectorAll('.form').forEach(f=>f.classList.remove('active'));document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));document.getElementById(t).classList.add('active');const bs=document.querySelectorAll('.tabs button');t==='login'?bs[0].classList.add('active'):bs[1].classList.add('active');}
+function setLoading(bId,l){const b=document.getElementById(bId),s=b.querySelector('span'),sp=b.querySelector('.spinner');if(l){b.disabled=true;s.style.display='none';sp.style.display='block';}else{b.disabled=false;s.style.display='block';sp.style.display='none';}}
+</script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+import { getDatabase, ref, set, get, child, update } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+
+const app = initializeApp({ apiKey:"AIzaSyBbw4RJ06sWl5EciDHtB3YaNOu0uK78-Mc", databaseURL:"https://berkaysports-ada49-default-rtdb.firebaseio.com" });
+const db = getDatabase(app);
+
+// Yeni ve Benzersiz Cihaz ID'si oluştur (Her girişte yeni üretilir)
+function generateNewDeviceId(){
+  const newId = 'dev_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+  localStorage.setItem("berkay_tv_device_id", newId);
+  return newId;
+}
+
+function trToEn(t){return t.replace(/Ğ/g,"G").replace(/ğ/g,"g").replace(/Ü/g,"U").replace(/ü/g,"u").replace(/Ş/g,"S").replace(/ş/g,"s").replace(/İ/g,"I").replace(/ı/g,"i").replace(/Ö/g,"O").replace(/ö/g,"o").replace(/Ç/g,"C").replace(/ç/g,"c").replace(/[^a-zA-Z0-9]/g,"").toLowerCase();}
+
+window.register = async () => {
+  const u=document.getElementById('r_user').value.trim(), p1=document.getElementById('r_pass').value, p2=document.getElementById('r_pass2').value;
+  if(!u||!p1||!p2){ Swal.fire({toast:true,icon:'error',title:'Alanları doldurun',background:'#222',color:'#fff'}); return; }
+  if(p1!==p2){ Swal.fire({toast:true,icon:'error',title:'Şifreler uyuşmuyor',background:'#222',color:'#fff'}); return; }
+  setLoading('btn_register',true);
+  try{
+    const uid=trToEn(u); const snap=await get(child(ref(db),`users/${uid}`));
+    if(snap.exists()) Swal.fire({toast:true,icon:'error',title:'Bu kullanıcı adı dolu',background:'#222',color:'#fff'});
+    else{ await set(ref(db,'users/'+uid),{username:u,password:p1,role:'free',createdAt:new Date().toLocaleString()}); Swal.fire({toast:true,icon:'success',title:'Kayıt Başarılı',background:'#222',color:'#fff'}); setTimeout(()=>{showTab('login');document.getElementById('l_user').value=u;},1500); }
+  }catch(e){console.error(e);}finally{setLoading('btn_register',false);}
+};
+
+window.login = async () => {
+  const u = document.getElementById('l_user').value.trim();
+  const p = document.getElementById('l_pass').value;
+  if(!u || !p) return Swal.fire({toast:true, icon:'warning', title:'Bilgileri giriniz', background:'#222', color:'#fff'});
+
+  setLoading('btn_login', true);
+
+  try {
+    const userId = trToEn(u);
+    const snapshot = await get(child(ref(db), `users/${userId}`));
+
+    if (snapshot.exists()) {
+      const user = snapshot.val();
+
+      // 1. Şifre Kontrolü
+      if (user.password === p) {
+        
+        // 2. Ban Kontrolü
+        if (user.role === 'banned') {
+             Swal.fire({ icon: 'error', title: 'ERİŞİM ENGELLENDİ', text: 'Hesabınız yasaklanmıştır!', background: '#1a1a1a', color: '#fff', confirmButtonColor: '#d33' });
+             setLoading('btn_login', false); return;
+        }
+
+        // 3. PREMIUM CİHAZ MANTIĞI (GÜNCELLENDİ)
+        const newDeviceId = generateNewDeviceId(); // Her girişte YENİ ID oluştur
+
+        if (user.role === "premium") {
+            // Eğer veritabanında zaten bir cihaz varsa uyar
+            if (user.deviceId) {
+                const result = await Swal.fire({
+                    title: 'Oturum Açık',
+                    text: "Bu hesap başka bir cihazda açık. Giriş yaparsanız diğer cihazdan çıkış yapılacak. Onaylıyor musunuz?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#1db954',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Evet, Giriş Yap',
+                    cancelButtonText: 'İptal',
+                    background: '#1a1a1a', color: '#fff'
+                });
+
+                if (!result.isConfirmed) {
+                    setLoading('btn_login', false);
+                    return; // Kullanıcı vazgeçti
+                }
+            }
+            
+            // Kullanıcı onayladı veya ilk kez giriyor -> Veritabanındaki ID'yi güncelle (Kick işlemi)
+            await update(ref(db, 'users/' + userId), { deviceId: newDeviceId });
+        } 
+        
+        // Free kullanıcılar için deviceId güncellemeye gerek yok veya null yapabiliriz
+        // (Free'ler için kısıtlama olmadığı için deviceId'yi önemsemiyoruz)
+
+        // Başarılı Giriş
+        localStorage.setItem("berkay_tv_userid", userId); 
+        
+        Swal.fire({
+            icon: 'success', title: 'Giriş Başarılı',
+            text: 'Yönlendiriliyorsunuz...',
+            background: '#222', color: '#fff',
+            showConfirmButton: false, timer: 1500
+        }).then(() => {
+            window.location.href = "index.html"; 
+        });
+
+      } else {
+        Swal.fire({toast:true, icon:'error', title:'Şifre Hatalı', background:'#222', color:'#fff'});
+      }
+    } else {
+      Swal.fire({toast:true, icon:'error', title:'Kullanıcı Bulunamadı', background:'#222', color:'#fff'});
+    }
+  } catch (e) {
+    console.error(e);
+    Swal.fire({title:'Hata', text:e.message, icon:'error', background:'#222', color:'#fff'});
+  } finally {
+    setLoading('btn_login', false);
+  }
+};
+</script>
 </body>
 </html>
