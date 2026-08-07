@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>B.T Yönetim Paneli Giriş</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+</head>
+
+<body class="min-h-screen bg-slate-100 flex items-center justify-center">
+
+
+<div class="bg-white w-full max-w-md p-8 rounded-3xl shadow-xl border border-slate-200">
+
+
+    <div class="text-center mb-8">
+
+        <div class="inline-flex bg-blue-600 text-white px-5 py-2 rounded-xl font-extrabold text-2xl shadow-lg shadow-blue-500/30">
+            B.T
+        </div>
+
+
+        <h1 class="text-xl font-bold mt-5 text-slate-800">
+            Yönetim Paneli
+        </h1>
+
+
+        <p class="text-sm text-slate-400 mt-1">
+            Güvenli admin girişi
+        </p>
+
+    </div>
+
+
+
+    <div class="space-y-4">
+
+
+        <div>
+            <label class="text-xs font-bold text-slate-500 uppercase">
+                E-posta
+            </label>
+
+            <div class="relative mt-1">
+
+                <i class="fa-solid fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+
+                <input 
+                id="email"
+                type="email"
+                placeholder="admin@email.com"
+                class="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500 transition">
+                
+            </div>
+        </div>
+
+
+
+
+        <div>
+
+            <label class="text-xs font-bold text-slate-500 uppercase">
+                Şifre
+            </label>
+
+
+            <div class="relative mt-1">
+
+                <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+
+
+                <input 
+                id="password"
+                type="password"
+                placeholder="••••••••"
+                class="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500 transition">
+
+            </div>
+
+        </div>
+
+
+
+
+        <button 
+        id="loginBtn"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-500/30">
+
+
+            <span id="loginText">
+                Giriş Yap
+            </span>
+
+
+            <i id="loginLoader" class="fa-solid fa-spinner fa-spin hidden"></i>
+
+
+        </button>
+
+
+
+        <p id="error"
+        class="text-red-500 text-sm text-center min-h-[20px]">
+        </p>
+
+
+    </div>
+
+
+
+    <div class="mt-8 text-center text-xs text-slate-400">
+
+        © 2026 Berkay Taşkan
+
+    </div>
+
+
+</div>
+
+
+
+
+
+<script type="module">
+
+
+import { 
+initializeApp 
+} from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+
+
+
+import { 
+getAuth,
+signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+
+
+
+
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyBKUs5FM50ejN9tVdvUNzocRGU5Q5lD2eo",
+
+authDomain: "urunrakip.firebaseapp.com",
+
+databaseURL: "https://urunrakip-default-rtdb.europe-west1.firebasedatabase.app",
+
+projectId: "urunrakip",
+
+storageBucket: "urunrakip.appspot.com",
+
+messagingSenderId: "893193039416",
+
+appId: "1:893193039416:web:8624c79038f5dc9a2ac0cd"
+
+};
+
+
+
+
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+
+
+
+
+document
+.getElementById("loginBtn")
+.addEventListener("click", async ()=>{
+
+
+const btn = document.getElementById("loginBtn");
+
+const text = document.getElementById("loginText");
+
+const loader = document.getElementById("loginLoader");
+
+
+
+const email =
+document.getElementById("email").value.trim();
+
+
+
+const password =
+document.getElementById("password").value;
+
+
+
+document.getElementById("error").innerText="";
+
+
+
+btn.disabled = true;
+
+text.innerText = "Giriş Yapılıyor...";
+
+loader.classList.remove("hidden");
+
+
+
+try{
+
+
+await signInWithEmailAndPassword(
+auth,
+email,
+password
+);
+
+
+
+text.innerText="Başarılı ✓";
+
+
+
+setTimeout(()=>{
+
+window.location.href="admin.html";
+
+},500);
+
+
+
+
+
+}catch(error){
+
+
+document.getElementById("error").innerText =
+"E-posta veya şifre hatalı.";
+
+
+btn.disabled=false;
+
+text.innerText="Giriş Yap";
+
+loader.classList.add("hidden");
+
+
+}
+
+
+
+});
+
+
+
+
+
+</script>
+
+
+</body>
+</html>
