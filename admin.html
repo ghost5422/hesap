@@ -56,16 +56,18 @@
             <button onclick="switchTab('musteriler')" class="w-full flex items-center gap-3 p-3.5 rounded-xl hover:bg-slate-800 transition-colors text-left font-medium text-sm focus:outline-none text-slate-300" id="btn-musteriler">
                 <i class="fa-solid fa-users text-lg w-5 text-center"></i> Müşteri Listesi & Arşiv
             </button>
+            <button onclick="switchTab('ziyaretciler')" class="w-full flex items-center gap-3 p-3.5 rounded-xl hover:bg-slate-800 transition-colors text-left font-medium text-sm focus:outline-none text-slate-300" id="btn-ziyaretciler">
+                <i class="fa-solid fa-globe text-lg w-5 text-center"></i> WhatsApp & Ziyaretçiler
+            </button>
             <button onclick="switchTab('ayarlar')" class="w-full flex items-center gap-3 p-3.5 rounded-xl hover:bg-slate-800 transition-colors text-left font-medium text-sm focus:outline-none text-slate-300" id="btn-ayarlar">
                 <i class="fa-solid fa-sliders text-lg w-5 text-center"></i> Fiyat & IBAN Ayarları
             </button>
         </nav>
 
-<button id="logout-btn"
-class="mx-4 mb-4 flex items-center justify-center gap-2 p-3 rounded-xl bg-red-500/10 hover:bg-red-500 text-red-400 hover:text-white transition-all text-sm font-semibold">
-    <i class="fa-solid fa-right-from-bracket"></i>
-    Çıkış Yap
-</button>
+        <button id="logout-btn" class="mx-4 mb-4 flex items-center justify-center gap-2 p-3 rounded-xl bg-red-500/10 hover:bg-red-500 text-red-400 hover:text-white transition-all text-sm font-semibold">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Çıkış Yap
+        </button>
 
         <div class="p-4 text-xs text-slate-500 text-center border-t border-slate-800/80">
             &copy; 2026 Berkay Taşkan
@@ -96,9 +98,7 @@ class="mx-4 mb-4 flex items-center justify-center gap-2 p-3 rounded-xl bg-red-50
                     <p class="text-xs text-slate-400">Sisteme ait anlık sipariş, durum ve kazanç özetleri.</p>
                 </div>
 
-                <!-- Kartlar Grid -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                    <!-- Aktif Sipariş -->
                     <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm flex items-center gap-4">
                         <div class="w-14 h-14 rounded-2xl bg-blue-50 text-brand-blue flex items-center justify-center text-2xl shadow-inner">
                             <i class="fa-solid fa-box-archive"></i>
@@ -109,7 +109,6 @@ class="mx-4 mb-4 flex items-center justify-center gap-2 p-3 rounded-xl bg-red-50
                         </div>
                     </div>
 
-                    <!-- Bekleyen Sipariş -->
                     <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm flex items-center gap-4">
                         <div class="w-14 h-14 rounded-2xl bg-amber-50 text-amber-500 flex items-center justify-center text-2xl shadow-inner">
                             <i class="fa-solid fa-clock"></i>
@@ -120,7 +119,6 @@ class="mx-4 mb-4 flex items-center justify-center gap-2 p-3 rounded-xl bg-red-50
                         </div>
                     </div>
 
-                    <!-- Onaylanan Sipariş -->
                     <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm flex items-center gap-4">
                         <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl shadow-inner">
                             <i class="fa-solid fa-circle-check"></i>
@@ -131,7 +129,6 @@ class="mx-4 mb-4 flex items-center justify-center gap-2 p-3 rounded-xl bg-red-50
                         </div>
                     </div>
 
-                    <!-- Hazırlanıyor -->
                     <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm flex items-center gap-4">
                         <div class="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-2xl shadow-inner">
                             <i class="fa-solid fa-spinner"></i>
@@ -142,7 +139,6 @@ class="mx-4 mb-4 flex items-center justify-center gap-2 p-3 rounded-xl bg-red-50
                         </div>
                     </div>
 
-                    <!-- Tamamlanan -->
                     <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm flex items-center gap-4">
                         <div class="w-14 h-14 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center text-2xl shadow-inner">
                             <i class="fa-solid fa-clipboard-check"></i>
@@ -153,7 +149,6 @@ class="mx-4 mb-4 flex items-center justify-center gap-2 p-3 rounded-xl bg-red-50
                         </div>
                     </div>
 
-                    <!-- Toplam Gelir -->
                     <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm flex items-center gap-4">
                         <div class="w-14 h-14 rounded-2xl bg-blue-50 text-brand-blue flex items-center justify-center text-2xl shadow-inner">
                             <i class="fa-solid fa-wallet"></i>
@@ -164,7 +159,6 @@ class="mx-4 mb-4 flex items-center justify-center gap-2 p-3 rounded-xl bg-red-50
                         </div>
                     </div>
 
-                    <!-- Bu Ay Kazanç -->
                     <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm flex items-center gap-4 sm:col-span-2">
                         <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl shadow-inner">
                             <i class="fa-solid fa-chart-line"></i>
@@ -180,12 +174,10 @@ class="mx-4 mb-4 flex items-center justify-center gap-2 p-3 rounded-xl bg-red-50
             <!-- MÜŞTERİLER LİSTESİ TAB -->
             <div id="musteriler" class="tab-content h-full">
                 <div class="mb-6 flex flex-col md:flex-row gap-4 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
-                    <!-- Arama Çubuğu -->
                     <div class="flex-1 relative">
                         <input type="text" id="musteri-arama" oninput="araMusteriler(this.value)" placeholder="Ad, Telefon veya Sipariş No ile ara..." class="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:outline-none focus:border-brand-blue transition-colors text-slate-700">
                         <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
                     </div>
-                    <!-- Filtreleme Select -->
                     <div class="shrink-0 relative">
                         <select id="musteri-filtre" onchange="filtreleMusteriler(this.value)" class="w-full md:w-auto appearance-none bg-slate-50 border border-slate-200 text-slate-700 text-sm font-semibold rounded-xl pl-4 pr-10 py-3 focus:outline-none focus:border-brand-blue transition-colors cursor-pointer">
                             <option value="hepsi">Tüm Müşteriler (Arşiv Dahil)</option>
@@ -219,7 +211,7 @@ class="mx-4 mb-4 flex items-center justify-center gap-2 p-3 rounded-xl bg-red-50
                 </div>
             </div>
 
-            <!-- TALEPLER (SADECE AKTİF İŞLER) TAB -->
+            <!-- TALEPLER TAB -->
             <div id="talepler" class="tab-content h-full">
                 <div class="mb-6 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm">
                     <div class="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0">
@@ -236,6 +228,36 @@ class="mx-4 mb-4 flex items-center justify-center gap-2 p-3 rounded-xl bg-red-50
                     <div class="text-center w-full col-span-full py-20 text-slate-400">
                         <i class="fa-solid fa-spinner fa-spin text-3xl mb-3 text-brand-blue"></i>
                         <p class="font-medium text-sm">Aktif İşler Yükleniyor...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ZİYARETÇİLER TAB (WHATSAPP TAKİP) -->
+            <div id="ziyaretciler" class="tab-content h-full">
+                <div class="mb-6 flex justify-between items-center bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
+                    <div>
+                        <h3 class="text-lg font-bold text-navy-900">WhatsApp & Ziyaretçi Analizi</h3>
+                        <p class="text-xs text-slate-400">WhatsApp gruplarından tıklayıp gelen kullanıcıları ve site içi gezintilerini takip edin.</p>
+                    </div>
+                    <span class="bg-emerald-50 text-emerald-600 text-xs font-extrabold px-4 py-2 rounded-xl border border-emerald-100" id="ziyaretci-sayisi">0 Toplam Ziyaretçi</span>
+                </div>
+
+                <div class="bg-white border border-slate-200/80 rounded-2xl shadow-sm overflow-hidden flex-1 mb-8">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm whitespace-nowrap">
+                            <thead class="bg-slate-50/80 border-b border-slate-200 text-slate-500 uppercase text-[11px] tracking-wider font-bold">
+                                <tr>
+                                    <th class="px-6 py-4">Ziyaretçi ID</th>
+                                    <th class="px-6 py-4">Tıklama Kaynağı</th>
+                                    <th class="px-6 py-4">Son Gezdiği Sayfa</th>
+                                    <th class="px-6 py-4">Cihaz / Tarayıcı</th>
+                                    <th class="px-6 py-4 text-right">Detay / Hareketler</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ziyaretciler-table-body" class="divide-y divide-slate-100/80 text-slate-700 font-medium">
+                                <tr><td colspan="5" class="px-6 py-12 text-center text-slate-400 font-normal"><i class="fa-solid fa-spinner fa-spin mr-2"></i> Ziyaretçiler Yükleniyor...</td></tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -300,17 +322,25 @@ class="mx-4 mb-4 flex items-center justify-center gap-2 p-3 rounded-xl bg-red-50
         </div>
     </div>
 
+    <!-- Ziyaretçi Geçmişi Modal -->
+    <div id="ziyaretci-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white w-full max-w-2xl max-h-[90vh] rounded-3xl shadow-2xl flex flex-col transform scale-95 transition-transform duration-300 overflow-hidden" id="ziyaretci-modal-box">
+            <div class="p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                <h3 class="font-bold text-lg text-navy-900 flex items-center gap-2"><i class="fa-solid fa-shoe-prints text-brand-blue"></i> Ziyaretçi Gezinti Geçmişi</h3>
+                <button onclick="closeZiyaretciModal()" class="text-slate-400 hover:text-red-500 w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center shadow-sm"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto space-y-3 flex-1" id="ziyaretci-modal-content"></div>
+            <div class="p-4 border-t border-slate-100 bg-slate-50 text-right">
+                <button onclick="closeZiyaretciModal()" class="w-28 bg-slate-800 hover:bg-slate-900 text-white font-semibold py-2.5 px-4 rounded-xl transition-colors text-sm">Kapat</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Firebase JS Logic -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
         import { getDatabase, ref, onValue, remove, update, set } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
-
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut
-} from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBKUs5FM50ejN9tVdvUNzocRGU5Q5lD2eo",
@@ -323,79 +353,40 @@ import {
         };
 
         const app = initializeApp(firebaseConfig);
-
-const auth = getAuth(app);
-
-document.getElementById("logout-btn").addEventListener("click", async ()=>{
-
-    await signOut(auth);
-
-    window.location.href = "login.html";
-
-});
-
-onAuthStateChanged(auth, (user) => {
-
-    console.log("Giriş durumu:", user);
-
-    if (!user) {
-        console.log("Kullanıcı yok, login'e gidiyor");
-        window.location.href = "login.html";
-    } else {
-        console.log("Giriş yapan:", user.email);
-    }
-
-});
-
+        const auth = getAuth(app);
         const db = getDatabase(app);
 
-        // Veritabanı anahtarlarını Türkçe başlıklara dönüştüren sözlük
+        document.getElementById("logout-btn").addEventListener("click", async () => {
+            await signOut(auth);
+            window.location.href = "login.html";
+        });
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.href = "login.html";
+            }
+        });
+
         const alanEtiketleri = {
-            talepKodu: "Sipariş Kodu",
-            paket: "Seçilen Paket",
-            adSoyad: "Ad Soyad",
-            yas: "Yaş",
-            telefon: "WhatsApp / Telefon",
-            sinif: "Sınıf",
-            yariyil: "Yarıyıl",
-            dersler: "Dönem Dersleri",
-            ffdersler: "Kalan / Tekrar Dersler (FF)",
-            hedef: "Öncelikli Hedef",
-            gno: "Hedeflenen GNO",
-            program_suresi: "Program Süresi",
-            agirlik_dersler: "Ağırlık Verilecek Dersler",
-            calisma_durumu: "Çalışma Durumu",
-            calisma_saati: "İş / Mesai Saatleri",
-            yol_suresi: "Günlük Yol Süresi",
-            uyanma: "Uyanış Saati",
-            uyuma: "Yatış Saati",
-            gunluk_ders_saati: "Günlük Maksimum Ders Süresi",
-            haftalik_calisma_gunu: "Haftalık Çalışma Günü",
-            calisma_gunleri: "Müsait Günler",
-            saat_araliklari: "Müsait Saat Aralıkları",
-            verimli_zaman: "En Verimli Zaman",
-            odaklanma_suresi: "Odaklanma Süresi",
-            program_tipi: "Program Formatı",
-            program_yogunlugu: "Program Temposu",
-            mola_tipi: "Mola Düzeni",
-            zor_ders: "En Çok Zorlayan Ders",
-            kolay_ders: "En Kolay Ders",
-            zorlanilan_konu: "Zorlanılan Problem",
-            tekrar_gunleri: "Genel Tekrar Günleri",
-            soru_cozum: "Soru Çözüm Günleri",
-            uyum_derecesi: "Programa Uyum Derecesi",
-            motivasyon: "Motivasyon Puanı (1-10)",
-            telefon_dikkat: "Telefon Bağımlılığı (1-10)",
-            son_30_gun: "Son 30 Gün Düzenli Gün",
-            notlar: "Özel Notlar / Not",
-            odemeDurumu: "Ödeme Durumu",
-            tarih: "Sipariş Tarihi"
+            talepKodu: "Sipariş Kodu", paket: "Seçilen Paket", adSoyad: "Ad Soyad", yas: "Yaş",
+            telefon: "WhatsApp / Telefon", sinif: "Sınıf", yariyil: "Yarıyıl", dersler: "Dönem Dersleri",
+            ffdersler: "Kalan / Tekrar Dersler (FF)", hedef: "Öncelikli Hedef", gno: "Hedeflenen GNO",
+            program_suresi: "Program Süresi", agirlik_dersler: "Ağırlık Verilecek Dersler", calisma_durumu: "Çalışma Durumu",
+            calisma_saati: "İş / Mesai Saatleri", yol_suresi: "Günlük Yol Süresi", uyanma: "Uyanış Saati",
+            uyuma: "Yatış Saati", gunluk_ders_saati: "Günlük Maksimum Ders Süresi", haftalik_calisma_gunu: "Haftalık Çalışma Günü",
+            calisma_gunleri: "Müsait Günler", saat_araliklari: "Müsait Saat Aralıkları", verimli_zaman: "En Verimli Zaman",
+            odaklanma_suresi: "Odaklanma Süresi", program_tipi: "Program Formatı", program_yogunlugu: "Program Temposu",
+            mola_tipi: "Mola Düzeni", zor_ders: "En Çok Zorlayan Ders", kolay_ders: "En Kolay Ders",
+            zorlanilan_konu: "Zorlanılan Problem", tekrar_gunleri: "Genel Tekrar Günleri", soru_cozum: "Soru Çözüm Günleri",
+            uyum_derecesi: "Programa Uyum Derecesi", motivasyon: "Motivasyon Puanı (1-10)", telefon_dikkat: "Telefon Bağımlılığı (1-10)",
+            son_30_gun: "Son 30 Gün Düzenli Gün", notlar: "Özel Notlar / Not", odemeDurumu: "Ödeme Durumu", tarih: "Sipariş Tarihi"
         };
 
         let globalTaleplerData = {};
+        let globalZiyaretcilerData = {};
+        let globalPageViewsData = {};
         let aktifFiyatlar = { standart: "349", detayli: "499" };
         let aktifFiltre = 'hepsi';
-        
         let aramaMetni = '';
         let musteriFiltresi = 'hepsi';
 
@@ -417,12 +408,20 @@ onAuthStateChanged(auth, (user) => {
             }
         }
 
-        // Fiyatları Canlı Dinle
-        onValue(ref(db, 'settings/prices'), (snapshot) => {
+        // ORİJİNAL SETTİNGS YOLUNDAN FİYATLARI VE BANKAYI DİNLEME (ÇÖZÜM)
+        onValue(ref(db, 'settings'), (snapshot) => {
             const data = snapshot.val();
             if(data) {
-                aktifFiyatlar.standart = data.standart || "349";
-                aktifFiyatlar.detayli = data.detayli || "499";
+                if(data.prices) {
+                    aktifFiyatlar.standart = data.prices.standart || "349";
+                    aktifFiyatlar.detayli = data.prices.detayli || "499";
+                    document.getElementById('price-standart').value = data.prices.standart || '';
+                    document.getElementById('price-detayli').value = data.prices.detayli || '';
+                }
+                if(data.banka) {
+                    document.getElementById('banka-adi').value = data.banka.ad || '';
+                    document.getElementById('banka-iban').value = data.banka.iban || '';
+                }
                 hesaplaDashboard();
                 renderTalepler();
             }
@@ -436,18 +435,110 @@ onAuthStateChanged(auth, (user) => {
             renderMusterilerListesi();
         });
 
+                // Ziyaretçileri Güvenli Dinleme
+        onValue(ref(db, 'visitors'), (snapshot) => {
+            globalZiyaretcilerData = snapshot.val() || {};
+            renderZiyaretcilerTablosu();
+        }, (error) => {
+            console.error("Ziyaretçiler okunurken hata:", error);
+            document.getElementById('ziyaretciler-table-body').innerHTML = `<tr><td colspan="5" class="px-6 py-12 text-center text-red-400 font-normal">Veriler okunurken hata oluştu.</td></tr>`;
+        });
+
+        onValue(ref(db, 'pageViews'), (snapshot) => {
+            globalPageViewsData = snapshot.val() || {};
+            renderZiyaretcilerTablosu();
+        });
+
+
+        function renderZiyaretcilerTablosu() {
+            const tbody = document.getElementById('ziyaretciler-table-body');
+            tbody.innerHTML = '';
+
+            const visData = globalZiyaretcilerData;
+            const keys = Object.keys(visData).reverse();
+
+            document.getElementById('ziyaretci-sayisi').innerText = `${keys.length} Toplam Ziyaretçi`;
+
+            if (keys.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-12 text-center text-slate-400 font-normal">Henüz siteye gelen ziyaretçi bulunmuyor.</td></tr>`;
+                return;
+            }
+
+            keys.forEach(visKey => {
+                const vis = visData[visKey];
+                const kaynakBadge = vis.source === 'whatsapp' 
+                    ? '<span class="bg-emerald-100 text-emerald-800 text-[10px] font-extrabold px-3 py-1 rounded-full border border-emerald-200"><i class="fa-brands fa-whatsapp mr-1"></i> WhatsApp</span>'
+                    : '<span class="bg-slate-100 text-slate-600 text-[10px] font-extrabold px-3 py-1 rounded-full border border-slate-200">Direkt / Diğer</span>';
+
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50 transition-colors cursor-default';
+                tr.innerHTML = `
+                    <td class="px-6 py-4 font-mono text-xs font-bold text-navy-900">${vis.visitorId || visKey}</td>
+                    <td class="px-6 py-4">${kaynakBadge}</td>
+                    <td class="px-6 py-4 text-xs font-medium text-slate-600 truncate max-w-xs">${vis.sonSayfa || '-'}</td>
+                    <td class="px-6 py-4 text-xs text-slate-400 truncate max-w-xs" title="${vis.tarayici || ''}">${vis.tarayici ? vis.tarayici.substring(0, 35) + '...' : '-'}</td>
+                    <td class="px-6 py-4 text-right">
+                        <button type="button" class="gecmis-btn bg-brand-blue/10 hover:bg-brand-blue hover:text-white text-brand-blue font-bold px-3 py-1.5 rounded-xl text-xs transition-all flex items-center gap-1.5 ml-auto">
+                            <i class="fa-solid fa-shoe-prints"></i> Gezinti Geçmişi
+                        </button>
+                    </td>
+                `;
+
+                tr.querySelector('.gecmis-btn').addEventListener('click', () => showZiyaretciGecmisi(vis.visitorId));
+                tbody.appendChild(tr);
+            });
+        }
+
+        window.showZiyaretciGecmisi = function(targetVisitorId) {
+            const modal = document.getElementById('ziyaretci-modal');
+            const modalBox = document.getElementById('ziyaretci-modal-box');
+            const content = document.getElementById('ziyaretci-modal-content');
+
+            content.innerHTML = '<p class="text-center text-slate-400 py-6">Geçmiş yükleniyor...</p>';
+            modal.classList.remove('hidden');
+            setTimeout(() => { modal.classList.remove('opacity-0'); modalBox.classList.remove('scale-95'); }, 10);
+
+            const views = globalPageViewsData;
+            let userViews = [];
+            
+            Object.keys(views).forEach(vKey => {
+                if (views[vKey].visitorId === targetVisitorId) {
+                    userViews.push(views[vKey]);
+                }
+            });
+
+            if (userViews.length === 0) {
+                content.innerHTML = '<p class="text-center text-slate-400 py-6">Bu ziyaretçiye ait sayfa gezinti kaydı bulunamadı.</p>';
+                return;
+            }
+
+            let html = '<div class="space-y-2">';
+            userViews.forEach((view, index) => {
+                const zamanStr = view.zaman ? new Date(view.zaman).toLocaleTimeString('tr-TR') : 'Zaman bilinmiyor';
+                html += `
+                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 flex justify-between items-center text-xs">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-6 h-6 rounded-full bg-blue-100 text-brand-blue font-bold flex items-center justify-center text-[10px]">${index + 1}</span>
+                            <span class="font-semibold text-navy-900">${view.sayfa}</span>
+                        </div>
+                        <span class="text-slate-400 font-mono text-[11px]">${zamanStr}</span>
+                    </div>`;
+            });
+            html += '</div>';
+            content.innerHTML = html;
+        }
+
+        window.closeZiyaretciModal = function() {
+            const modal = document.getElementById('ziyaretci-modal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+
         function hesaplaDashboard() {
             const data = globalTaleplerData;
             const keys = Object.keys(data);
             
-            let toplamAktif = 0;
-            let bekleyen = 0;
-            let onaylanan = 0;
-            let hazirlaniyor = 0;
-            let tamamlanan = 0;
-            let toplamGelir = 0;
-            let buAyGelir = 0;
-
+            let toplamAktif = 0, bekleyen = 0, onaylanan = 0, hazirlaniyor = 0, tamamlanan = 0, toplamGelir = 0, buAyGelir = 0;
             const simdi = new Date();
             const buAy = simdi.getMonth();
             const buYil = simdi.getFullYear();
@@ -456,37 +547,22 @@ onAuthStateChanged(auth, (user) => {
                 const item = data[key];
                 const durum = item.odemeDurumu || 'bekliyor';
 
-                if(durum === 'bekliyor') {
-                    bekleyen++;
-                    toplamAktif++;
-                } else if(durum === 'onaylandi') {
-                    onaylanan++;
-                    toplamAktif++;
-                } else if(durum === 'hazirlaniyor') {
-                    hazirlaniyor++;
-                    toplamAktif++;
-                } else if(durum === 'tamamlandi') {
-                    tamamlanan++;
-                }
+                if(durum === 'bekliyor') { bekleyen++; toplamAktif++; }
+                else if(durum === 'onaylandi') { onaylanan++; toplamAktif++; }
+                else if(durum === 'hazirlaniyor') { hazirlaniyor++; toplamAktif++; }
+                else if(durum === 'tamamlandi') { tamamlanan++; }
 
                 if(durum === 'onaylandi' || durum === 'tamamlandi') {
                     let paketAdi = item.paket || 'Standart';
                     let tutar = parseInt(aktifFiyatlar.standart) || 349;
                     const pKucuk = paketAdi.toLowerCase();
-
-                    if(pKucuk.includes('detay') || pKucuk.includes('premium')) {
-                        tutar = parseInt(aktifFiyatlar.detayli) || 499;
-                    } else if(pKucuk.includes('temel')) {
-                        tutar = 0;
-                    }
+                    if(pKucuk.includes('detay') || pKucuk.includes('premium')) tutar = parseInt(aktifFiyatlar.detayli) || 499;
+                    else if(pKucuk.includes('temel')) tutar = 0;
 
                     toplamGelir += tutar;
-
                     if(item.tarih) {
                         const siparisTarihi = new Date(item.tarih);
-                        if(siparisTarihi.getMonth() === buAy && siparisTarihi.getFullYear() === buYil) {
-                            buAyGelir += tutar;
-                        }
+                        if(siparisTarihi.getMonth() === buAy && siparisTarihi.getFullYear() === buYil) buAyGelir += tutar;
                     }
                 }
             });
@@ -500,21 +576,12 @@ onAuthStateChanged(auth, (user) => {
             document.getElementById('stat-bu-ay-gelir').innerText = `₺${buAyGelir}`;
         }
 
-        // MÜŞTERİLER LİSTESİ FONKSİYONLARI 
-        window.araMusteriler = function(kelime) {
-            aramaMetni = kelime.toLowerCase();
-            renderMusterilerListesi();
-        }
-
-        window.filtreleMusteriler = function(durum) {
-            musteriFiltresi = durum;
-            renderMusterilerListesi();
-        }
+        window.araMusteriler = function(kelime) { aramaMetni = kelime.toLowerCase(); renderMusterilerListesi(); }
+        window.filtreleMusteriler = function(durum) { musteriFiltresi = durum; renderMusterilerListesi(); }
 
         function renderMusterilerListesi() {
             const tbody = document.getElementById('musteriler-table-body');
             tbody.innerHTML = ''; 
-
             const data = globalTaleplerData;
             const keys = Object.keys(data).reverse();
 
@@ -524,11 +591,7 @@ onAuthStateChanged(auth, (user) => {
                 const telefon = (item.telefon || '').toLowerCase();
                 const siparisNo = (item.talepKodu || '').toLowerCase();
                 const durum = item.odemeDurumu || 'bekliyor';
-                
-                const aramaEslesti = adSoyad.includes(aramaMetni) || telefon.includes(aramaMetni) || siparisNo.includes(aramaMetni);
-                const filtreEslesti = musteriFiltresi === 'hepsi' || durum === musteriFiltresi;
-                
-                return aramaEslesti && filtreEslesti;
+                return (adSoyad.includes(aramaMetni) || telefon.includes(aramaMetni) || siparisNo.includes(aramaMetni)) && (musteriFiltresi === 'hepsi' || durum === musteriFiltresi);
             });
 
             if (filtrelenmisKeys.length === 0) {
@@ -538,10 +601,8 @@ onAuthStateChanged(auth, (user) => {
 
             filtrelenmisKeys.forEach(key => {
                 const item = data[key];
-                
                 let durumRenk = 'bg-amber-100 text-amber-700 border border-amber-200/60';
                 let durumMetin = 'Bekliyor';
-                
                 if(item.odemeDurumu === 'onaylandi') { durumRenk = 'bg-emerald-100 text-emerald-700 border border-emerald-200/60'; durumMetin = 'Onaylandı'; }
                 else if(item.odemeDurumu === 'hazirlaniyor') { durumRenk = 'bg-indigo-100 text-indigo-700 border border-indigo-200/60'; durumMetin = 'Hazırlanıyor'; }
                 else if(item.odemeDurumu === 'tamamlandi') { durumRenk = 'bg-teal-100 text-teal-700 border border-teal-200/60'; durumMetin = 'Tamamlandı'; }
@@ -550,34 +611,20 @@ onAuthStateChanged(auth, (user) => {
                 const tr = document.createElement('tr');
                 tr.className = 'hover:bg-slate-50 transition-colors cursor-default';
                 tr.innerHTML = `
-                    <td class="px-6 py-4">
-                        <div class="font-bold text-navy-900">${item.adSoyad || 'İsimsiz'}</div>
-                        <div class="text-[10px] text-slate-400 font-medium">${item.paket || 'Standart'} Paket</div>
-                    </td>
+                    <td class="px-6 py-4"><div class="font-bold text-navy-900">${item.adSoyad || 'İsimsiz'}</div><div class="text-[10px] text-slate-400 font-medium">${item.paket || 'Standart'} Paket</div></td>
                     <td class="px-6 py-4 font-mono font-semibold text-xs text-slate-500"><i class="fa-brands fa-whatsapp text-[#25D366] mr-1"></i> ${item.telefon || '-'}</td>
                     <td class="px-6 py-4 font-mono font-bold text-brand-blue text-xs tracking-wide">${item.talepKodu || '-'}</td>
-                    <td class="px-6 py-4">
-                        <span class="px-3 py-1.5 rounded-xl text-[10px] font-extrabold uppercase tracking-widest ${durumRenk}">${durumMetin}</span>
-                    </td>
+                    <td class="px-6 py-4"><span class="px-3 py-1.5 rounded-xl text-[10px] font-extrabold uppercase tracking-widest ${durumRenk}">${durumMetin}</span></td>
                     <td class="px-6 py-4 text-right">
                         <div class="flex items-center justify-end gap-2">
-                            <button type="button" class="tablo-detay-btn bg-brand-blue/10 hover:bg-brand-blue hover:text-white text-brand-blue font-bold px-3 py-1.5 rounded-xl text-xs transition-all flex items-center gap-1.5">
-                                <i class="fa-solid fa-file-lines"></i> Form Detayı
-                            </button>
-                            <button type="button" class="tablo-sil-btn bg-red-50 hover:bg-red-500 text-red-500 hover:text-white font-bold px-3 py-1.5 rounded-xl text-xs transition-all flex items-center gap-1">
-                                <i class="fa-solid fa-trash"></i> Sil
-                            </button>
+                            <button type="button" class="tablo-detay-btn bg-brand-blue/10 hover:bg-brand-blue hover:text-white text-brand-blue font-bold px-3 py-1.5 rounded-xl text-xs transition-all flex items-center gap-1.5"><i class="fa-solid fa-file-lines"></i> Form Detayı</button>
+                            <button type="button" class="tablo-sil-btn bg-red-50 hover:bg-red-500 text-red-500 hover:text-white font-bold px-3 py-1.5 rounded-xl text-xs transition-all flex items-center gap-1"><i class="fa-solid fa-trash"></i> Sil</button>
                         </div>
-                    </td>
-                `;
-
+                    </td>`;
                 tr.querySelector('.tablo-detay-btn').addEventListener('click', () => showDetails(item));
                 tr.querySelector('.tablo-sil-btn').addEventListener('click', async () => {
-                    if(confirm(`${item.adSoyad || 'Bu müşteriyi'} kalıcı olarak silmek istediğinize emin misiniz?`)) {
-                        await remove(ref(db, `submissions/${key}`));
-                    }
+                    if(confirm(`${item.adSoyad || 'Bu müşteriyi'} kalıcı olarak silmek istediğinize emin misiniz?`)) await remove(ref(db, `submissions/${key}`));
                 });
-
                 tbody.appendChild(tr);
             });
         }
@@ -585,29 +632,21 @@ onAuthStateChanged(auth, (user) => {
         window.filterTalepler = function(filterType) {
             aktifFiltre = filterType;
             document.querySelectorAll('.filter-btn').forEach(btn => {
-                if(btn.dataset.filter === filterType) {
-                    btn.className = "filter-btn bg-slate-900 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors";
-                } else {
-                    btn.className = "filter-btn bg-slate-100 text-slate-600 text-xs font-semibold px-3 py-1.5 rounded-lg hover:bg-slate-200 transition-colors";
-                }
+                btn.className = btn.dataset.filter === filterType ? "filter-btn bg-slate-900 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors" : "filter-btn bg-slate-100 text-slate-600 text-xs font-semibold px-3 py-1.5 rounded-lg hover:bg-slate-200 transition-colors";
             });
             renderTalepler();
         }
 
-        // GELEN TALEPLER (SADECE AKTİF İŞLER)
         function renderTalepler() {
             const container = document.getElementById('talepler-container');
             container.innerHTML = ''; 
-
             const data = globalTaleplerData;
             const keys = Object.keys(data).reverse();
 
             let aktifKeys = keys.filter(key => {
                 const item = data[key];
                 const durum = item.odemeDurumu || 'bekliyor';
-                
                 const isiBitmedi = durum !== 'tamamlandi' && durum !== 'iptal';
-
                 if(aktifFiltre === 'bekliyor') return isiBitmedi && durum === 'bekliyor';
                 if(aktifFiltre === 'onaylandi') return isiBitmedi && durum === 'onaylandi';
                 if(aktifFiltre === 'hazirlaniyor') return isiBitmedi && durum === 'hazirlaniyor';
@@ -615,67 +654,42 @@ onAuthStateChanged(auth, (user) => {
             });
 
             document.getElementById('talep-sayisi').innerText = `${aktifKeys.length} Aktif İş`;
-
             if (aktifKeys.length === 0) {
-                container.innerHTML = `<div class="col-span-full text-center py-20 text-slate-400 bg-white rounded-3xl border border-slate-200 border-dashed">
-                    <i class="fa-solid fa-circle-check text-4xl mb-3 text-emerald-400"></i>
-                    <p class="font-medium text-sm">Şu anda ilgilenmen gereken aktif bir talep kalmadı!</p>
-                    <p class="text-xs text-slate-400 mt-1">Tamamlanan ve İptal edilen geçmiş işlerini "Müşteri Listesi" sekmesinden görebilirsin.</p>
-                </div>`;
+                container.innerHTML = `<div class="col-span-full text-center py-20 text-slate-400 bg-white rounded-3xl border border-slate-200 border-dashed"><i class="fa-solid fa-circle-check text-4xl mb-3 text-emerald-400"></i><p class="font-medium text-sm">Şu anda ilgilenmen gereken aktif bir talep kalmadı!</p></div>`;
                 return;
             }
 
             aktifKeys.forEach(key => {
                 const item = data[key];
                 const dateStr = item.tarih ? new Date(item.tarih).toLocaleString('tr-TR') : 'Tarih Yok';
-                
                 let paketAdi = item.paket || 'Standart';
                 let tutar = aktifFiyatlar.standart;
-                const paketKucuk = paketAdi.toLowerCase();
-                if(paketKucuk.includes('detay') || paketKucuk.includes('premium')) {
-                    tutar = aktifFiyatlar.detayli;
-                } else if(paketKucuk.includes('temel')) {
-                    tutar = '0';
-                }
+                if(paketAdi.toLowerCase().includes('detay') || paketAdi.toLowerCase().includes('premium')) tutar = aktifFiyatlar.detayli;
+                else if(paketAdi.toLowerCase().includes('temel')) tutar = '0';
 
                 let statusBadge = '<span class="bg-amber-100 text-amber-800 text-[11px] font-bold px-2.5 py-1 rounded-full border border-amber-200 inline-flex items-center gap-1"><i class="fa-solid fa-clock"></i> Ödeme Bekliyor</span>';
-                if(item.odemeDurumu === 'onaylandi') {
-                    statusBadge = '<span class="bg-emerald-100 text-emerald-800 text-[11px] font-bold px-2.5 py-1 rounded-full border border-emerald-200 inline-flex items-center gap-1"><i class="fa-solid fa-check"></i> Onaylandı</span>';
-                } else if(item.odemeDurumu === 'hazirlaniyor') {
-                    statusBadge = '<span class="bg-indigo-100 text-indigo-800 text-[11px] font-bold px-2.5 py-1 rounded-full border border-indigo-200 inline-flex items-center gap-1"><i class="fa-solid fa-spinner"></i> Hazırlanıyor</span>';
-                }
+                if(item.odemeDurumu === 'onaylandi') statusBadge = '<span class="bg-emerald-100 text-emerald-800 text-[11px] font-bold px-2.5 py-1 rounded-full border border-emerald-200 inline-flex items-center gap-1"><i class="fa-solid fa-check"></i> Onaylandı</span>';
+                else if(item.odemeDurumu === 'hazirlaniyor') statusBadge = '<span class="bg-indigo-100 text-indigo-800 text-[11px] font-bold px-2.5 py-1 rounded-full border border-indigo-200 inline-flex items-center gap-1"><i class="fa-solid fa-spinner"></i> Hazırlanıyor</span>';
 
                 const card = document.createElement('div');
                 card.className = "bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between";
                 card.innerHTML = `
                     <div>
                         <div class="flex justify-between items-start gap-2 mb-4 border-b border-slate-100 pb-3">
-                            <div>
-                                <h4 class="font-bold text-navy-900 text-lg leading-snug">${item.adSoyad || 'İsimsiz Öğrenci'}</h4>
-                                <p class="text-[11px] text-slate-400"><i class="fa-regular fa-clock mr-1"></i> ${dateStr}</p>
-                            </div>
+                            <div><h4 class="font-bold text-navy-900 text-lg leading-snug">${item.adSoyad || 'İsimsiz Öğrenci'}</h4><p class="text-[11px] text-slate-400"><i class="fa-regular fa-clock mr-1"></i> ${dateStr}</p></div>
                             <div>${statusBadge}</div>
                         </div>
-
                         <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-100 mb-3 space-y-1.5 text-xs">
                             <div class="font-bold text-slate-700 mb-1 flex items-center gap-1.5"><i class="fa-solid fa-user text-brand-blue"></i> Müşteri Bilgileri</div>
                             <p class="text-slate-600 flex items-center gap-2"><i class="fa-solid fa-phone w-4 text-slate-400"></i> <span class="font-medium">${item.telefon || '-'}</span></p>
                             <p class="text-slate-600 flex items-center gap-2"><i class="fa-solid fa-graduation-cap w-4 text-slate-400"></i> <span class="font-medium">${item.sinif || '-'} Sınıf, Yarıyıl: ${item.yariyil || '-'}</span></p>
                             <p class="text-slate-600 flex items-center gap-2"><i class="fa-solid fa-hashtag w-4 text-slate-400"></i> <span class="font-mono font-bold text-brand-blue">Kod: ${item.talepKodu || '-'}</span></p>
                         </div>
-
                         <div class="bg-blue-50/50 p-3.5 rounded-2xl border border-blue-100/60 mb-4 flex justify-between items-center">
-                            <div>
-                                <span class="block text-[10px] font-bold uppercase tracking-wider text-blue-600">Seçilen Paket</span>
-                                <span class="font-bold text-slate-800 text-sm">${paketAdi}</span>
-                            </div>
-                            <div class="text-right">
-                                <span class="block text-[10px] font-bold uppercase tracking-wider text-emerald-600">Ücret</span>
-                                <span class="font-extrabold text-emerald-700 text-base">₺${tutar}</span>
-                            </div>
+                            <div><span class="block text-[10px] font-bold uppercase tracking-wider text-blue-600">Seçilen Paket</span><span class="font-bold text-slate-800 text-sm">${paketAdi}</span></div>
+                            <div class="text-right"><span class="block text-[10px] font-bold uppercase tracking-wider text-emerald-600">Ücret</span><span class="font-extrabold text-emerald-700 text-base">₺${tutar}</span></div>
                         </div>
                     </div>
-
                     <div>
                         <div class="bg-slate-100/80 p-2.5 rounded-2xl mb-3 border border-slate-200/60 space-y-1.5">
                             <span class="block text-[10px] font-bold uppercase text-slate-400 px-1">Durumu Güncelle:</span>
@@ -687,45 +701,28 @@ onAuthStateChanged(auth, (user) => {
                                 <button type="button" onclick="updatePaymentStatus('${key}', 'iptal')" class="col-span-2 bg-rose-500 hover:bg-rose-600 text-white text-[11px] font-bold py-2 rounded-xl transition-colors">İptal Et</button>
                             </div>
                         </div>
-                        
                         <div class="grid grid-cols-2 gap-2">
-                            <button type="button" class="detay-btn bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2.5 rounded-xl text-xs transition-colors flex items-center justify-center gap-1.5">
-                                <i class="fa-solid fa-list-check"></i> Tüm Yanıtlar
-                            </button>
-                            <button type="button" class="kopyala-btn bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-semibold py-2.5 rounded-xl text-xs transition-colors flex items-center justify-center gap-1.5">
-                                <i class="fa-solid fa-copy"></i> Kopyala
-                            </button>
+                            <button type="button" class="detay-btn bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2.5 rounded-xl text-xs transition-colors flex items-center justify-center gap-1.5"><i class="fa-solid fa-list-check"></i> Tüm Yanıtlar</button>
+                            <button type="button" class="kopyala-btn bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-semibold py-2.5 rounded-xl text-xs transition-colors flex items-center justify-center gap-1.5"><i class="fa-solid fa-copy"></i> Kopyala</button>
                         </div>
-                        <div class="mt-2">
-                            <button type="button" class="sil-btn w-full bg-red-50 hover:bg-red-500 text-red-500 hover:text-white font-semibold py-2 rounded-xl text-xs transition-colors flex items-center justify-center gap-1">
-                                <i class="fa-solid fa-trash"></i> Talebi Sil
-                            </button>
-                        </div>
-                    </div>
-                `;
+                        <div class="mt-2"><button type="button" class="sil-btn w-full bg-red-50 hover:bg-red-500 text-red-500 hover:text-white font-semibold py-2 rounded-xl text-xs transition-colors flex items-center justify-center gap-1"><i class="fa-solid fa-trash"></i> Talebi Sil</button></div>
+                    </div>`;
 
                 card.querySelector('.detay-btn').addEventListener('click', () => showDetails(item));
                 card.querySelector('.kopyala-btn').addEventListener('click', (e) => copyDataToClipboard(item, e.currentTarget));
                 card.querySelector('.sil-btn').addEventListener('click', async () => {
-                    if(confirm('Bu talebi kalıcı olarak silmek istediğinize emin misiniz?')) {
-                        await remove(ref(db, `submissions/${key}`));
-                    }
+                    if(confirm('Bu talebi kalıcı olarak silmek istediğinize emin misiniz?')) await remove(ref(db, `submissions/${key}`));
                 });
-
                 container.appendChild(card);
             });
         }
 
-        // KOPYALAMA İŞLEMİ (Türkçe Etiketlerle)
         function copyDataToClipboard(itemData, buttonEl) {
             let textToCopy = `=== B.T SİPARİŞİ (${itemData.talepKodu || ''}) ===\n\n`;
-            
             for (const [key, value] of Object.entries(itemData)) {
                 if (['odemeDurumu'].includes(key)) continue;
-                const etiket = alanEtiketleri[key] || key;
-                textToCopy += `${etiket} : ${value || '-'}\n`;
+                textToCopy += `${alanEtiketleri[key] || key} : ${value || '-'}\n`;
             }
-
             navigator.clipboard.writeText(textToCopy).then(() => {
                 const orig = buttonEl.innerHTML;
                 buttonEl.innerHTML = `<i class="fa-solid fa-check"></i> Kopyalandı`;
@@ -733,27 +730,16 @@ onAuthStateChanged(auth, (user) => {
             });
         }
 
-        // DETAY GÖSTERİMİ (Türkçe Etiketlerle)
         function showDetails(data) {
-            const modal = document.getElementById('detay-modal');
-            const modalBox = document.getElementById('modal-box');
-            const modalContent = document.getElementById('modal-content');
-            
+            const modal = document.getElementById('detay-modal'), modalBox = document.getElementById('modal-box'), modalContent = document.getElementById('modal-content');
             let html = '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">';
             for (const [key, value] of Object.entries(data)) {
                 if (['odemeDurumu'].includes(key)) continue;
-                const etiket = alanEtiketleri[key] || key;
-
-                html += `
-                    <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
-                        <span class="block text-xs font-bold text-brand-blue mb-1">${etiket}</span>
-                        <span class="text-sm text-slate-800 font-medium break-words">${value || '-'}</span>
-                    </div>`;
+                html += `<div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-100"><span class="block text-xs font-bold text-brand-blue mb-1">${alanEtiketleri[key] || key}</span><span class="text-sm text-slate-800 font-medium break-words">${value || '-'}</span></div>`;
             }
             html += '</div>';
             modalContent.innerHTML = html;
             document.getElementById('modal-copy-btn').onclick = () => copyDataToClipboard(data, document.getElementById('modal-copy-btn'));
-
             modal.classList.remove('hidden');
             setTimeout(() => { modal.classList.remove('opacity-0'); modalBox.classList.remove('scale-95'); }, 10);
         }
@@ -764,32 +750,21 @@ onAuthStateChanged(auth, (user) => {
             setTimeout(() => modal.classList.add('hidden'), 300);
         }
 
-        onValue(ref(db, 'settings'), (snapshot) => {
-            const data = snapshot.val();
-            if(data) {
-                if(data.prices) {
-                    document.getElementById('price-standart').value = data.prices.standart || '';
-                    document.getElementById('price-detayli').value = data.prices.detayli || '';
-                }
-                if(data.banka) {
-                    document.getElementById('banka-adi').value = data.banka.ad || '';
-                    document.getElementById('banka-iban').value = data.banka.iban || '';
-                }
-            }
-        });
-
+        // ORİJİNAL SETTINGS YOLU İLE FİYAT VE IBAN KAYDETME (ÇÖZÜM)
         document.getElementById('save-settings-btn').addEventListener('click', async () => {
-            await set(ref(db, 'settings'), {
-                prices: {
-                    standart: document.getElementById('price-standart').value,
-                    detayli: document.getElementById('price-detayli').value
-                },
-                banka: {
-                    ad: document.getElementById('banka-adi').value,
-                    iban: document.getElementById('banka-iban').value
-                }
-            });
-            alert("Tüm ayarlar başarıyla güncellendi!");
+            try {
+                await set(ref(db, 'settings'), {
+                    prices: {
+                        standart: document.getElementById('price-standart').value,
+                        detayli: document.getElementById('price-detayli').value
+                    },
+                    banka: {
+                        ad: document.getElementById('banka-adi').value,
+                        iban: document.getElementById('banka-iban').value
+                    }
+                });
+                alert("Tüm ayarlar başarıyla güncellendi!");
+            } catch (err) { alert("Hata: " + err.message); }
         });
 
         window.switchTab = function(tabId) {
@@ -799,16 +774,17 @@ onAuthStateChanged(auth, (user) => {
             document.getElementById('btn-dashboard').className = tabId === 'dashboard' ? "w-full flex items-center gap-3 p-3.5 rounded-xl hover:bg-slate-800 transition-colors text-left font-medium text-sm focus:outline-none bg-brand-blue text-white shadow-lg shadow-blue-500/20" : "w-full flex items-center gap-3 p-3.5 rounded-xl hover:bg-slate-800 transition-colors text-left font-medium text-sm focus:outline-none text-slate-300";
             document.getElementById('btn-musteriler').className = tabId === 'musteriler' ? "w-full flex items-center gap-3 p-3.5 rounded-xl hover:bg-slate-800 transition-colors text-left font-medium text-sm focus:outline-none bg-brand-blue text-white shadow-lg shadow-blue-500/20" : "w-full flex items-center gap-3 p-3.5 rounded-xl hover:bg-slate-800 transition-colors text-left font-medium text-sm focus:outline-none text-slate-300";
             document.getElementById('btn-talepler').className = tabId === 'talepler' ? "w-full flex items-center gap-3 p-3.5 rounded-xl hover:bg-slate-800 transition-colors text-left font-medium text-sm focus:outline-none bg-brand-blue text-white shadow-lg shadow-blue-500/20" : "w-full flex items-center gap-3 p-3.5 rounded-xl hover:bg-slate-800 transition-colors text-left font-medium text-sm focus:outline-none text-slate-300";
+            document.getElementById('btn-ziyaretciler').className = tabId === 'ziyaretciler' ? "w-full flex items-center gap-3 p-3.5 rounded-xl hover:bg-slate-800 transition-colors text-left font-medium text-sm focus:outline-none bg-brand-blue text-white shadow-lg shadow-blue-500/20" : "w-full flex items-center gap-3 p-3.5 rounded-xl hover:bg-slate-800 transition-colors text-left font-medium text-sm focus:outline-none text-slate-300";
             document.getElementById('btn-ayarlar').className = tabId === 'ayarlar' ? "w-full flex items-center gap-3 p-3.5 rounded-xl hover:bg-slate-800 transition-colors text-left font-medium text-sm focus:outline-none bg-brand-blue text-white shadow-lg shadow-blue-500/20" : "w-full flex items-center gap-3 p-3.5 rounded-xl hover:bg-slate-800 transition-colors text-left font-medium text-sm focus:outline-none text-slate-300";
 
             let titles = { 
                 'dashboard': 'Dashboard & Özet', 
                 'musteriler': 'Müşteri Listesi & Arşiv', 
                 'talepler': 'Aktif Talepler & İşler', 
+                'ziyaretciler': 'WhatsApp & Ziyaretçi Analizi',
                 'ayarlar': 'Fiyat & IBAN Ayarları' 
             };
             document.getElementById('page-title').innerText = titles[tabId];
-
             if(window.innerWidth < 1024) toggleSidebar();
         }
     </script>
